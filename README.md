@@ -1,6 +1,6 @@
 ## Project Name : **Little Door**
 
-In this project we created a Mental Health Application Website as well ass Mobile App Using **LARAVEL** for backend API and **Android** for mobile app. 
+In this project we created a Mental Health Application as well as website Using **LARAVEL** for Backend API and **Android** for Mobile App. 
 
 </br>
 
