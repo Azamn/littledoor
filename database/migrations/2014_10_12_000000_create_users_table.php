@@ -15,12 +15,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('master_user_type_id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('mobile_no', 32)->nullable();
+            $table->string('api_token')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken()->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->unsignedInteger('status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
