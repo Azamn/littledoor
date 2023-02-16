@@ -11,8 +11,6 @@
 Homestead.json
 Homestead.yaml
 auth.json
-composer.lock
-composer.json
 app/Providers/AppServiceProvider.php
 config/database.php
 public/index.php
