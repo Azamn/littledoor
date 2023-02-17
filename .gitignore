@@ -11,9 +11,6 @@
 Homestead.json
 Homestead.yaml
 auth.json
-app/Providers/AppServiceProvider.php
-config/database.php
-public/index.php
 npm-debug.log
 yarn-error.log
 /.fleet
