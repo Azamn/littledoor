@@ -37,26 +37,23 @@ class AdminManagementController extends Controller
                     return $this->sendLoginOtp($request->mobile_no);
                 } else {
 
-                    DB::transaction(function () use ($request) {
+                    $apiToken = Str::random(60);
+                    $rememberToken = Str::random(80);
 
-                        $apiToken = Str::random(60);
-                        $rememberToken = Str::random(80);
+                    if ($request->has('is_patient')) {
+                        $masterUserTypeId = 3;
+                    } elseif ($request->has('is_doctor')) {
+                        $masterUserTypeId = 2;
+                    }
 
-                        if ($request->has('is_patient')) {
-                            $masterUserTypeId = 3;
-                        } elseif ($request->has('is_doctor')) {
-                            $masterUserTypeId = 2;
-                        }
+                    $user = new User();
+                    $user->master_user_type_id = $masterUserTypeId;
+                    $user->mobile_no = $request->mobile_no;
+                    $user->api_token = $apiToken;
+                    $user->remember_token = $rememberToken;
+                    $user->save();
 
-                        $user = new User();
-                        $user->master_user_type_id = $masterUserTypeId;
-                        $user->mobile_no = $request->mobile_no;
-                        $user->api_token = $apiToken;
-                        $user->remember_token = $rememberToken;
-                        $user->save();
-
-                        return $this->sendLoginOtp($request->mobile_no);
-                    });
+                    return $this->sendLoginOtp($request->mobile_no);
                 }
             } elseif ($request->has('mobile_no') && ($request->has('otp') && !is_null($request->otp))) {
 
