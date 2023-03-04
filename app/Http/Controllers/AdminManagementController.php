@@ -93,7 +93,7 @@ class AdminManagementController extends Controller
             $userExist = User::where('mobile_no', $mobileNumber)->first();
             if ($userExist) {
                 $userId = $userExist->id;
-                $existingOtps = UserOtp::where('user_id', $userId)->get();
+                $existingOtps = UserOtp::where('user_id', $userId)->first();
                 // $existingOtps->each->delete();  // this is will uncomment when sms kit available
 
                 if (!is_null($existingOtps)) {
