@@ -13,4 +13,8 @@ class MasterCity extends Model
     protected $guarded = [];
 
     protected $table = 'master_cities';
+
+    public function state(){
+        return $this->belongsTo(MasterState::class,'state_id','id');
+    }
 }
