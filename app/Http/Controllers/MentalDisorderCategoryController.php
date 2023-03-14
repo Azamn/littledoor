@@ -53,4 +53,21 @@ class MentalDisorderCategoryController extends Controller
         }
 
     }
+
+    public function delete(Request $request, $mentalDisorderCategoriId){
+
+        $user = $request->user();
+        if($user){
+            $mentalDisorderCategory = MentalDisorderCategory::where('id',$mentalDisorderCategoriId)->first();
+            if($mentalDisorderCategory){
+                $mentalDisorderCategory->delete();
+                return response()->json(['status' => true, 'message' => 'Mental Disorder Category Deleted Successfully.']);
+            }else{
+                return response()->json(['status' => false, 'message' => 'Mental Disorder Category Not Found.']);
+            }
+        }else{
+            return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+        }
+
+    }
 }

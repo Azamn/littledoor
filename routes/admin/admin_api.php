@@ -17,7 +17,8 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class], funct
 
     /** Mental Disorder Category Route */
     Route::post('/create/mental/disorder/category',[MentalDisorderCategoryController::class,'create']);
-    Route::post('/get-all/mental/disorder/category',[MentalDisorderCategoryController::class,'getAll']);
+    Route::get('/get-all/mental/disorder/category',[MentalDisorderCategoryController::class,'getAll']);
+    Route::delete('/delete/mental/disorder/category/{mentalDisorderCategoriId}',[MentalDisorderCategoryController::class,'delete']);
 
 
 });
