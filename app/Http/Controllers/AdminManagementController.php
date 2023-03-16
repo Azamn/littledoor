@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,16 +58,32 @@ class AdminManagementController extends Controller
                 }
             } elseif ($request->has('mobile_no') && ($request->has('otp') && !is_null($request->otp))) {
 
-                $user = User::where('mobile_no', $request->mobile_no)->first();
+                $user = User::with('patient')->where('mobile_no', $request->mobile_no)->first();
                 if ($user) {
 
-                    $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
+                    $gender = null;
+                    $dob = null;
+                    $city = NULL;
+                    if (!is_null($user->patient)) {
+                        $gender = $user->patient->gender;
+                        $dob = Carbon::parse($user->patient->dob)->format('d-m-Y');
+                        $city = $user->patient->city_id;
+                    }
 
+                    $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
                     if ($userOtp) {
                         return response()->json([
                             'status' => true,
                             'message' => 'Successfully Logged In!',
                             'api_token' => $user->api_token,
+                            'basic_details' => [
+                                'name' => $user->name,
+                                'email' => $user->email,
+                                'gender' => $gender,
+                                'dob' => $dob,
+                                'city_id' => $city,
+
+                            ],
                         ]);
                     } else {
                         return response()->json(['status' => false, 'message' => 'Otp Not Matched']);

@@ -44,4 +44,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function patient(){
+        return $this->belongsTo(MasterPatient::class, 'id','user_id');
+    }
 }

@@ -13,5 +13,9 @@ class MentalDisorderCategory extends Model
     protected $guarded = [];
 
     protected $table = 'mental_disorder_categories';
-    
+
+    public function mentalDisorderQuestion(){
+        return $this->hasMany(MentalDisorderCategoryQuestionMapping::class,'mental_disorder_category_id','id');
+    }
+
 }
