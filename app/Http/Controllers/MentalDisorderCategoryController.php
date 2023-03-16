@@ -58,8 +58,13 @@ class MentalDisorderCategoryController extends Controller
 
         $user = $request->user();
         if($user){
-            $mentalDisorderCategory = MentalDisorderCategory::where('id',$mentalDisorderCategoriId)->first();
+            $mentalDisorderCategory = MentalDisorderCategory::with('mentalDisorderQuestion')->where('id',$mentalDisorderCategoriId)->first();
             if($mentalDisorderCategory){
+                if(!is_null($mentalDisorderCategory->mentalDisorderQuestion)){
+                   foreach($mentalDisorderCategory->mentalDisorderQuestion as $question){
+                    $question->delete();
+                   }
+                }
                 $mentalDisorderCategory->delete();
                 return response()->json(['status' => true, 'message' => 'Mental Disorder Category Deleted Successfully.']);
             }else{
