@@ -13,9 +13,6 @@ Route::post('/register/login',[AdminManagementController::class,'login']);
 
 Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSProtection::class], function () {
 
-    /** patient route */
-    Route::post('/create/patient', [PatientController::class, 'create']);
-
     /** Mental Disorder Category Route */
     Route::post('/create/mental/disorder/category',[MentalDisorderCategoryController::class,'create']);
     Route::get('/get-all/mental/disorder/category',[MentalDisorderCategoryController::class,'getAll']);
