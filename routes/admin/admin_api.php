@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register/login',[AdminManagementController::class,'login']);
 
-Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class], function () {
+Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSProtection::class], function () {
 
     /** patient route */
     Route::post('/create/patient', [PatientController::class, 'create']);

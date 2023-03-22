@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\SecureRequestMiddleware;
+use App\Http\Middleware\XSSProtection;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -40,8 +42,9 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:120,1',
+            'throttle:220,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            SecureRequestMiddleware::class,
         ],
     ];
 
@@ -63,5 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'secured' => SecureRequestMiddleware::class,
+        'xss' => XSSProtection::class,
     ];
 }
