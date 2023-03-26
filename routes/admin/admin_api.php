@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register/login',[AdminManagementController::class,'login']);
 
-Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class], function () {
-
-    /** patient route */
-    Route::post('/create/patient', [PatientController::class, 'create']);
+Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSProtection::class], function () {
 
     /** Mental Disorder Category Route */
     Route::post('/create/mental/disorder/category',[MentalDisorderCategoryController::class,'create']);
