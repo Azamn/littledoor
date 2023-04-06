@@ -116,9 +116,10 @@ class AdminManagementController extends Controller
                         'otp' => $otp,
                         // 'valid_till' => $validTill,
                     ]);
+                    $existingOtps = $otp;
                 }
             }
-            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully']);
+            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully' , 'otp' => $existingOtps]);
         } else {
             return response()->json(['status' => false, 'message' => 'Otp Not Sent']);
         }
