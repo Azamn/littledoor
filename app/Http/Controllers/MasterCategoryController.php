@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MasterQuestion;
+use App\Models\MasterCategory;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\MasterQuestionResource;
+use App\Http\Resources\MasterCategoryResource;
 
-class MasterQuestionController extends Controller
+class MasterCategoryController extends Controller
 {
     public function getAll(Request $request){
 
         $user = $request->user();
         if($user){
-            $masterQuestions = MasterQuestion::where('status',1)->get();
-            if($masterQuestions){
-                return response()->json(['status' => true, 'data' => MasterQuestionResource::collection($masterQuestions)]);
+            $masterCategory = MasterCategory::where('status',1)->get();
+            if($masterCategory){
+                return response()->json(['status' => true, 'data' => MasterCategoryResource::collection($masterCategory)]);
             }else{
-                return response()->json(['status' => false, 'message' => 'Questions Not Found.']);
+                return response()->json(['status' => false, 'message' => 'Master Categories Not Found.']);
             }
         }else{
             return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
@@ -40,12 +40,12 @@ class MasterQuestionController extends Controller
 
             if ($user) {
 
-                $masterQuestions = new MasterQuestion();
-                $masterQuestions->name = $request->name;
-                $masterQuestions->status = 1;
-                $masterQuestions->save();
+                $masterCategory = new MasterCategory();
+                $masterCategory->name = $request->name;
+                $masterCategory->status = 1;
+                $masterCategory->save();
 
-                return response()->json(['status' => true, 'message' => 'Question Save Successfully.']);
+                return response()->json(['status' => true, 'message' => 'Master Category Save Successfully.']);
             }else{
                 return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
             }

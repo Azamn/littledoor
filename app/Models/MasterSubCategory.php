@@ -15,4 +15,7 @@ class MasterSubCategory extends Model
     protected $table = "master_sub_categories";
 
 
+    public function masterCategory(){
+        return $this->belongsTo(MasterCategory::class, 'master_category_id','id');
+    }
 }

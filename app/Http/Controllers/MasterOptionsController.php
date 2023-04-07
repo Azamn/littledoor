@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterOption;
 use Illuminate\Http\Request;
-use App\Models\MasterQuestion;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\MasterQuestionResource;
+use App\Http\Resources\MasteOptionResource;
 
-class MasterQuestionController extends Controller
+class MasterOptionsController extends Controller
 {
     public function getAll(Request $request){
 
         $user = $request->user();
         if($user){
-            $masterQuestions = MasterQuestion::where('status',1)->get();
-            if($masterQuestions){
-                return response()->json(['status' => true, 'data' => MasterQuestionResource::collection($masterQuestions)]);
+            $masterOptions = MasterOption::where('status',1)->get();
+            if($masterOptions){
+                return response()->json(['status' => true, 'data' => MasteOptionResource::collection($masterOptions)]);
             }else{
-                return response()->json(['status' => false, 'message' => 'Questions Not Found.']);
+                return response()->json(['status' => false, 'message' => 'Options Not Found.']);
             }
         }else{
             return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
@@ -40,12 +40,12 @@ class MasterQuestionController extends Controller
 
             if ($user) {
 
-                $masterQuestions = new MasterQuestion();
-                $masterQuestions->name = $request->name;
-                $masterQuestions->status = 1;
-                $masterQuestions->save();
+                $masterOption = new MasterOption();
+                $masterOption->name = $request->name;
+                $masterOption->status = 1;
+                $masterOption->save();
 
-                return response()->json(['status' => true, 'message' => 'Question Save Successfully.']);
+                return response()->json(['status' => true, 'message' => 'Option Save Successfully.']);
             }else{
                 return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
             }

@@ -13,5 +13,8 @@ class MasterQuestion extends Model
     protected $guarded = [];
 
     protected $table = "master_questions";
-    
+
+    public function subCategoryQuestionOption(){
+        return $this->hasMany(SubCategoryQuestionOptionMapping::class,'master_question_id','id');
+    }
 }

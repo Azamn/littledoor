@@ -14,4 +14,6 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** Patient question mapping */
     Route::post('/create/patient/question',[PatientController::class,'createPatientQuestionMapping']);
 
+    Route::post('/create/patient/question-option',[PatientController::class,'createPatientQuestionoptionMapping']);
+
 });

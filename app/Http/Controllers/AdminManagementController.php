@@ -6,9 +6,11 @@ use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\MasterQuestion;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\QuestionWithOptionResource;
 
 class AdminManagementController extends Controller
 {
@@ -119,9 +121,26 @@ class AdminManagementController extends Controller
                     $existingOtps = $otp;
                 }
             }
-            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully' , 'otp' => $existingOtps]);
+            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully', 'otp' => $existingOtps]);
         } else {
             return response()->json(['status' => false, 'message' => 'Otp Not Sent']);
         }
     }
+
+    public function getAllQuestionsWithOption(Request $request)
+    {
+        $user = $request->user();
+        if ($user) {
+            $questionWithOptions = MasterQuestion::with('subCategoryQuestionOption.options')->where('status', 1)->get();
+            if ($questionWithOptions) {
+
+                return response()->json(['status' => true, 'data' => QuestionWithOptionResource::collection($questionWithOptions)]);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Questions and options not found.']);
+            }
+        } else {
+            return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+        }
+    }
+
 }
