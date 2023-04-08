@@ -109,19 +109,19 @@ class AdminManagementController extends Controller
             $userExist = User::where('mobile_no', $mobileNumber)->first();
             if ($userExist) {
                 $userId = $userExist->id;
-                $existingOtps = UserOtp::where('user_id', $userId)->get();
+                $existingOtps = UserOtp::where('user_id', $userId)->first();
                 // $existingOtps->each->delete();  // this is will uncomment when sms kit available
-
+                $existOtp = $existingOtps->otp;
                 if (is_null($existingOtps)) {
                     UserOtp::create([
                         'user_id' => $userId,
                         'otp' => $otp,
                         // 'valid_till' => $validTill,
                     ]);
-                    $existingOtps = $otp;
+                    $existOtp = $otp;
                 }
             }
-            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully', 'otp' => $existingOtps]);
+            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully', 'otp' => $existOtp]);
         } else {
             return response()->json(['status' => false, 'message' => 'Otp Not Sent']);
         }
