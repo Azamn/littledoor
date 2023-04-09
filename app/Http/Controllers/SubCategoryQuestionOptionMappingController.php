@@ -14,7 +14,7 @@ class SubCategoryQuestionOptionMappingController extends Controller
         $rules = [
             'sub_category_id' => 'required|integer|exists:master_sub_categories,id',
             'questio_id' => 'required|integer|exists:master_questions,id',
-            'option_ids.*' => 'required|integer|array'
+            'option_ids.*' => 'required|integer'
 
         ];
 
