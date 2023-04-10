@@ -31,13 +31,7 @@
                                         <p class="f-w-900 font-roboto text-white">Total Request</p>
                                         <div class="progress-box">
                                             <h4 class="f-w-900 mb-0 f-26"><span class="counter">4</span></h4>
-                                            <div
-                                                class="progress sm-progress-bar progress-animate app-right d-flex justify-content-end">
-                                                <div class="progress-gradient-primary" role="progressbar"
-                                                    style="width: 35%" aria-valuenow="75" aria-valuemin="0"
-                                                    aria-valuemax="100"><span class="font-primary">50%</span><span
-                                                        class="animate-circle"></span></div>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -53,8 +47,7 @@
                                         <p class="f-w-900 font-roboto text-white" >Request Pending</p>
                                         <h4 class="f-w-900 mb-0 f-26"><span class="counter">43</span></h4>
                                     </div>
-                                    <div class="ecommerce-box light-bg-primary"><i class="fa fa-heart"
-                                            aria-hidden="true"></i></div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -94,8 +87,7 @@
                                 <p class="f-w-900 font-roboto">Feedback</p>
                                 <h4 class="f-w-900 mb-0 f-26"><span class="counter">43</span></h4>
                             </div>
-                            <div class="ecommerce-box light-bg-primary"><i  class="fa fa-heart"
-                                    aria-hidden="true"></i></div>
+                          
                         </div>
                     </div>
                 </div>
