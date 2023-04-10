@@ -19,33 +19,54 @@
                     <li class="sidebar-list"><a class="nav-link " href="/admin/dashboard">
                             <i data-feather="home"></i><span>Dashboard</span></a></li>
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/category-list"><i
-                                data-feather="truck"></i><span>Doctors</span></a>
+                        <a class="nav-link  " href="/admin/category-list">
+                            <i class="fa fa-stethoscope fa-lg m-r-10"></i><span>Doctors</span></a>
                     </li>
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/category-list"><i
-                                data-feather="truck"></i><span>Patients</span></a>
+                        <a class="nav-link  " href="/admin/category-list">
+                             <i class="fa fa-wheelchair  fa-lg m-r-10"></i><span>Patients</span></a>
                     </li>
-                    <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/category-list"><i
-                                data-feather="truck"></i><span>Category</span></a>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                        <i class="fa fa-list-ul fa-lg m-r-10"></i><span>Therapy Category</span></a>
+                        <ul class="sidebar-submenu">
+                            <li class="sidebar-list">
+                                <a class="nav-link  " href="/admin/category-list">
+                                    <i class="fa fa-cube fa-lg m-r-10"></i><span>Category</span></a>
+                            </li>
+                            <li class="sidebar-list">
+                                <a class="nav-link  " href="/admin/sub-category-list">
+                                    <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Sub
+                                        Category</span></a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/sub-category-list"><i data-feather="box"></i><span>Sub
-                                Category</span></a>
+
+
+
+
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                        <i class="fa fa-file-text-o fa-lg m-r-10"></i><span>Question Relationship</span></a>
+                        <ul class="sidebar-submenu">
+                            <li class="sidebar-list">
+                                <a class="nav-link" href="/admin/questions-list">
+                                    <i class="fa fa-question fa-lg m-r-10"></i><span>Questions</span></a>
+                            </li>
+                            <li class="sidebar-list">
+                                <a class="nav-link" href="/admin/options-list">
+                                    <i class="fa fa-list-ol fa-lg m-r-10"></i><span>Options</span></a>
+                            </li>
+                            <li class="sidebar-list">
+                                <a class="nav-link" href="/admin/mapping-list"><i
+                                        data-feather="monitor"></i><span>Category-Question-Mapping</span></a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="sidebar-list">
-                        <a class="nav-link" href="/admin/questions-list"><i
-                                data-feather="monitor"></i><span>Questions</span></a>
-                    </li>
-                    <li class="sidebar-list">
-                        <a class="nav-link" href="/admin/options-list"><i
-                                data-feather="monitor"></i><span>Options</span></a>
-                    </li>
-                    <li class="sidebar-list">
-                        <a class="nav-link" href="/admin/mapping-list"><i
-                                data-feather="monitor"></i><span>Category-Question-Mapping</span></a>
-                    </li>
+
+
+
+                   
 
                     <li class="sidebar-list">
                         <a class="nav-link"
