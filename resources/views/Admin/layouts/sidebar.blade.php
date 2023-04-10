@@ -58,8 +58,8 @@
                                     <i class="fa fa-list-ol fa-lg m-r-10"></i><span>Options</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/mapping-list"><i
-                                        data-feather="monitor"></i><span>Category-Question-Mapping</span></a>
+                                <a class="nav-link" href="/admin/mapping-list">
+                                    <i class="fa fa-list-ol fa-lg m-r-10"></i>  <span>Category-Question-Mapping</span></a>
                             </li>
                         </ul>
                     </li>

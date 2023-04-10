@@ -32,6 +32,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Category Name</th>
+                            <th scope="col">Category Image</th>
                             <th scope="col"  >Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -40,6 +41,7 @@
                         <tr>
                             <th scope="row">1</th>
                             <td>sdv</td>
+                            <td><img src="{{asset('Admin/images/littledoor/logo.png')}}" height="100px" alt=""></td>
                             <td>
                                 <div class="media-body  switch-m">
                                     <label class="switch">

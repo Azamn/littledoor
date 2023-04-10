@@ -42,6 +42,13 @@
                                     </div>
 
                                     <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">Category Image</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="file">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label class="col-sm-3 col-form-label"></label>
                                         <div class="col-sm-9">
                                         <div class="img-holder"></div>
