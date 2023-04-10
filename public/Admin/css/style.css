@@ -12,7 +12,7 @@
 
  */
 :root {
-  --theme-deafult: #07a8c9;
+  --theme-deafult: #643fdb;
   --theme-secondary: #f73164; }
 
 /**=====================
@@ -24841,7 +24841,7 @@ body[class*='dark-'] .for-light {
           .page-wrapper.compact-wrapper .page-body-wrapper.sidebar-icon div.sidebar-wrapper .sidebar-main .sidebar-links > li .sidebar-submenu.opensubmenu {
             display: block; }
           .page-wrapper.compact-wrapper .page-body-wrapper.sidebar-icon div.sidebar-wrapper .sidebar-main .sidebar-links > li .sidebar-submenu li:hover > a {
-            color: var(--theme-deafult);
+            color: #643fdb;
             -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease; }
             .page-wrapper.compact-wrapper .page-body-wrapper.sidebar-icon div.sidebar-wrapper .sidebar-main .sidebar-links > li .sidebar-submenu li:hover > a:after {

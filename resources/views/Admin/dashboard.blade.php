@@ -53,9 +53,9 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-12 box-col-12 col-lg-12 col-md-12">
+                    <div class="col-xl-6 box-col-6 col-lg-6 col-md-6">
                         <div class="card o-hidden" >
-                            <div class="card-header card-no-border" style="background-color :#a7c724">
+                            <div class="card-header card-no-border" style="background-color :#f47f7f">
 
                                 <div class="media">
                                     <div class="media-body">
@@ -76,22 +76,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-6 box-col-6 col-lg-6 col-md-6">
+                        <div class="card o-hidden" >
+                            <div class="card-header card-no-border" style="background-color :#f47f7f">
 
-                </div>
-            </div>
-            <div class="col-xl-7 box-col-7 col-lg-12 col-md-7">
-                <div class="card o-hidden text-white" style="background-color :#f6a607">
-                    <div class="card-body">
-                        <div class="ecommerce-widgets media">
-                            <div class="media-body">
-                                <p class="f-w-900 font-roboto">Feedback</p>
-                                <h4 class="f-w-900 mb-0 f-26"><span class="counter">43</span></h4>
+                                <div class="media">
+                                    <div class="media-body">
+                                        <p><span class="f-w-900 text-white font-roboto">Request Completed</span></p>
+                                        <h4 class="f-w-900 mb-0 text-white f-26"><span class="counter">443</span></h4>
+                                    </div>
+                                </div>
                             </div>
-                          
+                            <div class="card-body p-0">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <div class="profit-card">
+                                            <div id="spaline-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
     <!-- Container-fluid Ends-->
