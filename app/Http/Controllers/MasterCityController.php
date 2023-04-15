@@ -12,7 +12,7 @@ class MasterCityController extends Controller
     public function getCity(Request $request)
     {
 
-        $cities = MasterCity::with('state')->where('status', 1)->get();
+        $cities = MasterCity::with('state')->where('status', 1)->distinct()->get();
 
         if ($cities) {
             return response()->json(['status' => true, 'data' => MasterCityResource::collection($cities)]);
