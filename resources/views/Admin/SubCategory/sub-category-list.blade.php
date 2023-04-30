@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table" id='client_table'>
+                        <table class="display" id="data-source-1" style="width:100%">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

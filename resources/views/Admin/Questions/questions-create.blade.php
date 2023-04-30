@@ -22,6 +22,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
+
+                <div class="card-header">
+                    <h5>Sub Category Name</h5>
+                </div>
+               
+
                 <div class="card">
                     <div class="card-header">
                         <h5>Questions Details</h5>
@@ -30,24 +36,18 @@
                     {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                         @csrf
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Questions Name</label>
-                                        <div class="col-sm-9">
-                                            <textarea type="text" name="description" id="description" class="form-control"  placeholder="Questions name" required></textarea>
-                                            <span class="text-danger error-text name_error"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label"></label>
-                                        <div class="col-sm-9">
-                                        <div class="img-holder"></div>
-                                    </div>
-                                </div>
+                            <div class="" id="formDiv">
+                    
                             </div>
+            
+                            <div class=""><span class="">
+                                    <a id="addButton" onclick="addSection()" class="btn btn-primary text-white"><i
+                                            class="icon-plus"></i>
+                                        Add new Question</a></span></div>
+                            <div class="notification-popup hide">
+                                <p><span class="task"></span><span class="notification-text"></span></p>
+                            </div>
+                            <br><br>
                         </div>
                         <div class="card-footer">
                             <div class="col-sm-9 offset-sm-3">
@@ -140,6 +140,39 @@
         });
 
     });
+
+
+
+    
+
+    var count = 0;
+
+function addSection() {
+    var text = document.createElement('div');
+    text.className = "form-group row mb-4";
+    text.id = "fdiv"+count;
+    text.innerHTML = `
+    <label class="col-md-3 col-form-label">Question ${count}</label>
+                                        <div class="col-md-8">
+                                            <textarea type="text" name="Question[${count}]" id="Question${count}"
+                                                class="form-control" placeholder="Enter Question"></textarea>
+                                            <span class="text-danger error-text features_error"></span>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="btn btn-danger mt-3" onclick="removeSection(this.parentNode.parentNode)">
+                                                delete
+                                            </button>
+                                        </div>
+                                    <br> <br> <br>
+        `;
+        document.getElementById('formDiv').appendChild(text);
+        count = count + 1;
+}
+
+
+function removeSection(element) {
+   element.remove();
+}
 
 </script>
 
