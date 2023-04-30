@@ -26,87 +26,89 @@
                             <a class="btn btn-primary" href="/admin/category">Add Category</a>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="display" id="data-source-1" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (!is_null($masterCategoriesData))
-                                    @foreach ($masterCategoriesData as $key => $categoryData)
-                                        <tr>
-                                            <th scope="row">{{ $key + 1 }}</th>
-                                            <td>{{ $categoryData['name'] }}</td>
-                                            <td>
-                                                <img src="{{ $categoryData['image_url'] ?? null }}" width="50"
-                                                    alt="">
-                                            </td>
-                                            <td>
-                                                <div class="media-body  switch-m">
-                                                    <label class="switch">
-                                                        @csrf
-                                                        <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                                        <input type="checkbox"
-                                                            onchange="category_active_toggle_function({{ $categoryData['id'] }})"
-                                                            @if ($categoryData['status']) checked="" @endif><span
-                                                            class="switch-state"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <ul class="action">
-                                                    {{-- <li class="edit"> <a href="#">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display" id="data-source-1" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (!is_null($masterCategoriesData))
+                                        @foreach ($masterCategoriesData as $key => $categoryData)
+                                            <tr>
+                                                <th scope="row">{{ $key + 1 }}</th>
+                                                <td>{{ $categoryData['name'] }}</td>
+                                                <td>
+                                                    <img src="{{ $categoryData['image_url'] ?? null }}" width="50"
+                                                        alt="">
+                                                </td>
+                                                <td>
+                                                    <div class="media-body  switch-m">
+                                                        <label class="switch">
+                                                            @csrf
+                                                            <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                            <input type="checkbox"
+                                                                onchange="category_active_toggle_function({{ $categoryData['id'] }})"
+                                                                @if ($categoryData['status']) checked="" @endif><span
+                                                                class="switch-state"></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <ul class="action">
+                                                        {{-- <li class="edit"> <a href="#">
 
                                                             <button class="btn btn-pill btn-primary"
                                                                 data-id="{{ $categoryData['id'] }}">Edit</button>
                                                         </a>
                                                     </li> --}}
-                                                    <li class="delete">
-                                                        <a href="#">
-                                                            @csrf
-                                                            <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                                            <button class="btn btn-pill btn-danger" id="deleteBtn"
-                                                                type="submit"
-                                                                data-id="{{ $categoryData['id'] }}">Delete</button>
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                                        <li class="delete">
+                                                            <a href="#">
+                                                                @csrf
+                                                                <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                                <button class="btn btn-pill btn-danger" id="deleteBtn"
+                                                                    type="submit"
+                                                                    data-id="{{ $categoryData['id'] }}">Delete</button>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>sdv</td>
+                                            <td><img src="{{ asset('Admin/images/littledoor/logo.png') }}" height="100px"
+                                                    alt=""></td>
+                                            <td>
+                                                <div class="media-body  switch-m">
+                                                    <label class="switch">
+                                                        <input type="checkbox"><span class="switch-state"></span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
+                                                <button class="btn btn-danger m-2" data-id="" id="deleteBtn"
+                                                    type="submit">Delete</button>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>sdv</td>
-                                        <td><img src="{{ asset('Admin/images/littledoor/logo.png') }}" height="100px"
-                                                alt=""></td>
-                                        <td>
-                                            <div class="media-body  switch-m">
-                                                <label class="switch">
-                                                    <input type="checkbox"><span class="switch-state"></span>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                            <button class="btn btn-danger m-2" data-id="" id="deleteBtn"
-                                                type="submit">Delete</button>
-                                        </td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+    </div>
     </div>
 @endsection
 {{-- @section('js') --}}
