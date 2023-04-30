@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\ContactUsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\MasterSubCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,13 +21,25 @@ Route::get('/', function () {
 });
 
 
+// Category
+Route::get('/admin/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
+Route::post('/admin/create/ctaegory', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
+Route::delete('/admin/delete/ctaegory', [MasterCategoryController::class, 'delete'])->name('delete.ctaegory');
+Route::get('/admin/change/ctaegory/status', [MasterCategoryController::class, 'changeCategoryStatus'])->name('ctaegory.change.status');
+
+// sub-category
+Route::get('/admin/get-all/sub-categories', [MasterSubCategoryController::class, 'getAllThroughAdmin'])->name('get.all-sub-categories');
+// Route::post('/admin/create/ctaegory',[MasterSubCategoryController::class, 'createThroughAdmin'])->name('create.category');
+Route::delete('/admin/delete/sub-ctaegory', [MasterSubCategoryController::class, 'delete'])->name('delete.sub-ctaegory');
+Route::get('/admin/change/sub-ctaegory/status', [MasterSubCategoryController::class, 'changeSubCategoryStatus'])->name('sub-ctaegory.change.status');
+
 Route::get('/admin/dashboard', function () {
     return view('Admin.dashboard');
 });
 
 
 
-Route::post('/contact-us',[ContactUsController::class, 'createContactUs'])->name('store.contact-us');
+Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
 
 
 

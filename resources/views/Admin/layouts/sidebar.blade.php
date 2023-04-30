@@ -31,11 +31,11 @@
                         <i class="fa fa-list-ul fa-lg m-r-10"></i><span>Therapy Category</span></a>
                         <ul class="sidebar-submenu">
                             <li class="sidebar-list">
-                                <a class="nav-link  " href="/admin/category-list">
+                                <a class="nav-link  " href="{{ route('get.all-categories') }}">
                                     <i class="fa fa-cube fa-lg m-r-10"></i><span>Category</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link  " href="/admin/sub-category-list">
+                                <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
                                     <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Sub
                                         Category</span></a>
                             </li>
@@ -66,7 +66,7 @@
 
 
 
-                   
+
 
                     <li class="sidebar-list">
                         <a class="nav-link"

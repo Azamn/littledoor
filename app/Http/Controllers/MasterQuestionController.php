@@ -51,4 +51,45 @@ class MasterQuestionController extends Controller
             }
         }
     }
+
+    public function getAllThroughAdmin(Request $request)
+    {
+
+        $masterQuestionsData = [];
+        $masterQuestions = MasterQuestion::get();
+
+        foreach ($masterQuestions as $masterQuestion) {
+            $data = [
+                'id' => $masterQuestion->id,
+                'name' => $masterQuestion->name,
+                'image_url' => $masterQuestion->media->isNotEmpty() ? $masterQuestion->media->last()->getFullUrl() : NULL,
+                'status' => $masterQuestion->status,
+            ];
+
+            array_push($masterQuestionsData, $data);
+        }
+
+        return view('Admin.Questions.questions-list', compact('masterQuestionsData'));
+    }
+
+    public function delete(Request $request){
+
+        $masterQuestion = MasterQuestion::where('id', $request->question_id)->first();
+
+        if ($masterQuestion) {
+            $masterQuestion->delete();
+            return response()->json(['status' => true, 'message' => 'Question Deleted Successfully.']);
+        }
+    }
+
+    public function changeQuestionStatus(Request $request){
+
+        $masterQuestion = MasterQuestion::where('id', $request->question_id)->first();
+        if($masterQuestion){
+            $masterQuestion->status = !$masterQuestion->status;
+            $masterQuestion->save();
+            return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
+        }
+
+    }
 }

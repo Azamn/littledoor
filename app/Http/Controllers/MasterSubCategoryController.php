@@ -53,4 +53,44 @@ class MasterSubCategoryController extends Controller
             }
         }
     }
+
+    public function getAllThroughAdmin(){
+
+        $masterSubCategoriesData = [];
+        $masterSubCategories = MasterSubCategory::with('masterCategory')->get();
+
+        foreach ($masterSubCategories as $masterSubCategory) {
+            $data = [
+                'id' => $masterSubCategory->id,
+                'category_name' => optional(optional($masterSubCategory)->masterCategory)->name ?? NULL,
+                'name' => $masterSubCategory->name,
+                'status' => $masterSubCategory->status,
+            ];
+
+            array_push($masterSubCategoriesData, $data);
+        }
+
+        return view('Admin.SubCategory.sub-category-list', compact('masterSubCategoriesData'));
+    }
+
+    public function delete(Request $request){
+
+        $masterSubCategories = MasterSubCategory::where('id', $request->sub_category_id)->first();
+
+        if ($masterSubCategories) {
+            $masterSubCategories->delete();
+            return response()->json(['status' => true, 'message' => 'Sub-Category Data Deleted Successfully.']);
+        }
+    }
+
+    public function changeSubCategoryStatus(Request $request){
+
+        $masterSubCategories = MasterSubCategory::where('id', $request->sub_category_id)->first();
+        if($masterSubCategories){
+            $masterSubCategories->status = !$masterSubCategories->status;
+            $masterSubCategories->save();
+            return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
+        }
+
+    }
 }
