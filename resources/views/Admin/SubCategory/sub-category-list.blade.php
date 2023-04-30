@@ -20,14 +20,16 @@
     <! Container-fluid starts>
     <div class="container-fluid">
         <div class="card">
+
             <div class="card-header">
-                <h3>Sub Category </h3>
+                <h3>Sub Category  </h3>
                 <div class="mt-4">
                     <a class="btn btn-primary" href="/admin/sub-category">Add Sub Category</a>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table" id='client_table'>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="display" id="data-source-1" style="width:100%">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

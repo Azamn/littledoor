@@ -26,8 +26,10 @@
                     <a class="btn btn-primary" href="/admin/options">Add Options</a>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table" id='client_table'>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="display" id="data-source-1" style="width:100%">
+        
                     <thead>
                         <tr>
                             <th scope="col">#</th>
