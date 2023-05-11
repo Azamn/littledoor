@@ -94,6 +94,9 @@ Route::get('/admin/service-edit', function () {
 
 
 
+Route::get('/admin/login', function () {
+    return view('admin.login');
+});
 
 
 
