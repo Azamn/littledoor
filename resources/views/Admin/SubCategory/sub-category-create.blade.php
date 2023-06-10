@@ -50,7 +50,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="card-header">
+                                        <div class="mb-4">
                                             <h5>Sub Category Name</h5>
                                         </div>
                                         <div class="" id="formDiv">

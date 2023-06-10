@@ -104,6 +104,16 @@ Route::get('/admin/login', function () {
 
 
 
+Route::get('/admin/doctor-list', function () {
+    return view('Admin.Doctor.doctor-list');
+});
+
+
+
+
+Route::get('/admin/patient-list', function () {
+    return view('Admin.Patient.patient-list');
+});
 
 
 
