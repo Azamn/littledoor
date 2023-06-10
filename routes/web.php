@@ -104,6 +104,16 @@ Route::get('/admin/login', function () {
 
 
 
+Route::get('/admin/doctor-list', function () {
+    return view('Admin.Doctor.doctor-list');
+});
+
+
+
+
+Route::get('/admin/patient-list', function () {
+    return view('Admin.Patient.patient-list');
+});
 
 
 
@@ -123,6 +133,13 @@ Route::get('/admin/category', function () {
 Route::get('/admin/category-list', function () {
     return view('Admin.Category.category-list');
 });
+
+Route::get('/admin/category-edit', function () {
+    return view('Admin.Category.category-edit');
+});
+
+
+
 
 
 Route::get('/admin/sub-category', function () {

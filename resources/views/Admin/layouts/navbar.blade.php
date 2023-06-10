@@ -17,7 +17,7 @@
                 </form>
                 <div class="header-logo-wrapper">
                     <div class="logo-wrapper"><a href="index.html"><img class="img-fluid"
-                                src="{{asset('Assets/Admin//images/logo/logo.png')}}" alt=""></a></div>
+                                src="{{asset('Admin/images/littledoor/logo.png')}}" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
                         </i></div>
                 </div>
