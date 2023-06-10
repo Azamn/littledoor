@@ -23,7 +23,7 @@
                     <div class="card-header">
                         <h3>Sub Category </h3>
                         <div class="mt-4">
-                            <a class="btn btn-primary" href="{{ route('get.create-sub-category-form') }}">Add Sub Category</a>
+                            <a class="btn btn-primary" href="{{ route('get.all-sub-categories') }}">Add Sub Category</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -121,7 +121,7 @@
 
         var form = this;
         var sub_category_id = $(form).attr('data-id');
-        var url = '{{ route('delete.sub-ctaegory') }}';
+        var url = '{{ route('delete.sub-category') }}';
 
         Swal.fire({
             title: 'Are you sure?',
@@ -171,7 +171,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: '{{ route('sub-ctaegory.change.status') }}',
+            url: '{{ route('sub-category.change.status') }}',
             method: 'GET',
             data: {
                 sub_category_id: sub_category_id

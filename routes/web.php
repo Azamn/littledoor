@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterSubCategoryController;
+use App\Models\MasterCategory;
+use App\Models\MasterSubCategory;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,8 @@ Route::get('/admin/get-all/sub-categories', [MasterSubCategoryController::class,
 Route::post('/admin/create/sub-category',[MasterSubCategoryController::class, 'create'])->name('create.sub-category');
 Route::delete('/admin/delete/sub-category', [MasterSubCategoryController::class, 'delete'])->name('delete.sub-category');
 Route::get('/admin/change/sub-category/status', [MasterSubCategoryController::class, 'changeSubCategoryStatus'])->name('sub-category.change.status');
+Route::get('/admin/edit/sub-category/{categoryId}',[MasterSubCategoryController::class, 'edit'])->name('edit.sub-category');
+Route::post('/admin/update/sub-category/{categoryId}',[MasterCategoryController::class, 'update'])->name('update.sub-category');
 
 Route::get('/admin/dashboard', function () {
     return view('Admin.dashboard');

@@ -117,4 +117,45 @@ class MasterSubCategoryController extends Controller
 
         return view('Admin.SubCategory.sub-category-create', compact('categoriesData'));
     }
+
+    public function edit(Request $request, $subCategoryId)
+    {
+
+        $masterSubCategories = MasterSubCategory::with('masterCategory')->where('id', $subCategoryId)->first();
+        if ($masterSubCategories) {
+            $masterSubCategoriesData = [];
+
+            $masterSubCategoriesData = [
+                'id' => $masterSubCategories->id,
+                'category_name' => optional(optional($masterSubCategories)->masterCategory)->name ?? NULL,
+                'name' => $masterSubCategories->name ?? NULL,
+            ];
+        }
+    }
+
+    public function update(Request $request, $subCategoryId)
+    {
+        $rules = [
+            'master_category_id' => 'sometimes|required|integer|exists:master_categories,id',
+            'name' => 'sometimes|required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $masterSubCategories = MasterSubCategory::where('id', $subCategoryId)->first();
+            if ($masterSubCategories) {
+                if ($request->has('name')) {
+                    $masterSubCategories->name = $request->name;
+                }
+
+                $masterSubCategories->update();
+
+                return response()->json(['status' => true, 'message' => 'Sub-category Updated successfully.']);
+            }
+        }
+    }
 }
