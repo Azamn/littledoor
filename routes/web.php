@@ -134,6 +134,13 @@ Route::get('/admin/category-list', function () {
     return view('Admin.Category.category-list');
 });
 
+Route::get('/admin/category-edit', function () {
+    return view('Admin.Category.category-edit');
+});
+
+
+
+
 
 Route::get('/admin/sub-category', function () {
     return view('Admin.SubCategory.sub-category-create');

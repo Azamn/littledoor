@@ -61,7 +61,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="/admin/category-edit">
                                                         <button class="btn btn-pill btn-primary"
                                                             data-id="{{ $categoryData['id'] }}">Edit</button>
                                                     </a>
