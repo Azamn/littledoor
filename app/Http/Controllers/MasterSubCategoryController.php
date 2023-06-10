@@ -6,30 +6,32 @@ use Illuminate\Http\Request;
 use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\MasterSubCategoryResource;
+use App\Models\MasterCategory;
 
 class MasterSubCategoryController extends Controller
 {
-    public function getAll(Request $request){
+    public function getAll(Request $request)
+    {
 
         $user = $request->user();
-        if($user){
-            $masterSubCategory = MasterSubCategory::with('masterCategory')->where('status',1)->get();
-            if($masterSubCategory){
+        if ($user) {
+            $masterSubCategory = MasterSubCategory::with('masterCategory')->where('status', 1)->get();
+            if ($masterSubCategory) {
                 return response()->json(['status' => true, 'data' => MasterSubCategoryResource::collection($masterSubCategory)]);
-            }else{
+            } else {
                 return response()->json(['status' => false, 'message' => 'Master Sub-Categories Not Found.']);
             }
-        }else{
+        } else {
             return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
         }
-
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
         $rules = [
-            'name' => 'required',
-            'master_category_id' => 'required|integer|exists:master_categories,id'
+            'master_category_id' => 'required|integer|exists:master_categories,id',
+            'names.*' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -37,24 +39,29 @@ class MasterSubCategoryController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
-            $user = $request->user();
+            // $user = $request->user();
 
-            if ($user) {
-
-                $masterSubCategory = new MasterSubCategory();
-                $masterSubCategory->master_category_id = $request->master_category_id;
-                $masterSubCategory->name = $request->name;
-                $masterSubCategory->status = 1;
-                $masterSubCategory->save();
-
-                return response()->json(['status' => true, 'message' => 'Master Sub-Category Save Successfully.']);
-            }else{
-                return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+            // if ($user) {
+            if ($request->has('names')) {
+                foreach ($request->names as $name) {
+                    $masterSubCategory = new MasterSubCategory();
+                    $masterSubCategory->master_category_id = $request->master_category_id;
+                    $masterSubCategory->name = $name;
+                    $masterSubCategory->status = 1;
+                    $masterSubCategory->save();
+                }
             }
+
+            return response()->json(['status' => true, 'message' => 'Master Sub-Category Save Successfully.']);
+            // }
+            // else {
+            //     return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+            // }
         }
     }
 
-    public function getAllThroughAdmin(){
+    public function getAllThroughAdmin()
+    {
 
         $masterSubCategoriesData = [];
         $masterSubCategories = MasterSubCategory::with('masterCategory')->get();
@@ -63,8 +70,8 @@ class MasterSubCategoryController extends Controller
             $data = [
                 'id' => $masterSubCategory->id,
                 'category_name' => optional(optional($masterSubCategory)->masterCategory)->name ?? NULL,
-                'name' => $masterSubCategory->name,
-                'status' => $masterSubCategory->status,
+                'name' => $masterSubCategory->name ?? NULL,
+                'status' => $masterSubCategory->status ?? NULL,
             ];
 
             array_push($masterSubCategoriesData, $data);
@@ -73,7 +80,8 @@ class MasterSubCategoryController extends Controller
         return view('Admin.SubCategory.sub-category-list', compact('masterSubCategoriesData'));
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
 
         $masterSubCategories = MasterSubCategory::where('id', $request->sub_category_id)->first();
 
@@ -83,14 +91,30 @@ class MasterSubCategoryController extends Controller
         }
     }
 
-    public function changeSubCategoryStatus(Request $request){
+    public function changeSubCategoryStatus(Request $request)
+    {
 
         $masterSubCategories = MasterSubCategory::where('id', $request->sub_category_id)->first();
-        if($masterSubCategories){
+        if ($masterSubCategories) {
             $masterSubCategories->status = !$masterSubCategories->status;
             $masterSubCategories->save();
             return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
         }
+    }
 
+    public function getCategories(Request $request)
+    {
+        $categoriesData = [];
+        $categories = MasterCategory::where('status', 1)->get();
+        foreach ($categories as $category) {
+            $data = [
+                'id' => $category->id,
+                'name' => $category->name,
+            ];
+
+            array_push($categoriesData, $data);
+        }
+
+        return view('Admin.SubCategory.sub-category-create', compact('categoriesData'));
     }
 }

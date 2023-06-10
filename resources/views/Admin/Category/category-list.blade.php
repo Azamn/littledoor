@@ -39,7 +39,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!is_null($masterCategoriesData))
+                                    @if (!is_null(@$masterCategoriesData))
                                         @foreach ($masterCategoriesData as $key => $categoryData)
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>

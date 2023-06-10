@@ -61,15 +61,20 @@ class MasterCategoryController extends Controller
         foreach ($masterCategoriess as $masterCategories) {
             $data = [
                 'id' => $masterCategories->id,
-                'name' => $masterCategories->name,
+                'name' => $masterCategories->name ?? NULL,
                 'image_url' => $masterCategories->media->isNotEmpty() ? $masterCategories->media->last()->getFullUrl() : NULL,
-                'status' => $masterCategories->status,
+                'status' => $masterCategories->status ?? NULL,
             ];
 
             array_push($masterCategoriesData, $data);
         }
 
-        return view('Admin.Category.category-list', compact('masterCategoriesData'));
+        if(!is_null($masterCategoriesData)){
+            return view('Admin.Category.category-list', compact('masterCategoriesData'));
+        }else{
+            return view('Admin.Category.category-list');
+        }
+
     }
 
     public function createThroughAdmin(Request $request){

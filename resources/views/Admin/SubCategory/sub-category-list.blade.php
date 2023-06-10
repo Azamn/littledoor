@@ -23,7 +23,7 @@
                     <div class="card-header">
                         <h3>Sub Category </h3>
                         <div class="mt-4">
-                            <a class="btn btn-primary" href="/admin/sub-category">Add Sub Category</a>
+                            <a class="btn btn-primary" href="{{ route('get.create-sub-category-form') }}">Add Sub Category</a>
                         </div>
                     </div>
                     <div class="card-body">
