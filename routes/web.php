@@ -23,16 +23,17 @@ Route::get('/', function () {
 
 // Category
 Route::get('/admin/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
-Route::post('/admin/create/ctaegory', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
-Route::delete('/admin/delete/ctaegory', [MasterCategoryController::class, 'delete'])->name('delete.ctaegory');
-Route::get('/admin/change/ctaegory/status', [MasterCategoryController::class, 'changeCategoryStatus'])->name('ctaegory.change.status');
-
+Route::post('/admin/create/category', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
+Route::delete('/admin/delete/category', [MasterCategoryController::class, 'delete'])->name('delete.category');
+Route::get('/admin/change/category/status', [MasterCategoryController::class, 'changeCategoryStatus'])->name('category.change.status');
+Route::get('/admin/edit/category/{categoryId}',[MasterCategoryController::class,'edit'])->name('edit.ctageory');
+Route::post('/admin/update/category/{categoryId}',[MasterCategoryController::class,'update'])->name('update.category');
 // sub-category
-Route::get('/admin/create/sub-category',[MasterSubCategoryController::class, 'getCategories'])->name('get.create-sub-category-form');
+Route::get('/admin/sub-category',[MasterSubCategoryController::class, 'getCategories'])->name('get.create-sub-category-form');
 Route::get('/admin/get-all/sub-categories', [MasterSubCategoryController::class, 'getAllThroughAdmin'])->name('get.all-sub-categories');
-Route::post('/admin/create/sub-ctaegory',[MasterSubCategoryController::class, 'create'])->name('create.sub-category');
-Route::delete('/admin/delete/sub-ctaegory', [MasterSubCategoryController::class, 'delete'])->name('delete.sub-ctaegory');
-Route::get('/admin/change/sub-ctaegory/status', [MasterSubCategoryController::class, 'changeSubCategoryStatus'])->name('sub-ctaegory.change.status');
+Route::post('/admin/create/sub-category',[MasterSubCategoryController::class, 'create'])->name('create.sub-category');
+Route::delete('/admin/delete/sub-category', [MasterSubCategoryController::class, 'delete'])->name('delete.sub-category');
+Route::get('/admin/change/sub-category/status', [MasterSubCategoryController::class, 'changeSubCategoryStatus'])->name('sub-category.change.status');
 
 Route::get('/admin/dashboard', function () {
     return view('Admin.dashboard');

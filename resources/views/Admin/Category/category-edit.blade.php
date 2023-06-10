@@ -25,7 +25,7 @@
                         <div class="card-header">
                             <h5>Edit Category</h5>
                         </div>
-                        <form class="widget-contact-form" id="categoryAdd" action="{{ route('create.category') }}"
+                        <form class="widget-contact-form" id="categoryUpdate" action={{ "/admin/update/category/".$categoryData['id']}}
                             method="POST" enctype="multipart/form-data" novalidate="">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
@@ -36,17 +36,22 @@
 
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Category Name</label>
-                                            <div class="col-sm-9">
-                                                <textarea type="text" name="name" id="description" class="form-control" placeholder="Category name" required></textarea>
-                                                <span class="text-danger error-text name_error"></span>
-                                            </div>
+                                            @if (!is_null(@$categoryData['name']))
+                                                <div class="col-sm-9">
+                                                    <textarea type="text" name="name" id="description" class="form-control" placeholder="Category name" required>{{ $categoryData['name'] }}</textarea>
+                                                    <span class="text-danger error-text name_error"></span>
+                                                </div>
+                                            @endif
                                         </div>
 
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label">Category Image</label>
+                                            @if (!is_null(@$categoryData['image_url']))
                                             <div class="col-md-4">
-                                                <img src="{{ asset('Admin/images/littledoor/logo.png') }}" alt="">
+                                                <img src="{{ $categoryData['image_url'] }}" alt="">
                                             </div>
+                                            @endif
+
                                             <div class="col-md-5">
                                                 <input class="form-control" id="image" type="file" name="image"
                                                     aria-label="file example">
@@ -64,7 +69,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="col-sm-9 offset-sm-3">
-                                        <button class="btn btn-primary" type="submit">Save</button>
+                                        <button class="btn btn-primary" type="submit">update</button>
                                         <button class="btn btn-light" type="submit">Cancel</button>
                                     </div>
                                 </div>
@@ -85,11 +90,11 @@
 
 <script>
     $(document).ready(function() {
-        $('#categoryAdd').on('submit', function(e) {
+        $('#categoryUpdate').on('submit', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var form = this;
-            var token = $('meta[name="csrf-token"]').attr('content');
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -119,7 +124,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-
+                        location.reload();
                     }
                 }
             });

@@ -61,7 +61,7 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="/admin/category-edit">
+                                                    <a href="{{'/admin/edit/category/'.$categoryData['id']}}">
                                                         <button class="btn btn-pill btn-primary"
                                                             data-id="{{ $categoryData['id'] }}">Edit</button>
                                                     </a>
@@ -118,7 +118,7 @@
 
         var form = this;
         var category_id = $(form).attr('data-id');
-        var url = '{{ route('delete.ctaegory') }}';
+        var url = '{{ route('delete.category') }}';
 
         Swal.fire({
             title: 'Are you sure?',
@@ -168,7 +168,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: '{{ route('ctaegory.change.status') }}',
+            url: '{{ route('category.change.status') }}',
             method: 'GET',
             data: {
                 category_id: category_id
