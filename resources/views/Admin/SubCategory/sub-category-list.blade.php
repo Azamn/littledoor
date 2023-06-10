@@ -120,8 +120,8 @@
     $(document).on('click', '#deleteBtn', function() {
 
         var form = this;
-        var category_id = $(form).attr('data-id');
-        var url = '{{ route('delete.ctaegory') }}';
+        var sub_category_id = $(form).attr('data-id');
+        var url = '{{ route('delete.sub-ctaegory') }}';
 
         Swal.fire({
             title: 'Are you sure?',
@@ -141,7 +141,7 @@
                     url: url,
                     method: 'DELETE',
                     data: {
-                        category_id: category_id
+                        sub_category_id: sub_category_id
                     },
                     dataType: 'json',
 

@@ -25,7 +25,7 @@
                         <div class="card-header">
                             <h5>Sub Category Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="addSubCategory" action="{{ route('create.category') }}"
+                        <form class="widget-contact-form" id="addSubCategory" action="{{ route('create.sub-category') }}"
                             method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
@@ -39,13 +39,14 @@
                                             <label class="col-sm-3 col-form-label">Category</label>
                                             <div class="col-sm-9">
 
-                                                <select class="form-control from-control btn-square digits"
-                                                    id="exampleFormControlSelect12">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                <select class="form-select" name="master_category_id" id="category">
+                                                    <option selected>Select category</option>
+                                                    @if (!is_null($categoriesData))
+                                                        @foreach ($categoriesData as $category)
+                                                            <option value="{{ $category['id'] }}">{{ $category['name'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -186,7 +187,7 @@
             text.innerHTML = `
     <label class="col-md-3 col-form-label">Sub Category ${count}</label>
                                         <div class="col-md-8">
-                                            <textarea type="text" name="SubCategory[${count}]" id="SubCategory${count}"
+                                            <textarea type="text" name="names[${count}]" id="SubCategory${count}"
                                                 class="form-control" placeholder="Enter Sub Category"></textarea>
                                             <span class="text-danger error-text features_error"></span>
                                         </div>

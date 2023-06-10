@@ -28,9 +28,9 @@ Route::delete('/admin/delete/ctaegory', [MasterCategoryController::class, 'delet
 Route::get('/admin/change/ctaegory/status', [MasterCategoryController::class, 'changeCategoryStatus'])->name('ctaegory.change.status');
 
 // sub-category
-Route::get('/admin/get/sub-category',[MasterSubCategoryController::class, 'getCategories'])->name('get.create-sub-category-form');
+Route::get('/admin/create/sub-category',[MasterSubCategoryController::class, 'getCategories'])->name('get.create-sub-category-form');
 Route::get('/admin/get-all/sub-categories', [MasterSubCategoryController::class, 'getAllThroughAdmin'])->name('get.all-sub-categories');
-// Route::post('/admin/create/ctaegory',[MasterSubCategoryController::class, 'createThroughAdmin'])->name('create.category');
+Route::post('/admin/create/sub-ctaegory',[MasterSubCategoryController::class, 'create'])->name('create.sub-category');
 Route::delete('/admin/delete/sub-ctaegory', [MasterSubCategoryController::class, 'delete'])->name('delete.sub-ctaegory');
 Route::get('/admin/change/sub-ctaegory/status', [MasterSubCategoryController::class, 'changeSubCategoryStatus'])->name('sub-ctaegory.change.status');
 
