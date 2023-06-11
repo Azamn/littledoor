@@ -50,7 +50,7 @@
                         <i class="fa fa-file-text-o fa-lg m-r-10"></i><span>Question Relationship</span></a>
                         <ul class="sidebar-submenu">
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/questions-list">
+                                <a class="nav-link" href="{{ route('get.questions') }}">
                                     <i class="fa fa-question fa-lg m-r-10"></i><span>Questions</span></a>
                             </li>
                             <li class="sidebar-list">

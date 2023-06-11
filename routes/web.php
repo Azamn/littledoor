@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Models\MasterCategory;
+use App\Models\MasterQuestion;
 use App\Models\MasterSubCategory;
 
 /*
@@ -38,6 +40,11 @@ Route::delete('/admin/delete/sub-category', [MasterSubCategoryController::class,
 Route::get('/admin/change/sub-category/status', [MasterSubCategoryController::class, 'changeSubCategoryStatus'])->name('sub-category.change.status');
 Route::get('/admin/edit/sub-category/{categoryId}',[MasterSubCategoryController::class, 'edit'])->name('edit.sub-category');
 Route::post('/admin/update/sub-category/{categoryId}',[MasterCategoryController::class, 'update'])->name('update.sub-category');
+// Question
+Route::get('/admin/get-all/questions',[MasterQuestionController::class,'getAllThroughAdmin'])->name('get.questions');
+Route::get('/admin/change/question/status', [MasterQuestionController::class, 'changeQuestionStatus'])->name('question.change.status');
+Route::post('/admin/create/questions',[MasterQuestionController::class,'createThroughAdmin'])->name('create.questions');
+Route::delete('/admin/delete/question',[MasterQuestionController::class,'delete'])->name('delete.question');
 
 Route::get('/admin/dashboard', function () {
     return view('Admin.dashboard');

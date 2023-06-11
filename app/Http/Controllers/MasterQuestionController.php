@@ -9,23 +9,24 @@ use App\Http\Resources\MasterQuestionResource;
 
 class MasterQuestionController extends Controller
 {
-    public function getAll(Request $request){
+    public function getAll(Request $request)
+    {
 
         $user = $request->user();
-        if($user){
-            $masterQuestions = MasterQuestion::where('status',1)->get();
-            if($masterQuestions){
+        if ($user) {
+            $masterQuestions = MasterQuestion::where('status', 1)->get();
+            if ($masterQuestions) {
                 return response()->json(['status' => true, 'data' => MasterQuestionResource::collection($masterQuestions)]);
-            }else{
+            } else {
                 return response()->json(['status' => false, 'message' => 'Questions Not Found.']);
             }
-        }else{
+        } else {
             return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
         }
-
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
         $rules = [
             'name' => 'required',
@@ -46,8 +47,34 @@ class MasterQuestionController extends Controller
                 $masterQuestions->save();
 
                 return response()->json(['status' => true, 'message' => 'Question Save Successfully.']);
-            }else{
+            } else {
                 return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+            }
+        }
+    }
+
+    public function createThroughAdmin(Request $request)
+    {
+
+        $rules = [
+            'questions.*' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            if ($request->has('questions')) {
+                foreach ($request->questions as $key => $question) {
+                    $masterQuestions = new MasterQuestion();
+                    $masterQuestions->name = $question;
+                    $masterQuestions->status = 1;
+                    $masterQuestions->save();
+                }
+
+                return response()->json(['status' => true, 'message' => 'Question Added Successfully.']);
             }
         }
     }
@@ -60,10 +87,9 @@ class MasterQuestionController extends Controller
 
         foreach ($masterQuestions as $masterQuestion) {
             $data = [
-                'id' => $masterQuestion->id,
-                'name' => $masterQuestion->name,
-                'image_url' => $masterQuestion->media->isNotEmpty() ? $masterQuestion->media->last()->getFullUrl() : NULL,
-                'status' => $masterQuestion->status,
+                'id' => $masterQuestion?->id,
+                'name' => $masterQuestion?->name,
+                'status' => $masterQuestion?->status,
             ];
 
             array_push($masterQuestionsData, $data);
@@ -72,7 +98,8 @@ class MasterQuestionController extends Controller
         return view('Admin.Questions.questions-list', compact('masterQuestionsData'));
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
 
         $masterQuestion = MasterQuestion::where('id', $request->question_id)->first();
 
@@ -82,14 +109,14 @@ class MasterQuestionController extends Controller
         }
     }
 
-    public function changeQuestionStatus(Request $request){
+    public function changeQuestionStatus(Request $request)
+    {
 
         $masterQuestion = MasterQuestion::where('id', $request->question_id)->first();
-        if($masterQuestion){
+        if ($masterQuestion) {
             $masterQuestion->status = !$masterQuestion->status;
             $masterQuestion->save();
             return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
         }
-
     }
 }
