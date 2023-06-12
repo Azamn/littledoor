@@ -51,4 +51,71 @@ class MasterOptionsController extends Controller
             }
         }
     }
+
+    public function createThroughAdmin(Request $request)
+    {
+
+        $rules = [
+            'options.*' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            if ($request->has('options')) {
+                foreach ($request->options as $key => $option) {
+                    $masterOptions = new MasterOption();
+                    $masterOptions->name = $option;
+                    $masterOptions->status = 1;
+                    $masterOptions->save();
+                }
+
+                return response()->json(['status' => true, 'message' => 'Options Added Successfully.']);
+            }
+        }
+    }
+
+    public function getAllThroughAdmin(Request $request)
+    {
+
+        $masterOptionsData = [];
+        $masterOptions = MasterOption::get();
+
+        foreach ($masterOptions as $options) {
+            $data = [
+                'id' => $options?->id,
+                'name' => $options?->name,
+                'status' => $options?->status,
+            ];
+
+            array_push($masterOptionsData, $data);
+        }
+
+        return view('Admin.Options.options-list', compact('masterOptionsData'));
+    }
+
+    public function delete(Request $request)
+    {
+
+        $masterOptions = MasterOption::where('id', $request->option_id)->first();
+
+        if ($masterOptions) {
+            $masterOptions->delete();
+            return response()->json(['status' => true, 'message' => 'Option Deleted Successfully.']);
+        }
+    }
+
+    public function changeOptionStatus(Request $request)
+    {
+
+        $masterOptions = MasterOption::where('id', $request->option_id)->first();
+        if ($masterOptions) {
+            $masterOptions->status = !$masterOptions->status;
+            $masterOptions->save();
+            return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
+        }
+    }
 }

@@ -54,7 +54,7 @@
                                     <i class="fa fa-question fa-lg m-r-10"></i><span>Questions</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/options-list">
+                                <a class="nav-link" href="{{ route('get.options') }}">
                                     <i class="fa fa-list-ol fa-lg m-r-10"></i><span>Options</span></a>
                             </li>
                             <li class="sidebar-list">

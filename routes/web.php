@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\MasterOptionsController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Models\MasterCategory;
@@ -45,6 +46,12 @@ Route::get('/admin/get-all/questions',[MasterQuestionController::class,'getAllTh
 Route::get('/admin/change/question/status', [MasterQuestionController::class, 'changeQuestionStatus'])->name('question.change.status');
 Route::post('/admin/create/questions',[MasterQuestionController::class,'createThroughAdmin'])->name('create.questions');
 Route::delete('/admin/delete/question',[MasterQuestionController::class,'delete'])->name('delete.question');
+//options
+Route::get('/admin/get-all/options',[MasterOptionsController::class,'getAllThroughAdmin'])->name('get.options');
+Route::get('/admin/change/option/status', [MasterOptionsController::class, 'changeOptionStatus'])->name('option.change.status');
+Route::post('/admin/create/option',[MasterOptionsController::class,'createThroughAdmin'])->name('create.options');
+Route::delete('/admin/delete/option',[MasterOptionsController::class,'delete'])->name('delete.option');
+
 
 Route::get('/admin/dashboard', function () {
     return view('Admin.dashboard');
