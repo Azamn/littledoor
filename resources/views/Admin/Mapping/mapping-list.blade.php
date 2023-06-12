@@ -25,12 +25,12 @@
                 </div>
                <div class="col-md-4 text-right">
                 <div class="">
-                    <a class="btn btn-primary" href="/admin/mapping">Add Mapping</a>
+                    <a class="btn btn-primary" href="{{ route('get.create-mapping-data') }}">Add Mapping</a>
                 </div>
                </div>
-                
+
             </div>
-         
+
         </div>
     </div>
 
@@ -41,15 +41,15 @@
                 <div class="col-md-8">
                     <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
                     <h4>Question </h4>
-                    
+
                 </div>
                <div class="col-md-4 text-right">
                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-                
+
                </div>
             </div>
-           
-           
+
+
           </div>
           <div class="card-body animate-chk" style="padding: 20px; !important">
             <div class="row">
@@ -64,12 +64,12 @@
                 </label>
               </div>
             </div>
-            
+
           </div>
         </div>
     </div>
 
-      
+
     <div class="col-md-12">
         <div class="card">
           <div class="card-header" style="padding: 20px; !important">
@@ -77,15 +77,15 @@
                 <div class="col-md-8">
                     <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
                     <h4>Question </h4>
-                    
+
                 </div>
                <div class="col-md-4 text-right">
                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-                
+
                </div>
             </div>
-           
-           
+
+
           </div>
           <div class="card-body animate-chk" style="padding: 20px; !important">
             <div class="row">
@@ -100,7 +100,7 @@
                 </label>
               </div>
             </div>
-            
+
           </div>
         </div>
     </div>  <div class="col-md-12">
@@ -110,15 +110,15 @@
                 <div class="col-md-8">
                     <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
                     <h4>Question </h4>
-                    
+
                 </div>
                <div class="col-md-4 text-right">
                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-                
+
                </div>
             </div>
-           
-           
+
+
           </div>
           <div class="card-body animate-chk" style="padding: 20px; !important">
             <div class="row">
@@ -133,7 +133,7 @@
                 </label>
               </div>
             </div>
-            
+
           </div>
         </div>
     </div>  <div class="col-md-12">
@@ -143,15 +143,15 @@
                 <div class="col-md-8">
                     <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
                     <h4>Question </h4>
-                    
+
                 </div>
                <div class="col-md-4 text-right">
                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-                
+
                </div>
             </div>
-           
-           
+
+
           </div>
           <div class="card-body animate-chk" style="padding: 20px; !important">
             <div class="row">
@@ -166,7 +166,7 @@
                 </label>
               </div>
             </div>
-            
+
           </div>
         </div>
     </div>  <div class="col-md-12">
@@ -176,15 +176,15 @@
                 <div class="col-md-8">
                     <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
                     <h4>Question </h4>
-                    
+
                 </div>
                <div class="col-md-4 text-right">
                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-                
+
                </div>
             </div>
-           
-           
+
+
           </div>
           <div class="card-body animate-chk" style="padding: 20px; !important">
             <div class="row">
@@ -199,7 +199,7 @@
                 </label>
               </div>
             </div>
-            
+
           </div>
         </div>
     </div>

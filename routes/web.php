@@ -6,9 +6,11 @@ use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterOptionsController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
+use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 use App\Models\MasterCategory;
 use App\Models\MasterQuestion;
 use App\Models\MasterSubCategory;
+use App\Models\SubCategoryQuestionMapping;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +53,9 @@ Route::get('/admin/get-all/options',[MasterOptionsController::class,'getAllThrou
 Route::get('/admin/change/option/status', [MasterOptionsController::class, 'changeOptionStatus'])->name('option.change.status');
 Route::post('/admin/create/option',[MasterOptionsController::class,'createThroughAdmin'])->name('create.options');
 Route::delete('/admin/delete/option',[MasterOptionsController::class,'delete'])->name('delete.option');
+
+// Category question option mapping
+Route::get('/admin/get/create-page',[SubCategoryQuestionOptionMappingController::class,'getSubCategoryQuestionAndOptionForCreate'])->name('get.create-mapping-data');
 
 
 Route::get('/admin/dashboard', function () {

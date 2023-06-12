@@ -33,16 +33,18 @@
                                     <div class="col">
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Category Question Mapping</label>
+                                            <label class="col-sm-3 col-form-label">Category</label>
                                             <div class="col-sm-9">
 
-                                                <select class="form-control from-control btn-square digits"
-                                                    id="exampleFormControlSelect12">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                <select class="form-control from-control btn-square digits" id="category_id"
+                                                    name="category_name">
+                                                    <option selected>Select sub-category</option>
+                                                    @if (!is_null($subCategoryData))
+                                                        @foreach ($subCategoryData as $category)
+                                                            <option value="{{ $category['id'] }}">{{ $category['name'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -50,45 +52,36 @@
                                             <label class="col-sm-3 col-form-label">Questions</label>
                                             <div class="col-sm-9">
 
-                                                <select class="form-control from-control btn-square digits"
-                                                    id="exampleFormControlSelect12">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
+                                                <select class="form-control from-control btn-square digits" id="question"
+                                                    name="question">
+                                                    <option selected>Select Question</option>
+                                                    @if (!is_null($questionData))
+                                                        @foreach ($questionData as $question)
+                                                            <option value="{{ $question['id'] }}">{{ $question['name'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
 
                                         <h5>SELECT OPTIONS</h5>
-                                        <div class="form-group m-0 row">
-                                            <div class="mb-3">
-                                              <div class="form-check checkbox checkbox-primary mb-0">
-                                                <input class="form-check-input" id="checkbox-primary-1" type="checkbox">
-                                                <label class="form-check-label" for="checkbox-primary-1">Success state</label>
-                                              </div>
-                                             
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-0 row">
-                                            <div class="mb-3">
-                                              <div class="form-check checkbox checkbox-primary mb-0">
-                                                <input class="form-check-input" id="checkbox-primary-2" type="checkbox">
-                                                <label class="form-check-label" for="checkbox-primary-2">Successsdfg sdfg sdfgsd fgdfgksgd ifgsdfhs dlfghldfg hsldg h state</label>
-                                              </div>
-                                             
-                                            </div>
-                                        </div>
-                                        <div class="form-group m-0 row">
-                                            <div class="mb-3">
-                                              <div class="form-check checkbox checkbox-primary mb-0">
-                                                <input class="form-check-input" id="checkbox-primary-3" type="checkbox">
-                                                <label class="form-check-label" for="checkbox-primary-3">Success state</label>
-                                              </div>
-                                             
-                                            </div>
-                                        </div>
+                                        @if (!is_null($optionsData))
+                                            @foreach ($optionsData as $option)
+                                                <div class="form-group m-0 row">
+                                                    <div class="mb-3">
+                                                        <div class="form-check checkbox checkbox-primary mb-0">
+                                                            <input class="form-check-input" id="checkbox-primary-1"
+                                                                type="checkbox">
+                                                            <label class="form-check-label"
+                                                                for="checkbox-primary-1">{{ @$option['name'] }}</label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -101,7 +94,7 @@
                         </form>
                     </div>
                 </div>
-                
+
 
             </div>
         </div>

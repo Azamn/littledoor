@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterOption;
+use App\Models\MasterQuestion;
+use App\Models\MasterSubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use App\Models\SubCategoryQuestionOptionMapping;
+use App\Models\SubCategoryQuestionMapping;
+use App\Models\SubCategoryQuestionMappingWithOption;
 
 class SubCategoryQuestionOptionMappingController extends Controller
 {
+
+    public function getAll(Request $request)
+    {
+    }
+
     public function create(Request $request)
     {
 
@@ -24,22 +34,85 @@ class SubCategoryQuestionOptionMappingController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
-            $user = $request->user();
+            if ($request->has('option_ids')) {
+                DB::transaction(function () use ($request) {
+                    $subCategoryQuestionOptionMapping = new SubCategoryQuestionMapping();
+                    $subCategoryQuestionOptionMapping->master_sub_category_id = $request->sub_category_id;
+                    $subCategoryQuestionOptionMapping->master_question_id = $request->questio_id;
+                    $subCategoryQuestionOptionMapping->save();
 
-            if ($user) {
-                if ($request->has('option_ids')) {
+                    $subCategoryQuestionOptionMappingId = $subCategoryQuestionOptionMapping->id;
+
                     foreach ($request->option_ids as $optionId) {
-                        $SubCategoryQuestionOptionMapping = new SubCategoryQuestionOptionMapping();
-                        $SubCategoryQuestionOptionMapping->master_sub_category_id = $request->sub_category_id;
-                        $SubCategoryQuestionOptionMapping->master_question_id = $request->questio_id;
-                        $SubCategoryQuestionOptionMapping->master_option_id = $optionId;
-                        $SubCategoryQuestionOptionMapping->save();
+                        $subCategoryQuestionMappingWithOption = new SubCategoryQuestionMappingWithOption();
+                        $subCategoryQuestionMappingWithOption->sub_category_question_mapping_id = $subCategoryQuestionOptionMappingId;
+                        $subCategoryQuestionMappingWithOption->option_id = $optionId;
+                        $subCategoryQuestionMappingWithOption->save();
                     }
-                    return response()->json(['status' => true, 'message' => 'Category Question Option Mapping Save Successfully.']);
-                }
-            } else {
-                return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+                });
+                return response()->json(['status' => true, 'message' => 'Category Question Option Mapping Save Successfully.']);
             }
         }
+    }
+
+    public function getSubCategoryQuestionAndOptionForCreate(Request $request)
+    {
+
+        $subCategoryData = [];
+        $questionData = [];
+        $optionsData = [];
+
+        $subCategory = MasterSubCategory::where('status', 1)->get();
+        if ($subCategory->isNotEmpty()) {
+            foreach ($subCategory as $key => $category) {
+                $data = [
+                    'id' => $category?->id,
+                    'name' => $category?->name,
+                ];
+
+                array_push($subCategoryData, $data);
+            }
+        }
+
+        $questionIds = SubCategoryQuestionMapping::pluck('master_question_id')->toArray();
+        if (!is_null($questionIds)) {
+            $masterQuestions = MasterQuestion::whereNotIn('id', $questionIds)->where('status', 1)->get();
+            if ($masterQuestions->isNotEmpty()) {
+                foreach ($masterQuestions as $key => $question) {
+                    $data = [
+                        'id' => $question?->id,
+                        'name' => $question?->name,
+                    ];
+
+                    array_push($questionData, $data);
+                }
+            }
+        } else {
+            $masterQuestions = MasterQuestion::where('status', 1)->get();
+            if ($masterQuestions->isNotEmpty()) {
+                foreach ($masterQuestions as $key => $question) {
+                    $data = [
+                        'id' => $question?->id,
+                        'name' => $question?->name,
+                    ];
+
+                    array_push($questionData, $data);
+                }
+            }
+        }
+
+        $options = MasterOption::where('status', 1)->get();
+        if ($options->isNotEmpty()) {
+            foreach ($options as $key => $option) {
+                $data = [
+                    'id' => $option->id,
+                    'name' => $option->name,
+                ];
+
+                array_push($optionsData, $data);
+            }
+        }
+
+        return view('Admin.Mapping.mapping-create', compact('subCategoryData', 'questionData', 'optionsData'));
     }
 }

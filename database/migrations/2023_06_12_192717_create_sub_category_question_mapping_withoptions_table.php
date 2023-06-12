@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sub_category_question_option_mappings', function (Blueprint $table) {
+        Schema::create('sub_category_question_mapping_with_options', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('master_sub_category_id');
-            $table->unsignedInteger('master_question_id');
-            $table->unsignedInteger('master_option_id');
+            $table->unsignedInteger('sub_category_question_mapping_id');
+            $table->unsignedInteger('option_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_category_question_option_mappings');
+        Schema::dropIfExists('sub_category_question_mapping_with_options');
     }
 };
