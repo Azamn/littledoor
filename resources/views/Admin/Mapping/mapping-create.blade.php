@@ -67,14 +67,14 @@
 
                                         <h5>SELECT OPTIONS</h5>
                                         @if (!is_null($optionsData))
-                                            @foreach ($optionsData as $option)
+                                            @foreach ($optionsData as $key => $option)
                                                 <div class="form-group m-0 row">
                                                     <div class="mb-3">
                                                         <div class="form-check checkbox checkbox-primary mb-0">
-                                                            <input class="form-check-input" id="checkbox-primary-1"
+                                                            <input class="form-check-input" name="{{$key}}" id="checkbox-primary-{{$key}}"
                                                                 type="checkbox">
                                                             <label class="form-check-label"
-                                                                for="checkbox-primary-1">{{ @$option['name'] }}</label>
+                                                                for="checkbox-primary-{{$key}}">{{ @$option['name'] }}</label>
                                                         </div>
 
                                                     </div>

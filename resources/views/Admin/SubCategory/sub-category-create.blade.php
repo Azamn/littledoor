@@ -41,9 +41,9 @@
 
                                                 <select class="form-select" name="master_category_id" id="category">
                                                     <option selected>Select category</option>
-                                                    @if (!is_null($categoriesData))
-                                                        @foreach ($categoriesData as $category)
-                                                            <option value="{{ $category['id'] }}">{{ $category['name'] }}
+                                                    @if (!is_null(@$categoriesData))
+                                                        @foreach (@$categoriesData as $category)
+                                                            <option value="{{ @$category['id'] }}">{{ @ $category['name'] }}
                                                             </option>
                                                         @endforeach
                                                     @endif
