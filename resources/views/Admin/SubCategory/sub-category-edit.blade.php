@@ -41,14 +41,23 @@
                                             </label>
                                             <div class="col-sm-9">
 
-                                                <select class="form-control from-control btn-square digits"
-                                                    name="master_category_id" id="category">
-                                                    <option selected>Select category</option>
-                                                    @if (!is_null(@$categoriesData))
-                                                        @foreach (@$categoriesData as $category)
-                                                            <option value="{{ @$category['id'] }}">{{ @$category['name'] }}
-                                                            </option>
-                                                        @endforeach
+                                                <select class="form-select" name="master_category_id" id="category">
+                                                    @if (!is_null($masterSubCategoriesData['category_name']))
+                                                        @if (!is_null($categoriesData))
+                                                            @foreach ($categoriesData as $category)
+                                                                <option
+                                                                @if($category['id'] == @$masterSubCategoriesData['category_id'])
+                                                                selected
+                                                                 @endif
+                                                                 value="{{ $category['id'] }}">
+                                                                    {{ $category['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    @else
+                                                        <option selected>Select category</option>
+                                                        <option value="1">asdf
+                                                        </option>
                                                     @endif
                                                 </select>
                                             </div>
@@ -61,18 +70,17 @@
                                         </div>
                                         <div class="" id="formDiv">
                                             <div class="form-group">
-                                                <label class="col-md-3 col-form-label">Sub Category</label>
                                                 <div class="col-md-9">
-                                                    <textarea type="text" name="names[${count}]" id="SubCategory${count}" class="form-control"
-                                                        placeholder="Enter Sub Category"></textarea>
+                                                    <textarea type="text" name="name" id="SubCategory${count}" class="form-control"
+                                                        placeholder="Enter Sub Category">{{ $masterSubCategoriesData['name'] }}</textarea>
                                                     <span class="text-danger error-text features_error"></span>
                                                 </div>
 
                                             </div>
                                         </div>
 
-                                      
-                                       
+
+
                                     </div>
                                 </div>
                                 <div class="card-footer">

@@ -59,9 +59,9 @@
                                                 </td>
 
                                                 <td>
-                                                    <a href="/admin/sub-category-edit">
+                                                    <a href="{{ '/admin/edit/sub-category/' . $subCategoriesData['id'] }}">
                                                         <button class="btn btn-pill btn-primary"
-                                                            data-id="">Edit</button>
+                                                            data-id="{{ $subCategoriesData['id'] }}">Edit</button>
                                                     </a>
                                                     <a href="#">
                                                         @csrf

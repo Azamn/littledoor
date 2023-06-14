@@ -123,13 +123,30 @@ class MasterSubCategoryController extends Controller
 
         $masterSubCategories = MasterSubCategory::with('masterCategory')->where('id', $subCategoryId)->first();
         if ($masterSubCategories) {
+
+            $categoriesData = [];
+            $categories = MasterCategory::where('status', 1)->get();
+            if ($categories) {
+                foreach ($categories as $category) {
+                    $data = [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                    ];
+
+                    array_push($categoriesData, $data);
+                }
+            }
+
             $masterSubCategoriesData = [];
 
             $masterSubCategoriesData = [
                 'id' => $masterSubCategories->id,
+                'category_id' => $masterSubCategories->category_id,
                 'category_name' => optional(optional($masterSubCategories)->masterCategory)->name ?? NULL,
                 'name' => $masterSubCategories->name ?? NULL,
             ];
+
+            return view('Admin.SubCategory.sub-category-edit', compact('masterSubCategoriesData','categoriesData'));
         }
     }
 
