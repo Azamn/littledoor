@@ -201,6 +201,11 @@ Route::get('/admin/mapping-list', function () {
 });
 
 
+Route::get('/admin/mapping-edit', function () {
+    return view('Admin.Mapping.mapping-edit');
+});
+
+
 Route::get('/admin/doctor-list', function () {
     return view('Admin.Doctor.doctor-list');
 });

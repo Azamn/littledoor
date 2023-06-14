@@ -44,6 +44,8 @@
 
                 </div>
                <div class="col-md-4 text-right">
+                <a class="btn btn-primary m-2" href="/admin/mapping-edit" data-id="">Edit</a>
+
                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
 
                </div>
@@ -70,139 +72,6 @@
     </div>
 
 
-    <div class="col-md-12">
-        <div class="card">
-          <div class="card-header" style="padding: 20px; !important">
-            <div class="row">
-                <div class="col-md-8">
-                    <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
-                    <h4>Question </h4>
-
-                </div>
-               <div class="col-md-4 text-right">
-                <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-
-               </div>
-            </div>
-
-
-          </div>
-          <div class="card-body animate-chk" style="padding: 20px; !important">
-            <div class="row">
-              <div class="col">
-                <label class="d-block" for="edo-ani"> Option 1
-                </label>
-                <label class="d-block" for="edo-ani1">  Option 2
-                </label>
-                <label class="d-block" for="edo-ani2">Option 3
-                </label>
-                <label class="d-block" for="edo-ani13"> Option 4
-                </label>
-              </div>
-            </div>
-
-          </div>
-        </div>
-    </div>  <div class="col-md-12">
-        <div class="card">
-          <div class="card-header" style="padding: 20px; !important">
-            <div class="row">
-                <div class="col-md-8">
-                    <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
-                    <h4>Question </h4>
-
-                </div>
-               <div class="col-md-4 text-right">
-                <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-
-               </div>
-            </div>
-
-
-          </div>
-          <div class="card-body animate-chk" style="padding: 20px; !important">
-            <div class="row">
-              <div class="col">
-                <label class="d-block" for="edo-ani"> Option 1
-                </label>
-                <label class="d-block" for="edo-ani1">  Option 2
-                </label>
-                <label class="d-block" for="edo-ani2">Option 3
-                </label>
-                <label class="d-block" for="edo-ani13"> Option 4
-                </label>
-              </div>
-            </div>
-
-          </div>
-        </div>
-    </div>  <div class="col-md-12">
-        <div class="card">
-          <div class="card-header" style="padding: 20px; !important">
-            <div class="row">
-                <div class="col-md-8">
-                    <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
-                    <h4>Question </h4>
-
-                </div>
-               <div class="col-md-4 text-right">
-                <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-
-               </div>
-            </div>
-
-
-          </div>
-          <div class="card-body animate-chk" style="padding: 20px; !important">
-            <div class="row">
-              <div class="col">
-                <label class="d-block" for="edo-ani"> Option 1
-                </label>
-                <label class="d-block" for="edo-ani1">  Option 2
-                </label>
-                <label class="d-block" for="edo-ani2">Option 3
-                </label>
-                <label class="d-block" for="edo-ani13"> Option 4
-                </label>
-              </div>
-            </div>
-
-          </div>
-        </div>
-    </div>  <div class="col-md-12">
-        <div class="card">
-          <div class="card-header" style="padding: 20px; !important">
-            <div class="row">
-                <div class="col-md-8">
-                    <h5><label class="badge badge-light-primary">Sub Category Name</label></h5>
-                    <h4>Question </h4>
-
-                </div>
-               <div class="col-md-4 text-right">
-                <button class="btn btn-danger m-2" data-id="" id="deleteBtn" type="submit">Delete</button>
-
-               </div>
-            </div>
-
-
-          </div>
-          <div class="card-body animate-chk" style="padding: 20px; !important">
-            <div class="row">
-              <div class="col">
-                <label class="d-block" for="edo-ani"> Option 1
-                </label>
-                <label class="d-block" for="edo-ani1">  Option 2
-                </label>
-                <label class="d-block" for="edo-ani2">Option 3
-                </label>
-                <label class="d-block" for="edo-ani13"> Option 4
-                </label>
-              </div>
-            </div>
-
-          </div>
-        </div>
-    </div>
 </div>
 @endsection
 @section('js')
