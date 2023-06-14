@@ -31,8 +31,7 @@ Route::get('/', function () {
 // Category
 Route::get('/admin/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
 Route::post('/admin/create/category', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
-Route::delete('/admin/delete/category'
-, [MasterCategoryController::class, 'delete'])->name('delete.category');
+Route::delete('/admin/delete/category', [MasterCategoryController::class, 'delete'])->name('delete.category');
 Route::get('/admin/change/category/status', [MasterCategoryController::class, 'changeCategoryStatus'])->name('category.change.status');
 Route::get('/admin/edit/category/{categoryId}',[MasterCategoryController::class,'edit'])->name('edit.ctageory');
 Route::post('/admin/update/category/{categoryId}',[MasterCategoryController::class,'update'])->name('update.category');
