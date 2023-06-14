@@ -36,10 +36,10 @@
                                     <div class="col">
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Category</label>
+                                            <label class="col-sm-3 col-form-label"> <h5>Category</h5> </label>
                                             <div class="col-sm-9">
 
-                                                <select class="form-select" name="master_category_id" id="category">
+                                                <select class="form-control from-control btn-square digits" name="master_category_id" id="category">
                                                     <option selected>Select category</option>
                                                     @if (!is_null(@$categoriesData))
                                                         @foreach (@$categoriesData as $category)
@@ -50,6 +50,8 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <hr>
 
                                         <div class="mb-4">
                                             <h5>Sub Category Name</h5>
