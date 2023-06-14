@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label">Option</label>
                                         <textarea type="text" name="option" id="Option"
-                                                class="form-control" placeholder="Enter Option"></textarea>
+                                                class="form-control" placeholder="Enter Option">@if (!is_null($optionData)){{$optionData['name']}}@endif</textarea>
                                             <span class="text-danger error-text features_error"></span>
 
                                     </div>
@@ -100,7 +100,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
-
+                            location.reload();
                         }
                     }
                 });
