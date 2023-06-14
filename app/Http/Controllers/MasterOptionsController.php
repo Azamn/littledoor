@@ -118,4 +118,46 @@ class MasterOptionsController extends Controller
             return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
         }
     }
+
+    public function edit(Request $request, $optionId)
+    {
+
+        $masterOption = MasterOption::where('id', $optionId)->first();
+        if ($masterOption) {
+            $optionData = [];
+
+            $optionData = [
+                'id' => $masterOption?->id,
+                'name' => $masterOption?->name,
+            ];
+
+            return view('Admin.Options.options-edit', compact('optionData'));
+        }
+    }
+
+    public function update(Request $request, $optionId)
+    {
+        $rules = [
+            'option' => 'required',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $masterOption = MasterOption::where('id', $optionId)->first();
+            if ($masterOption) {
+
+                if ($request->has('option')) {
+                    $masterOption->name = $request->option;
+                    $masterOption->update();
+                }
+
+                return response()->json(['status' => true, 'message' => 'Option Update Successfully']);
+            }
+        }
+    }
 }

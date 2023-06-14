@@ -26,7 +26,7 @@
                         <div class="card-header">
                             <h5>Options Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="questionsAdd" action="{{ route('create.questions') }}"
+                        <form class="widget-contact-form" id="optionUpdate" action="{{ "/admin/update/option/".$optionData['id']}}"
                             method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
@@ -36,10 +36,10 @@
                                 <div class="" id="formDiv">
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label">Option</label>
-                                        <textarea type="text" name="questions" id="Option"
+                                        <textarea type="text" name="option" id="Option"
                                                 class="form-control" placeholder="Enter Option"></textarea>
                                             <span class="text-danger error-text features_error"></span>
-                                   
+
                                     </div>
                                 </div>
 
@@ -66,8 +66,8 @@
 
     <script>
         $(function() {
-            // CREATE QUESTIONS
-            $('#questionsAdd').on('submit', function(e) {
+            // option update
+            $('#optionUpdate').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -120,7 +120,7 @@
             text.className = "form-group row mb-4";
             text.id = "fdiv" + count;
             text.innerHTML = `
-    
+
         `;
             document.getElementById('formDiv').appendChild(text);
             count = count + 1;
