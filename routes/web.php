@@ -63,10 +63,7 @@ Route::get('/admin/dashboard', function () {
 });
 
 
-
 Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
-
-
 
 
 
@@ -88,6 +85,7 @@ Route::get('/admin/facilities', function () {
 Route::get('/admin/facilities-create', function () {
     return view('admin.Facilities.facilities-create');
 });
+
 
 Route::get('/admin/aboutus-create', function () {
     return view('admin.AboutUs.aboutus-create');
@@ -117,15 +115,9 @@ Route::get('/admin/service-edit', function () {
 });
 
 
-
-
 Route::get('/admin/login', function () {
     return view('admin.login');
 });
-
-
-
-
 
 
 Route::get('/admin/doctor-list', function () {
@@ -133,19 +125,9 @@ Route::get('/admin/doctor-list', function () {
 });
 
 
-
-
 Route::get('/admin/patient-list', function () {
     return view('Admin.Patient.patient-list');
 });
-
-
-
-
-
-
-
-
 
 
 
@@ -179,18 +161,35 @@ Route::get('/admin/questions', function () {
     return view('Admin.Questions.questions-create');
 });
 
+
+Route::get('/admin/questions-edit', function () {
+    return view('Admin.Questions.questions-edit');
+});
+
+
 Route::get('/admin/questions-list', function () {
     return view('Admin.Questions.questions-list');
 });
+
+
 
 
 Route::get('/admin/options', function () {
     return view('Admin.Options.options-create');
 });
 
+
 Route::get('/admin/options-list', function () {
     return view('Admin.Options.options-list');
 });
+
+
+Route::get('/admin/options-edit', function () {
+    return view('Admin.Options.options-edit');
+});
+
+
+
 
 
 Route::get('/admin/mapping', function () {

@@ -59,6 +59,7 @@
                                                     <a href="#">
                                                         @csrf
                                                         <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                        <a class="btn btn-primary m-2" href="/admin/questions-edit" data-id="" id="editBtn">Edit</a>
                                                         <button class="btn btn-pill btn-danger" id="deleteBtn"
                                                             type="submit"
                                                             data-id="{{ $questionsData['id'] }}">Delete</button>
@@ -78,7 +79,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
+                                                
                                                 <button class="btn btn-danger m-2" data-id="" id="deleteBtn"
                                                     type="submit">Delete</button>
                                             </td>

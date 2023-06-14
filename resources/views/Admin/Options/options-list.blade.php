@@ -60,6 +60,7 @@
                                                     <a href="#">
                                                         @csrf
                                                         <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                        <a class="btn btn-primary m-2" href="/admin/options-edit" data-id="" id="editBtn">Edit</a>
                                                         <button class="btn btn-pill btn-danger" id="deleteBtn"
                                                             type="submit"
                                                             data-id="{{ $optionsData['id'] }}">Delete</button>
