@@ -59,23 +59,17 @@
                                                 </td>
 
                                                 <td>
-                                                    <ul class="action">
-                                                        {{-- <li class="edit"> <
-                                                        a href="#">
-                                                            <button class="btn btn-pill btn-primary"
-                                                                data-id="{{ $categoryData['id'] }}">Edit</button>
-                                                        </a>
-                                                    </li> --}}
-                                                        <li class="delete">
-                                                            <a href="#">
-                                                                @csrf
-                                                                <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                                                <button class="btn btn-pill btn-danger" id="deleteBtn"
-                                                                    type="submit"
-                                                                    data-id="{{ $subCategoriesData['id'] }}">Delete</button>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
+                                                    <a href="/admin/sub-category-edit">
+                                                        <button class="btn btn-pill btn-primary"
+                                                            data-id="">Edit</button>
+                                                    </a>
+                                                    <a href="#">
+                                                        @csrf
+                                                        <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                        <button class="btn btn-pill btn-danger" id="deleteBtn"
+                                                            type="submit"
+                                                            data-id="{{ $subCategoriesData['id'] }}">Delete</button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach
