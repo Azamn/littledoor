@@ -162,6 +162,10 @@ Route::get('/admin/sub-category-list', function () {
 });
 
 
+Route::get('/admin/sub-category-edit', function () {
+    return view('Admin.SubCategory.sub-category-edit');
+});
+
 Route::get('/admin/questions', function () {
     return view('Admin.Questions.questions-create');
 });

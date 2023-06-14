@@ -152,7 +152,7 @@ class MasterQuestionController extends Controller
             $masterQuestion = MasterQuestion::where('id', $questionId)->first();
             if ($masterQuestion) {
 
-                if ($request->has('name')) {
+                if ($request->has('question')) {
                     $masterQuestion->name = $request->question;
                     $masterQuestion->update();
                 }
