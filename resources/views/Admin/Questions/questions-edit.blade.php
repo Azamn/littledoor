@@ -26,7 +26,7 @@
                         <div class="card-header">
                             <h5>Questions Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="questionsAdd" action="{{ route('create.questions') }}"
+                        <form class="widget-contact-form" id="updateQuestion" action="{{ route('update.question') }}"
                             method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
@@ -36,10 +36,9 @@
                                 <div class="" id="formDiv">
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label">Question</label>
-                                        <textarea type="text" name="questions" id="Question"
-                                                class="form-control" placeholder="Enter Question"></textarea>
-                                            <span class="text-danger error-text features_error"></span>
-                                   
+                                        <textarea type="text" name="question" id="Question" class="form-control" placeholder="Enter Question"></textarea>
+                                        <span class="text-danger error-text features_error"></span>
+
                                     </div>
                                 </div>
 
@@ -66,8 +65,8 @@
 
     <script>
         $(function() {
-            // CREATE QUESTIONS
-            $('#questionsAdd').on('submit', function(e) {
+            // update QUESTIONS
+            $('#updateQuestion').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -108,27 +107,5 @@
             });
 
         });
-
-
-
-        // MULTIPLE QUESTION ADD SECTION
-
-        var count = 0;
-
-        function addSection() {
-            var text = document.createElement('div');
-            text.className = "form-group row mb-4";
-            text.id = "fdiv" + count;
-            text.innerHTML = `
-    
-        `;
-            document.getElementById('formDiv').appendChild(text);
-            count = count + 1;
-        }
-
-
-        function removeSection(element) {
-            element.remove();
-        }
     </script>
 @endsection

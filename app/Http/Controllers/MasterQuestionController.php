@@ -119,4 +119,46 @@ class MasterQuestionController extends Controller
             return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
         }
     }
+
+    public function edit(Request $request, $questionId)
+    {
+
+        $masterQuestion = MasterQuestion::where('id', $questionId)->first();
+        if ($masterQuestion) {
+            $questionData = [];
+
+            $questionData = [
+                'id' => $masterQuestion?->id,
+                'name' => $masterQuestion?->name,
+            ];
+
+            return view('Admin.Questions.questions-edit', compact('questionData'));
+        }
+    }
+
+    public function update(Request $request, $questionId)
+    {
+        $rules = [
+            'question' => 'required',
+        ];
+
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $masterQuestion = MasterQuestion::where('id', $questionId)->first();
+            if ($masterQuestion) {
+
+                if ($request->has('name')) {
+                    $masterQuestion->name = $request->question;
+                    $masterQuestion->update();
+                }
+
+                return response()->json(['status' => true, 'message' => 'Question Update Successfully']);
+            }
+        }
+    }
 }

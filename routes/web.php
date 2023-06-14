@@ -31,7 +31,8 @@ Route::get('/', function () {
 // Category
 Route::get('/admin/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
 Route::post('/admin/create/category', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
-Route::delete('/admin/delete/category', [MasterCategoryController::class, 'delete'])->name('delete.category');
+Route::delete('/admin/delete/category'
+, [MasterCategoryController::class, 'delete'])->name('delete.category');
 Route::get('/admin/change/category/status', [MasterCategoryController::class, 'changeCategoryStatus'])->name('category.change.status');
 Route::get('/admin/edit/category/{categoryId}',[MasterCategoryController::class,'edit'])->name('edit.ctageory');
 Route::post('/admin/update/category/{categoryId}',[MasterCategoryController::class,'update'])->name('update.category');
@@ -48,6 +49,9 @@ Route::get('/admin/get-all/questions',[MasterQuestionController::class,'getAllTh
 Route::get('/admin/change/question/status', [MasterQuestionController::class, 'changeQuestionStatus'])->name('question.change.status');
 Route::post('/admin/create/questions',[MasterQuestionController::class,'createThroughAdmin'])->name('create.questions');
 Route::delete('/admin/delete/question',[MasterQuestionController::class,'delete'])->name('delete.question');
+Route::get('/admin/edit/question/{questionId}',[MasterQuestionController::class,'edit'])->name('edit.question');
+Route::get('/admin/update/question/{questionId}',[MasterQuestionController::class,'update'])->name('update.question');
+
 //options
 Route::get('/admin/get-all/options',[MasterOptionsController::class,'getAllThroughAdmin'])->name('get.options');
 Route::get('/admin/change/option/status', [MasterOptionsController::class, 'changeOptionStatus'])->name('option.change.status');
