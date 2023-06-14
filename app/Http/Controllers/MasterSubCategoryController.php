@@ -102,7 +102,7 @@ class MasterSubCategoryController extends Controller
         }
     }
 
-    public function getCategories(Request $request)
+    public function getCategoriesData(Request $request)
     {
         $categoriesData = [];
         $categories = MasterCategory::where('status', 1)->get();

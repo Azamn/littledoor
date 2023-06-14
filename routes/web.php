@@ -36,7 +36,7 @@ Route::get('/admin/change/category/status', [MasterCategoryController::class, 'c
 Route::get('/admin/edit/category/{categoryId}',[MasterCategoryController::class,'edit'])->name('edit.ctageory');
 Route::post('/admin/update/category/{categoryId}',[MasterCategoryController::class,'update'])->name('update.category');
 // sub-category
-Route::get('/admin/sub-category',[MasterSubCategoryController::class, 'getCategories'])->name('get.create-sub-category-form');
+Route::get('/admin/create-sub-category',[MasterSubCategoryController::class, 'getCategoriesData'])->name('get.create-category');
 Route::get('/admin/get-all/sub-categories', [MasterSubCategoryController::class, 'getAllThroughAdmin'])->name('get.all-sub-categories');
 Route::post('/admin/create/sub-category',[MasterSubCategoryController::class, 'create'])->name('create.sub-category');
 Route::delete('/admin/delete/sub-category', [MasterSubCategoryController::class, 'delete'])->name('delete.sub-category');
