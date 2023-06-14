@@ -75,10 +75,10 @@
                                                     <div class="mb-3">
                                                         <div class="form-check checkbox checkbox-primary mb-0">
                                                             <input class="form-check-input"
-                                                                name="option_ids{{ $option['id'] }}"
-                                                                id="checkbox-primary-{{ $key }}" type="checkbox">
+                                                                name="option_ids[{{ $option['id']}}]"
+                                                                id="checkbox-primary-{{ $option['id']  }}" type="checkbox">
                                                             <label class="form-check-label"
-                                                                for="checkbox-primary-{{ $key }}">{{ @$option['name'] }}</label>
+                                                                for="checkbox-primary-{{ $option['id']  }}">{{ @$option['name'] }}</label>
                                                         </div>
 
                                                     </div>
