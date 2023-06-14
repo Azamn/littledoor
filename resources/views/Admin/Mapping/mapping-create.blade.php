@@ -25,9 +25,12 @@
                         <div class="card-header">
                             <h5>Category Question Mapping Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="aboutusAdd" action="" enctype="multipart/form-data">
+                        <form class="widget-contact-form" id="subCategoryQuestionOptionMappingAdd"
+                            action="{{ route('create.sub-ctageory-question-option-mapping') }}" method="POST"
+                            enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
@@ -37,7 +40,7 @@
                                             <div class="col-sm-9">
 
                                                 <select class="form-control from-control btn-square digits" id="category_id"
-                                                    name="category_name">
+                                                    name="sub_category_id">
                                                     <option selected>Select sub-category</option>
                                                     @if (!is_null($subCategoryData))
                                                         @foreach ($subCategoryData as $category)
@@ -53,7 +56,7 @@
                                             <div class="col-sm-9">
 
                                                 <select class="form-control from-control btn-square digits" id="question"
-                                                    name="question">
+                                                    name="questio_id">
                                                     <option selected>Select Question</option>
                                                     @if (!is_null($questionData))
                                                         @foreach ($questionData as $question)
@@ -71,10 +74,11 @@
                                                 <div class="form-group m-0 row">
                                                     <div class="mb-3">
                                                         <div class="form-check checkbox checkbox-primary mb-0">
-                                                            <input class="form-check-input" name="{{$key}}" id="checkbox-primary-{{$key}}"
-                                                                type="checkbox">
+                                                            <input class="form-check-input"
+                                                                name="option_ids{{ $option['id'] }}"
+                                                                id="checkbox-primary-{{ $key }}" type="checkbox">
                                                             <label class="form-check-label"
-                                                                for="checkbox-primary-{{$key}}">{{ @$option['name'] }}</label>
+                                                                for="checkbox-primary-{{ $key }}">{{ @$option['name'] }}</label>
                                                         </div>
 
                                                     </div>
@@ -111,7 +115,7 @@
     <script>
         $(function() {
 
-            $('#aboutusAdd').on('submit', function(e) {
+            $('#subCategoryQuestionOptionMappingAdd').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');

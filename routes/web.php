@@ -60,6 +60,7 @@ Route::get('/admin/edit/option/{optionId}',[MasterOptionsController::class,'edit
 Route::post('/admin/update/option/{optionId}',[MasterOptionsController::class,'update'])->name('update.option');
 // Category question option mapping
 Route::get('/admin/get/create-page',[SubCategoryQuestionOptionMappingController::class,'getSubCategoryQuestionAndOptionForCreate'])->name('get.create-mapping-data');
+Route::post('/admin/create/sub-category-question-option-mapping',[SubCategoryQuestionOptionMappingController::class,'create'])->name('create.sub-ctageory-question-option-mapping');
 
 
 Route::get('/admin/dashboard', function () {

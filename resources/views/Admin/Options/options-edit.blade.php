@@ -109,26 +109,5 @@
 
         });
 
-
-
-        // MULTIPLE QUESTION ADD SECTION
-
-        var count = 0;
-
-        function addSection() {
-            var text = document.createElement('div');
-            text.className = "form-group row mb-4";
-            text.id = "fdiv" + count;
-            text.innerHTML = `
-
-        `;
-            document.getElementById('formDiv').appendChild(text);
-            count = count + 1;
-        }
-
-
-        function removeSection(element) {
-            element.remove();
-        }
     </script>
 @endsection
