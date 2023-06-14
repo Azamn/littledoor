@@ -50,14 +50,15 @@ Route::get('/admin/change/question/status', [MasterQuestionController::class, 'c
 Route::post('/admin/create/questions',[MasterQuestionController::class,'createThroughAdmin'])->name('create.questions');
 Route::delete('/admin/delete/question',[MasterQuestionController::class,'delete'])->name('delete.question');
 Route::get('/admin/edit/question/{questionId}',[MasterQuestionController::class,'edit'])->name('edit.question');
-Route::get('/admin/update/question/{questionId}',[MasterQuestionController::class,'update'])->name('update.question');
+Route::post('/admin/update/question/{questionId}',[MasterQuestionController::class,'update'])->name('update.question');
 
 //options
 Route::get('/admin/get-all/options',[MasterOptionsController::class,'getAllThroughAdmin'])->name('get.options');
 Route::get('/admin/change/option/status', [MasterOptionsController::class, 'changeOptionStatus'])->name('option.change.status');
 Route::post('/admin/create/option',[MasterOptionsController::class,'createThroughAdmin'])->name('create.options');
 Route::delete('/admin/delete/option',[MasterOptionsController::class,'delete'])->name('delete.option');
-
+Route::get('/admin/edit/option/{optionId}',[MasterOptionsController::class,'edit'])->name('edit.option');
+Route::post('/admin/update/option/{optionId}',[MasterOptionsController::class,'update'])->name('update.option');
 // Category question option mapping
 Route::get('/admin/get/create-page',[SubCategoryQuestionOptionMappingController::class,'getSubCategoryQuestionAndOptionForCreate'])->name('get.create-mapping-data');
 

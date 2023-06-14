@@ -26,7 +26,7 @@
                         <div class="card-header">
                             <h5>Questions Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="updateQuestion" action="{{ route('update.question') }}"
+                        <form class="widget-contact-form" id="updateQuestion" action="{{ "/admin/update/question/".$questionData['id']}}"
                             method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
