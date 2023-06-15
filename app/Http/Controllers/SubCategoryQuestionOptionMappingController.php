@@ -16,6 +16,39 @@ class SubCategoryQuestionOptionMappingController extends Controller
 
     public function getAll(Request $request)
     {
+
+        $SubCategoryQuestionMapping = SubCategoryQuestionMapping::with('subCategory', 'question', 'optionMapping.option')->get();
+
+        if ($SubCategoryQuestionMapping) {
+            $finalData = [];
+            foreach ($SubCategoryQuestionMapping as $sqpMapping) {
+
+                $optionData = [];
+                if ($sqpMapping?->optionMapping) {
+                    foreach ($sqpMapping?->optionMapping as $mapping) {
+                        $data = [
+                            'id' => $mapping->id,
+                            'sub_category_question_mapping_id' => $mapping->sub_category_question_mapping_id,
+                            'option_id' => $mapping->option_id,
+                            'option_name' => $mapping?->option?->name ?? NULL
+                        ];
+                        array_push($optionData, $data);
+                    }
+                }
+
+                $mappingData = [
+                    'id' => $sqpMapping->id,
+                    'sub_category_id' => $sqpMapping->master_sub_category_id,
+                    'sub_category_name' => $sqpMapping?->subCategory?->name ?? NULL,
+                    'question_id' => $sqpMapping->master_question_id,
+                    'question_name' => $sqpMapping?->question?->name ?? NULL,
+                    'options' => $optionData ?? NULL
+                ];
+
+                array_push($finalData, $mappingData);
+            }
+            return view('Admin.Mapping.mapping-list', compact('finalData'));
+        }
     }
 
     public function create(Request $request)
@@ -24,7 +57,7 @@ class SubCategoryQuestionOptionMappingController extends Controller
         $rules = [
             'sub_category_id' => 'required|integer|exists:master_sub_categories,id',
             'questio_id' => 'required|integer|exists:master_questions,id',
-            'option_ids.*' => 'required|integer'
+            'option_ids.*' => 'required|'
 
         ];
 
@@ -35,7 +68,10 @@ class SubCategoryQuestionOptionMappingController extends Controller
         } else {
 
             if ($request->has('option_ids')) {
-                DB::transaction(function () use ($request) {
+
+                $optionIds = $request->option_ids;
+                $optionIds = array_keys($optionIds);
+                DB::transaction(function () use ($request, $optionIds) {
                     $subCategoryQuestionOptionMapping = new SubCategoryQuestionMapping();
                     $subCategoryQuestionOptionMapping->master_sub_category_id = $request->sub_category_id;
                     $subCategoryQuestionOptionMapping->master_question_id = $request->questio_id;
@@ -43,7 +79,8 @@ class SubCategoryQuestionOptionMappingController extends Controller
 
                     $subCategoryQuestionOptionMappingId = $subCategoryQuestionOptionMapping->id;
 
-                    foreach ($request->option_ids as $optionId) {
+                    foreach ($optionIds as $optionId) {
+
                         $subCategoryQuestionMappingWithOption = new SubCategoryQuestionMappingWithOption();
                         $subCategoryQuestionMappingWithOption->sub_category_question_mapping_id = $subCategoryQuestionOptionMappingId;
                         $subCategoryQuestionMappingWithOption->option_id = $optionId;

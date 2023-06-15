@@ -59,6 +59,7 @@ Route::delete('/admin/delete/option',[MasterOptionsController::class,'delete'])-
 Route::get('/admin/edit/option/{optionId}',[MasterOptionsController::class,'edit'])->name('edit.option');
 Route::post('/admin/update/option/{optionId}',[MasterOptionsController::class,'update'])->name('update.option');
 // Category question option mapping
+Route::get('/admin/get-all/question-option-mapping',[SubCategoryQuestionOptionMappingController::class,'getAll'])->name('get.all-mapping');
 Route::get('/admin/get/create-page',[SubCategoryQuestionOptionMappingController::class,'getSubCategoryQuestionAndOptionForCreate'])->name('get.create-mapping-data');
 Route::post('/admin/create/sub-category-question-option-mapping',[SubCategoryQuestionOptionMappingController::class,'create'])->name('create.sub-ctageory-question-option-mapping');
 

@@ -58,7 +58,7 @@
                                     <i class="fa fa-list-ol fa-lg m-r-10"></i><span>Options</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/mapping-list">
+                                <a class="nav-link" href="{{ route('get.all-mapping') }}">
                                     <i class="fa fa-list-ol fa-lg m-r-10"></i>  <span>Category-Question-Mapping</span></a>
                             </li>
                         </ul>
