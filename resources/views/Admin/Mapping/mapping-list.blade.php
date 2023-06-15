@@ -43,8 +43,9 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     @if (!is_null(@$data['sub_category_name']))
-                                        <h5><label
-                                                class="badge badge-light-primary">{{ @$data['sub_category_name'] }}</label>
+                                        <h5>
+                                            <label
+                                            class="badge badge-light-primary">{{ @$data['sub_category_name'] }}</label>
                                     @endif
                                     @if (!is_null(@$data['question_name']))
                                         <h4>{{ @$data['question_name'] }} </h4>
@@ -66,24 +67,13 @@
                         </div>
                         <div class="card-body animate-chk" style="padding: 20px; !important">
                             <div class="row">
-                                @if (!is_null(@$data['options']))
-                                    @foreach ($data['options'] as $option)
-                                        <div class="col">
+                                <div class="col">
+                                    @if (!is_null(@$data['options']))
+                                        @foreach ($data['options'] as $option)
                                             <label class="d-block" for="edo-ani">{{ @$option['option_name'] }}</label>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="col">
-                                        <label class="d-block" for="edo-ani"> Option 1
-                                        </label>
-                                        <label class="d-block" for="edo-ani1"> Option 2
-                                        </label>
-                                        <label class="d-block" for="edo-ani2">Option 3
-                                        </label>
-                                        <label class="d-block" for="edo-ani13"> Option 4
-                                        </label>
-                                    </div>
-                                @endif
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
 
                         </div>
