@@ -56,7 +56,7 @@ class SubCategoryQuestionOptionMappingController extends Controller
 
         $rules = [
             'sub_category_id' => 'required|integer|exists:master_sub_categories,id',
-            'questio_id' => 'required|integer|exists:master_questions,id',
+            'question_id' => 'required|integer|exists:master_questions,id',
             'option_ids.*' => 'required|'
 
         ];
@@ -74,7 +74,7 @@ class SubCategoryQuestionOptionMappingController extends Controller
                 DB::transaction(function () use ($request, $optionIds) {
                     $subCategoryQuestionOptionMapping = new SubCategoryQuestionMapping();
                     $subCategoryQuestionOptionMapping->master_sub_category_id = $request->sub_category_id;
-                    $subCategoryQuestionOptionMapping->master_question_id = $request->questio_id;
+                    $subCategoryQuestionOptionMapping->master_question_id = $request->question_id;
                     $subCategoryQuestionOptionMapping->save();
 
                     $subCategoryQuestionOptionMappingId = $subCategoryQuestionOptionMapping->id;
@@ -151,5 +151,174 @@ class SubCategoryQuestionOptionMappingController extends Controller
         }
 
         return view('Admin.Mapping.mapping-create', compact('subCategoryData', 'questionData', 'optionsData'));
+    }
+
+    public function getSingleMapping(Request $request, $categoryQuestionMappingId)
+    {
+
+        $SubCategoryQuestionMapping = SubCategoryQuestionMapping::with('subCategory', 'question', 'optionMapping.option')->where('id', $categoryQuestionMappingId)->first();
+
+        if ($SubCategoryQuestionMapping) {
+
+            $options = [];
+            $optionData = [];
+            $subCategoryData = [];
+            $questionData = [];
+
+            if ($SubCategoryQuestionMapping?->optionMapping) {
+                foreach ($SubCategoryQuestionMapping?->optionMapping as $mapping) {
+                    $data = [
+                        'id' => $mapping->id,
+                        'sub_category_question_mapping_id' => $mapping->sub_category_question_mapping_id,
+                        'option_id' => $mapping->option_id,
+                        'option_name' => $mapping?->option?->name ?? NULL
+                    ];
+                    array_push($optionData, $data);
+                }
+            }
+
+            $mappingData = [
+                'id' => $SubCategoryQuestionMapping->id,
+                'sub_category_id' => $SubCategoryQuestionMapping->master_sub_category_id,
+                'sub_category_name' => $SubCategoryQuestionMapping?->subCategory?->name ?? NULL,
+                'question_id' => $SubCategoryQuestionMapping?->master_question_id,
+                'question_name' => $SubCategoryQuestionMapping?->question?->name ?? NULL,
+                'options' => $optionData ?? NULL
+            ];
+
+            $masterOptions = MasterOption::where('status', 1)->get();
+            if ($masterOptions->isNotEmpty()) {
+                foreach ($masterOptions as $key => $option) {
+                    $data = [
+                        'id' => $option->id,
+                        'name' => $option->name,
+                    ];
+
+                    array_push($options, $data);
+                }
+            }
+
+            $subCategory = MasterSubCategory::where('status', 1)->get();
+            if ($subCategory->isNotEmpty()) {
+                foreach ($subCategory as $key => $category) {
+                    $data = [
+                        'id' => $category?->id,
+                        'name' => $category?->name,
+                    ];
+
+                    array_push($subCategoryData, $data);
+                }
+            }
+
+            $questionIds = SubCategoryQuestionMapping::pluck('master_question_id')->toArray();
+            if (!is_null($questionIds)) {
+                $masterQuestions = MasterQuestion::whereNotIn('id', $questionIds)->where('status', 1)->get();
+                if ($masterQuestions->isNotEmpty()) {
+                    foreach ($masterQuestions as $key => $question) {
+                        $data = [
+                            'id' => $question?->id,
+                            'name' => $question?->name,
+                        ];
+
+                        array_push($questionData, $data);
+                    }
+                }
+            } else {
+                $masterQuestions = MasterQuestion::where('status', 1)->get();
+                if ($masterQuestions->isNotEmpty()) {
+                    foreach ($masterQuestions as $key => $question) {
+                        $data = [
+                            'id' => $question?->id,
+                            'name' => $question?->name,
+                        ];
+
+                        array_push($questionData, $data);
+                    }
+                }
+            }
+
+            return view('Admin.Mapping.mapping-edit', compact('mappingData', 'options', 'subCategoryData', 'questionData'));
+        } else {
+            return response()->json(['status' => false, 'message' => 'Mapping Not Found']);
+        }
+    }
+
+    public function update(Request $request, $categoryQuestionMappingId)
+    {
+
+        $rules = [
+            'sub_category_id' => 'sometimes|required|integer|exists:master_sub_categories,id',
+            'question_id' => 'sometimes|required|integer|exists:master_questions,id',
+            'option_ids.*' => 'sometimes|required'
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $subCategoryQuestionOptionMapping = SubCategoryQuestionMapping::where('id', $categoryQuestionMappingId)->first();
+
+            if ($subCategoryQuestionOptionMapping) {
+
+                if ($request->has('sub_category_id')) {
+                    $subCategoryQuestionOptionMapping->master_sub_category_id = $request->sub_category_id;
+                }
+
+                if ($request->has('question_id')) {
+                    $subCategoryQuestionOptionMapping->master_question_id = $request->question_id;
+                }
+
+                $subCategoryQuestionOptionMapping->update();
+
+                if ($request->has('option_ids')) {
+                    $optionIds = $request->option_ids;
+                    $optionIds = array_keys($optionIds);
+
+                    $subCategoryQuestionMappingWithOption = SubCategoryQuestionMappingWithOption::where('sub_category_question_mapping_id', $subCategoryQuestionOptionMapping->id)->get();
+                    if ($subCategoryQuestionMappingWithOption) {
+                        foreach ($subCategoryQuestionMappingWithOption as $mapping) {
+                            $mapping->delete();
+                        }
+                    }
+
+                    foreach ($optionIds as $optionId) {
+
+                        $subCategoryQuestionMappingWithOption = new SubCategoryQuestionMappingWithOption();
+                        $subCategoryQuestionMappingWithOption->sub_category_question_mapping_id = $subCategoryQuestionOptionMapping->id;
+                        $subCategoryQuestionMappingWithOption->option_id = $optionId;
+                        $subCategoryQuestionMappingWithOption->save();
+                    }
+                }
+
+                return response()->json(['status' => true, 'message' => 'Question Mapping Update successfully']);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Mapping Not Found']);
+            }
+        }
+    }
+
+    public function delete(Request $request)
+    {
+
+        $SubCategoryQuestionMapping = SubCategoryQuestionMapping::where('id', $request->category_question_mapping_id)->first();
+        if ($SubCategoryQuestionMapping) {
+
+            $SubCategoryQuestionMappingWithOption = SubCategoryQuestionMappingWithOption::where('sub_category_question_mapping_id', $SubCategoryQuestionMapping)->get();
+            if ($SubCategoryQuestionMappingWithOption) {
+                foreach ($SubCategoryQuestionMappingWithOption as $mapping) {
+                    $mapping->delete();
+                }
+            }
+
+            $SubCategoryQuestionMapping->delete();
+
+            return response()->json(['status' => true, 'message' => 'Mapping Deleted successfully']);
+        } else {
+
+            return response()->json(['status' => false, 'message' => 'Mapping Not Found']);
+        }
     }
 }

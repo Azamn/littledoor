@@ -58,10 +58,14 @@ Route::post('/admin/create/option',[MasterOptionsController::class,'createThroug
 Route::delete('/admin/delete/option',[MasterOptionsController::class,'delete'])->name('delete.option');
 Route::get('/admin/edit/option/{optionId}',[MasterOptionsController::class,'edit'])->name('edit.option');
 Route::post('/admin/update/option/{optionId}',[MasterOptionsController::class,'update'])->name('update.option');
+
 // Category question option mapping
 Route::get('/admin/get-all/question-option-mapping',[SubCategoryQuestionOptionMappingController::class,'getAll'])->name('get.all-mapping');
 Route::get('/admin/get/create-page',[SubCategoryQuestionOptionMappingController::class,'getSubCategoryQuestionAndOptionForCreate'])->name('get.create-mapping-data');
 Route::post('/admin/create/sub-category-question-option-mapping',[SubCategoryQuestionOptionMappingController::class,'create'])->name('create.sub-ctageory-question-option-mapping');
+Route::delete('/admin/delete/sub-category-question-option-mapping',[SubCategoryQuestionOptionMappingController::class,'delete'])->name('delete.sub-ctageory-question-option-mapping');
+Route::get('/admin/edit/sub-category-question-option-mapping/{categoryQuestionMappingId}',[SubCategoryQuestionOptionMappingController::class,'getSingleMapping'])->name('edit.sub-ctageory-question-option-mapping');
+Route::post('/admin/update/sub-category-question-option-mapping/{categoryQuestionMappingId}',[SubCategoryQuestionOptionMappingController::class,'update'])->name('update.sub-ctageory-question-option-mapping');
 
 
 Route::get('/admin/dashboard', function () {

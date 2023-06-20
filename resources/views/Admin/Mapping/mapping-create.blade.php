@@ -56,7 +56,7 @@
                                             <div class="col-sm-9">
 
                                                 <select class="form-control from-control btn-square digits" id="question"
-                                                    name="questio_id">
+                                                    name="question_id">
                                                     <option selected>Select Question</option>
                                                     @if (!is_null($questionData))
                                                         @foreach ($questionData as $question)

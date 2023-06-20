@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-header row">
                     <div class="col-md-8">
-                        <h3>Mapping </h3>
+                        <h3>Category Question Mapping </h3>
                     </div>
                     <div class="col-md-4 text-right">
                         <div class="">
@@ -45,7 +45,7 @@
                                     @if (!is_null(@$data['sub_category_name']))
                                         <h5>
                                             <label
-                                            class="badge badge-light-primary">{{ @$data['sub_category_name'] }}</label>
+                                                class="badge badge-light-primary">{{ @$data['sub_category_name'] }}</label>
                                     @endif
                                     @if (!is_null(@$data['question_name']))
                                         <h4>{{ @$data['question_name'] }} </h4>
@@ -55,9 +55,13 @@
 
                                 </div>
                                 <div class="col-md-4 text-right">
-                                    <a class="btn btn-primary m-2" href="/admin/mapping-edit" data-id="">Edit</a>
+                                    @csrf
+                                    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-                                    <button class="btn btn-danger m-2" data-id="" id="deleteBtn"
+                                    <a class="btn btn-primary m-2" href="{{ '/admin/edit/sub-category-question-option-mapping/' . $data['id'] }}"
+                                        data-id="{{ @$data['id'] }}" id="editBtn">Edit</a>
+
+                                    <button class="btn btn-danger m-2" data-id="{{ @$data['id'] }}" id="deleteBtn"
                                         type="submit">Delete</button>
 
                                 </div>
@@ -90,45 +94,12 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
     <script>
-        function aboutUs_active_toggle_function(aboutus_id) {
-            var aboutus_id = aboutus_id;
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '',
-                method: 'GET',
-                data: {
-                    aboutus_id: aboutus_id
-                },
-                dataType: 'json',
-                success: function(data) {
-
-                    if (data.status == true) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: data.message,
-                            showConfirmButton: false,
-                            timer: 3000
-                        });
-
-                        location.reload(true);
-                    }
-
-                    // title:'Title',
-                },
-                error: function(data) {},
-            });
-        }
-
         // delete
         $(document).on('click', '#deleteBtn', function() {
 
             var form = this;
-            var aboutus_id = $(form).attr('data-id');
-            var url = '';
+            var category_question_mapping_id = $(form).attr('data-id');
+            var url = '{{ route('delete.sub-ctageory-question-option-mapping') }}';
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -148,7 +119,7 @@
                         url: url,
                         method: 'DELETE',
                         data: {
-                            aboutus_id: aboutus_id
+                            category_question_mapping_id: category_question_mapping_id
                         },
                         dataType: 'json',
 

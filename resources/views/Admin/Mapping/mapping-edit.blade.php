@@ -25,9 +25,12 @@
                         <div class="card-header">
                             <h5>Category Question Mapping Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="aboutusAdd" action="" enctype="multipart/form-data">
+                        <form class="widget-contact-form" id="subCategoryQuestionOptionMappingUpdate"
+                            action="{{ '/admin/update/sub-category-question-option-mapping/' . @$mappingData['id'] }}"
+                            method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
@@ -38,9 +41,16 @@
 
                                                 <select class="form-control from-control btn-square digits" id="category_id"
                                                     name="category_name">
-                                                    <option selected>Select sub-category</option>
-                                                    <option value="subcategory">Sub category
-                                                    </option>
+                                                    @if (!is_null(@$mappingData['sub_category_name']))
+                                                        @if (!is_null($subCategoryData))
+                                                            @foreach ($subCategoryData as $category)
+                                                                <option @if ($category['id'] == @$mappingData['sub_category_id']) selected @endif
+                                                                    value="{{ $category['id'] }}">
+                                                                    {{ $category['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -49,10 +59,17 @@
                                             <div class="col-sm-9">
 
                                                 <select class="form-control from-control btn-square digits" id="question"
-                                                    name="question">
-                                                    <option selected>Select Question</option>
-                                                    <option value="Question">Question
-                                                    </option>
+                                                    name="question_id">
+                                                    @if (!is_null(@$mappingData['question_name']))
+                                                        @if (!is_null($questionData))
+                                                            @foreach ($questionData as $question)
+                                                                <option @if ($question['id'] == @$mappingData['question_id']) selected @endif
+                                                                    value="{{ $question['id'] }}">
+                                                                    {{ $question['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    @endif
                                                 </select>
                                             </div>
                                         </div>
@@ -63,8 +80,7 @@
                                                 <div class="form-check checkbox checkbox-primary mb-0">
                                                     <input class="form-check-input" name="" id="checkbox-primary-"
                                                         type="checkbox">
-                                                    <label class="form-check-label"
-                                                        for="checkbox-primary-">option</label>
+                                                    <label class="form-check-label" for="checkbox-primary-">option</label>
                                                 </div>
 
                                             </div>
@@ -98,7 +114,7 @@
     <script>
         $(function() {
 
-            $('#aboutusAdd').on('submit', function(e) {
+            $('#subCategoryQuestionOptionMappingUpdate').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');
