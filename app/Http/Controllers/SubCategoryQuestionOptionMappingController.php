@@ -210,7 +210,7 @@ class SubCategoryQuestionOptionMappingController extends Controller
                 }
             }
 
-            $questionIds = SubCategoryQuestionMapping::pluck('master_question_id')->toArray();
+            $questionIds = SubCategoryQuestionMapping::whereNot('id',$SubCategoryQuestionMapping->id)->pluck('master_question_id')->toArray();
             if (!is_null($questionIds)) {
                 $masterQuestions = MasterQuestion::whereNotIn('id', $questionIds)->where('status', 1)->get();
                 if ($masterQuestions->isNotEmpty()) {
