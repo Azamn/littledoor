@@ -75,16 +75,33 @@
                                         </div>
 
                                         <h5>SELECT OPTIONS</h5>
+                                        @if (!is_null($options))
+                                        @foreach ($options as $option)
                                         <div class="form-group m-0 row">
                                             <div class="mb-3">
                                                 <div class="form-check checkbox checkbox-primary mb-0">
-                                                    <input class="form-check-input" name="" id="checkbox-primary-"
+                                                    <input class="form-check-input" 
+
+                                                    @foreach ($mappingData['options'] as $optionMap)
+                                                        @if($optionMap['option_id'] == $option['id'])
+                                                        {
+                                                            checked
+                                                        }
+                                                        @endif
+                                                    @endforeach
+
+                                                    name="option_ids[{{ $option['id']  }}]" id="checkbox-primary-{{ $option['id']  }}"
                                                         type="checkbox">
-                                                    <label class="form-check-label" for="checkbox-primary-">option</label>
+                                                    <label class="form-check-label" for="checkbox-primary-{{ $option['id']  }}">{{$option['name']}}</label>
                                                 </div>
 
                                             </div>
                                         </div>
+                                        @endforeach
+                                    @endif
+
+
+                                       
 
                                     </div>
                                 </div>
