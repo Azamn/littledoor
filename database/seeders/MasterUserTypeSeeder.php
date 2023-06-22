@@ -15,6 +15,7 @@ class MasterUserTypeSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('master_user_types')->truncate();
         DB::table('master_user_types')->insert([
             'name' => 'Admin',
             'status' => 1,
