@@ -1,16 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ContactUsController;
-use App\Http\Controllers\MasterCategoryController;
-use App\Http\Controllers\MasterOptionsController;
-use App\Http\Controllers\MasterQuestionController;
-use App\Http\Controllers\MasterSubCategoryController;
-use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 use App\Models\MasterCategory;
 use App\Models\MasterQuestion;
 use App\Models\MasterSubCategory;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Models\SubCategoryQuestionMapping;
+use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\MasterOptionsController;
+use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\MasterQuestionController;
+use App\Http\Controllers\MasterSubCategoryController;
+use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::get('/', function () {
     return view('Main.index');
 });
 
+//ADMIN
 
 // Category
 Route::get('/admin/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
@@ -71,6 +73,20 @@ Route::post('/admin/update/sub-category-question-option-mapping/{categoryQuestio
 Route::get('/admin/dashboard', function () {
     return view('Admin.dashboard');
 });
+
+
+//Auth Routes
+Route::group(['middleware' => []], function () {
+    Route::get('/login', [AuthController::class, 'loginShow'])->name('login.show');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+});
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.passowrd');
+Route::get('/change-password', [AuthController::class, 'getChangePassword'])->name('get.change.passowrd');
+
+
 
 
 Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
