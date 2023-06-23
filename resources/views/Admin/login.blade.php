@@ -48,13 +48,14 @@
                                     <img class="img-fluid" src="{{ asset('Admin/images/littledoor/logo.png') }}"
                                         alt="">
                                     <img class="img-fluid" src="{{ asset('Admin/images/littledoor/logotext.png') }}"
-                                        alt="" >
+                                        alt="">
                                 </a>
                             </div>
-                            <form class="theme-form" method="POST" action="">
+                            <form class="needs-validation" id="form1" action="{{ route('login') }}" method="POST"
+                                enctype="multipart/form-data" novalidate="">
                                 @csrf
-                                {{-- <form class="theme-form" method="POST">
-                    @csrf --}}
+                                <meta name="csrf-token" content="{{ csrf_token() }}">
+
                                 <h4>Sign In</h4>
                                 <p>Enter your email & password to login</p>
                                 <div class="form-group">
@@ -84,12 +85,7 @@
                                     {{-- <input class="form-control pwd" type="password" placeholder="" required name="password"> --}}
 
                                 </div>
-                                <div class="form-group mb-0">
-                                    <div class="checkbox p-0">
-                                        <input id="checkbox1" type="checkbox" name="remember">
-                                        <label class="text-muted" for="checkbox1">Remember me</label>
-                                    </div>
-                                </div>
+
                                 <button class="btn btn-primary btn-block" id="error" type="submit">LOGIN</button>
 
                             </form>
@@ -98,25 +94,32 @@
                 </div>
             </div>
         </div>
-        <!-- latest jquery-->
-        <script src="{{ asset('Admin//js/jquery-3.5.1.min.js') }}"></script>
-        <!-- Bootstrap js-->
-        <script src="{{ asset('Admin//js/bootstrap/popper.min.js') }}"></script>
-        <script src="{{ asset('Admin//js/bootstrap/bootstrap.js') }}"></script>
-        <!-- feather icon js-->
-        <script src="{{ asset('Admin//js/icons/feather-icon/feather.min.js') }}"></script>
-        <script src="{{ asset('Admin//js/icons/feather-icon/feather-icon.js') }}"></script>
-        <!-- Sidebar jquery-->
-        <script src="{{ asset('Admin//js/config.js') }}"></script>
-        <!-- Plugins JS start-->
-        <script src="{{ asset('Admin//js/sweet-alert/sweetalert.min.js') }}"></script>
-        <!-- Plugins JS Ends-->
-        <!-- Theme js-->
-        <script src="{{ asset('Admin//js/script.js') }}"></script>
-        <!-- login js-->
-        <!-- Plugin used-->
+        {{-- <a id="scrollTop"><i class="icon-chevron-up"></i><i class="icon-chevron-up"></i></a> --}}
+        <!--Plugins-->
+        <script src="{{{asset('Main/js/jquery.js') }}}"></script>
+        <script src="{{{asset('Main/js/plugins.js') }}}"></script>
+
+        <script src="{{{asset('Main/js/functions.js') }}}"></script>
+
+        <script src="{{ asset('Admin/js/form-validation-custom.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
 
     </div>
 </body>
 
+<script>
+    function errorMessage(data) {
+        const status = data.status;
+
+        if (status === false && "message" in data) {
+            return data.message;
+        } else if (status === false && "errors" in data) {
+            const keys = Object.keys(data.errors);
+            const error = keys && keys.length > 0 ? data.errors[keys[0]] : "";
+            return error && error.length > 0 ? error[0] : "";
+        }
+    }
+
+</script>
 </html>
