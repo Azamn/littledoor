@@ -12,7 +12,7 @@
         content="Little Door, scordprotection,Little Door, Security, security, Navi mumbai security, panvel security, office-security, government security">
     <meta name="author" content="pixelstrap">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="shortcut icon" href="{{asset('images/Scord.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" type="image/x-icon">
     <title>Little Door</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
@@ -79,20 +79,16 @@
     <script src="{{asset('Admin/js/config.js')}}"></script>
     <!-- Plugins JS start-->
     <script src="{{asset('Admin/js/prism/prism.min.js')}}"></script>
-    <script src="{{asset('Admin/js/clipboard/clipboard.min.js')}}"></script>
     <script src="{{asset('Admin/js/custom-card/custom-card.js')}}"></script>
     <script src="{{asset('Admin/js/modal-animated.js')}}"></script>
-    <script src="{{asset('Admin/js/animation/animate-custom.js')}}"></script>
+    
     <script src="{{asset('Admin/js/tooltip-init.js')}}"></script>
     <script src="{{asset('Admin/js/todo/todo.js')}}"></script>
 
-    <script src="{{asset('Admin/js/chart/chartist/chartist.js')}}"></script>
-    <script src="{{asset('Admin/js/chart/chartist/chartist-plugin-tooltip.js')}}"></script>
     <!-- Plugins JS Ends-->
 
     <script src="{{asset('Admin/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('Admin/js/rating/jquery.barrating.js')}}"></script>
-    <script src="{{asset('Admin/rating/rating-script.js')}}"></script>
     <script src="{{asset('Admin/js/owlcarousel/owl.carousel.js')}}"></script>
     <script src="{{asset('Admin/js/ecommerce.js')}}"></script>
     <script src="{{asset('Admin/js/product-list-custom.js')}}"></script>
@@ -102,8 +98,6 @@
 
     <script src="{{asset('Admin/js/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('Admin/js/select2/select2-custom.js')}}"></script>
-    <script src="{{asset('Assets\Admin\js\chart\apex-chart\apex-chart.js')}}"></script>
-    <script src="{{asset('Admin/js/chart/apex-chart/stock-prices.js')}}"></script>
     <script src="{{asset('Admin/js/prism/prism.min.js')}}"></script>
     <script src="{{asset('Admin/js/counter/jquery.waypoints.min.js')}}"></script>
     <script src="{{asset('Admin/js/counter/jquery.counterup.min.js')}}"></script>
@@ -112,7 +106,6 @@
     <script src="{{asset('Admin/js/owlcarousel/owl.carousel.js')}}"></script>
     <script src="{{asset('Admin/js/dashboard/dashboard_2.js')}}"></script>
 
-    <script src="{{asset('Admin/js/contacts/custom.js')}}"></script>
 
     <!-- Theme js-->
     <script src="{{asset('Admin/js/script.js')}}"></script>
@@ -122,7 +115,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js" integrity="sha512-F636MAkMAhtTplahL9F6KmTfxTmYcAcjcCkyu0f0voT3N/6vzAuJ4Num55a0gEJ+hRLHhdz3vDvZpf6kqgEa5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="{{asset('Admin/js/animation/wow/wow.min.js')}}"> </script>
+       
 
     {{-- <script>
     WOW.init();

@@ -10,7 +10,7 @@
                     <div class="col-6">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/admin/dashboard"><i data-feather="home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="">Options</a></li>
+                            <li class="breadcrumb-item"><a href="">Questions</a></li>
                             {{-- <li class="breadcrumb-item active">Create</li> --}}
                         </ol>
                     </div>
@@ -21,11 +21,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
+
                     <div class="card">
                         <div class="card-header">
-                            <h5>Options Details</h5>
+                            <h5>Questions Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="optionsAdd" action="{{ route('create.options') }}"
+                        <form class="widget-contact-form" id="updateQuestion" action="{{ "/admin/update/question/".$questionData['id']}}"
                             method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
@@ -33,22 +34,18 @@
 
                             <div class="card-body">
                                 <div class="" id="formDiv">
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-form-label">Question</label>
+                                        <textarea type="text" name="question" id="Question" class="form-control" placeholder="Enter Question">@if (!is_null($questionData)){{$questionData['name']}}@endif</textarea>
+                                        <span class="text-danger error-text features_error"></span>
 
+                                    </div>
                                 </div>
 
-                                <div class=""><span class="">
-                                        <a id="addButton" onclick="addSection()" class="btn btn-primary text-white"><i
-                                                class="icon-plus"></i>
-                                            Add new Optons</a></span></div>
-                                <div class="notification-popup hide">
-                                    <p><span class="task"></span><span class="notification-text"></span></p>
-                                </div>
-                                <br><br>
                             </div>
                             <div class="card-footer">
-                                <div class="col-sm-9 offset-sm-3">
-                                    <button class="btn btn-primary" type="submit">Save</button>
-                                    <button class="btn btn-light" type="submit">Cancel</button>
+                                <div class="">
+                                    <button class="btn btn-lg btn-primary" type="submit">Update</button>
                                 </div>
                             </div>
                         </form>
@@ -68,8 +65,8 @@
 
     <script>
         $(function() {
-
-            $('#optionsAdd').on('submit', function(e) {
+            // update QUESTIONS
+            $('#updateQuestion').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -102,7 +99,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
-
+                            location.reload();
                         }
                     }
                 });
@@ -110,37 +107,5 @@
             });
 
         });
-
-
-
-
-        var count = 0;
-
-        function addSection() {
-            var text = document.createElement('div');
-            text.className = "form-group row mb-4";
-            text.id = "fdiv" + count;
-            text.innerHTML = `
-    <label class="col-md-3 col-form-label">Options ${count}</label>
-                                        <div class="col-md-8">
-                                            <textarea type="text" name="options[${count}]" id="Options${count}"
-                                                class="form-control" placeholder="Enter Options"></textarea>
-                                            <span class="text-danger error-text features_error"></span>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button class="btn btn-danger mt-3" onclick="removeSection(this.parentNode.parentNode)">
-                                                delete
-                                            </button>
-                                        </div>
-                                    <br> <br> <br>
-        `;
-            document.getElementById('formDiv').appendChild(text);
-            count = count + 1;
-        }
-
-
-        function removeSection(element) {
-            element.remove();
-        }
     </script>
 @endsection

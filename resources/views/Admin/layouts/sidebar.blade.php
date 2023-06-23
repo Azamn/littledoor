@@ -2,9 +2,8 @@
 <div class="sidebar-wrapper">
     <div class="logo-wrapper text-center p-0" style="box-shadow: none">
         <a href="/admin/dashboard">
-            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/logo.png') }}" alt="" width="50%">
-            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/logotext.png') }}" alt=""
-                width="50%">
+            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}"
+                                        alt="" width="50%">
 
         </a>
     </div>
@@ -19,23 +18,23 @@
                     <li class="sidebar-list"><a class="nav-link " href="/admin/dashboard">
                             <i data-feather="home"></i><span>Dashboard</span></a></li>
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/category-list">
+                        <a class="nav-link  " href="/admin/doctor-list">
                             <i class="fa fa-stethoscope fa-lg m-r-10"></i><span>Doctors</span></a>
                     </li>
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/category-list">
-                             <i class="fa fa-wheelchair  fa-lg m-r-10"></i><span>Patients</span></a>
+                        <a class="nav-link  " href="/admin/patient-list">
+                            <i class="fa fa-wheelchair  fa-lg m-r-10"></i><span>Patients</span></a>
                     </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                        <i class="fa fa-list-ul fa-lg m-r-10"></i><span>Therapy Category</span></a>
+                            <i class="fa fa-list-ul fa-lg m-r-10"></i><span>Therapy Category</span></a>
                         <ul class="sidebar-submenu">
                             <li class="sidebar-list">
-                                <a class="nav-link  " href="/admin/category-list">
+                                <a class="nav-link  " href="{{ route('get.all-categories') }}">
                                     <i class="fa fa-cube fa-lg m-r-10"></i><span>Category</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link  " href="/admin/sub-category-list">
+                                <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
                                     <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Sub
                                         Category</span></a>
                             </li>
@@ -44,37 +43,30 @@
 
 
 
-
-
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                        <i class="fa fa-file-text-o fa-lg m-r-10"></i><span>Question Relationship</span></a>
+                            <i class="fa fa-file-text-o fa-lg m-r-10"></i><span>Question Relationship</span></a>
                         <ul class="sidebar-submenu">
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/questions-list">
+                                <a class="nav-link" href="{{ route('get.questions') }}">
                                     <i class="fa fa-question fa-lg m-r-10"></i><span>Questions</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/options-list">
+                                <a class="nav-link" href="{{ route('get.options') }}">
                                     <i class="fa fa-list-ol fa-lg m-r-10"></i><span>Options</span></a>
                             </li>
                             <li class="sidebar-list">
-                                <a class="nav-link" href="/admin/mapping-list">
-                                    <i class="fa fa-list-ol fa-lg m-r-10"></i>  <span>Category-Question-Mapping</span></a>
+                                <a class="nav-link" href="{{ route('get.all-mapping') }}">
+                                    <i class="fa fa-list-ol fa-lg m-r-10"></i>
+                                    <span>Category-Question-Mapping</span></a>
                             </li>
                         </ul>
                     </li>
 
 
-
-                   
-
                     <li class="sidebar-list">
-                        <a class="nav-link"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            href=""><i data-feather="log-out"></i><span>Log out</span></>
-                            {{-- <form method="POST" id="logout-form" action="">
-                                @csrf
-                            </form> --}}
+                        <a class="nav-link" href="{{ route('logout') }}"><i data-feather="log-out"></i>
+                            <span>Logout</span></>
+
                     </li>
 
                 </ul>

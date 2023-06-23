@@ -25,9 +25,9 @@
                         <div class="card-header">
                             <h5>Category Question Mapping Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="subCategoryQuestionOptionMappingAdd"
-                            action="{{ route('create.sub-ctageory-question-option-mapping') }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form class="widget-contact-form" id="subCategoryQuestionOptionMappingUpdate"
+                            action="{{ '/admin/update/sub-category-question-option-mapping/' . @$mappingData['id'] }}"
+                            method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
                             <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -40,13 +40,16 @@
                                             <div class="col-sm-9">
 
                                                 <select class="form-control from-control btn-square digits" id="category_id"
-                                                    name="sub_category_id">
-                                                    <option selected>Select sub-category</option>
-                                                    @if (!is_null($subCategoryData))
-                                                        @foreach ($subCategoryData as $category)
-                                                            <option value="{{ $category['id'] }}">{{ $category['name'] }}
-                                                            </option>
-                                                        @endforeach
+                                                    name="category_name">
+                                                    @if (!is_null(@$mappingData['sub_category_name']))
+                                                        @if (!is_null($subCategoryData))
+                                                            @foreach ($subCategoryData as $category)
+                                                                <option @if ($category['id'] == @$mappingData['sub_category_id']) selected @endif
+                                                                    value="{{ $category['id'] }}">
+                                                                    {{ $category['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
                                                     @endif
                                                 </select>
                                             </div>
@@ -57,41 +60,54 @@
 
                                                 <select class="form-control from-control btn-square digits" id="question"
                                                     name="question_id">
-                                                    <option selected>Select Question</option>
-                                                    @if (!is_null($questionData))
-                                                        @foreach ($questionData as $question)
-                                                            <option value="{{ $question['id'] }}">{{ $question['name'] }}
-                                                            </option>
-                                                        @endforeach
+                                                    @if (!is_null(@$mappingData['question_name']))
+                                                        @if (!is_null($questionData))
+                                                            @foreach ($questionData as $question)
+                                                                <option @if ($question['id'] == @$mappingData['question_id']) selected @endif
+                                                                    value="{{ $question['id'] }}">
+                                                                    {{ $question['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
                                                     @endif
                                                 </select>
                                             </div>
                                         </div>
 
                                         <h5>SELECT OPTIONS</h5>
-                                        @if (!is_null($optionsData))
-                                            @foreach ($optionsData as $key => $option)
-                                                <div class="form-group m-0 row">
-                                                    <div class="mb-3">
-                                                        <div class="form-check checkbox checkbox-primary mb-0">
-                                                            <input class="form-check-input"
-                                                                name="option_ids[{{ $option['id']}}]"
-                                                                id="checkbox-primary-{{ $option['id']  }}" type="checkbox">
-                                                            <label class="form-check-label"
-                                                                for="checkbox-primary-{{ $option['id']  }}">{{ @$option['name'] }}</label>
-                                                        </div>
+                                        @if (!is_null($options))
+                                        @foreach ($options as $option)
+                                        <div class="form-group m-0 row">
+                                            <div class="mb-3">
+                                                <div class="form-check checkbox checkbox-primary mb-0">
+                                                    <input class="form-check-input" 
 
-                                                    </div>
+                                                    @foreach ($mappingData['options'] as $optionMap)
+                                                        @if($optionMap['option_id'] == $option['id'])
+                                                        {
+                                                            checked
+                                                        }
+                                                        @endif
+                                                    @endforeach
+
+                                                    name="option_ids[{{ $option['id']  }}]" id="checkbox-primary-{{ $option['id']  }}"
+                                                        type="checkbox">
+                                                    <label class="form-check-label" for="checkbox-primary-{{ $option['id']  }}">{{$option['name']}}</label>
                                                 </div>
-                                            @endforeach
-                                        @endif
+
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    @endif
+
+
+                                       
 
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <div class="col-sm-9 offset-sm-3">
-                                        <button class="btn btn-primary" type="submit">Save</button>
-                                        <button class="btn btn-light" type="submit">Cancel</button>
+                                    <div class="">
+                                        <button class="btn btn-primary btn-lg" type="submit">Update</button>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +131,7 @@
     <script>
         $(function() {
 
-            $('#subCategoryQuestionOptionMappingAdd').on('submit', function(e) {
+            $('#subCategoryQuestionOptionMappingUpdate').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');

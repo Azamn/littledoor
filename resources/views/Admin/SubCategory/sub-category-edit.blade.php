@@ -10,7 +10,7 @@
                     <div class="col-6">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/admin/dashboard"><i data-feather="home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="">Category Question Mapping</a></li>
+                            <li class="breadcrumb-item"><a href="">Sub Category</a></li>
                             {{-- <li class="breadcrumb-item active">Create</li> --}}
                         </ol>
                     </div>
@@ -20,86 +20,77 @@
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+                <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Category Question Mapping Details</h5>
+                            <h5>Sub Category Details</h5>
                         </div>
-                        <form class="widget-contact-form" id="subCategoryQuestionOptionMappingAdd"
-                            action="{{ route('create.sub-ctageory-question-option-mapping') }}" method="POST"
-                            enctype="multipart/form-data">
+                        <form class="widget-contact-form" id="addSubCategory" action="{{ route('create.sub-category') }}"
+                            method="POST" enctype="multipart/form-data">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
                             <meta name="csrf-token" content="{{ csrf_token() }}">
+
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Category</label>
+                                            <label class="col-sm-3 col-form-label">
+                                                <h5>Category</h5>
+                                            </label>
                                             <div class="col-sm-9">
 
-                                                <select class="form-control from-control btn-square digits" id="category_id"
-                                                    name="sub_category_id">
-                                                    <option selected>Select sub-category</option>
-                                                    @if (!is_null($subCategoryData))
-                                                        @foreach ($subCategoryData as $category)
-                                                            <option value="{{ $category['id'] }}">{{ $category['name'] }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Questions</label>
-                                            <div class="col-sm-9">
-
-                                                <select class="form-control from-control btn-square digits" id="question"
-                                                    name="question_id">
-                                                    <option selected>Select Question</option>
-                                                    @if (!is_null($questionData))
-                                                        @foreach ($questionData as $question)
-                                                            <option value="{{ $question['id'] }}">{{ $question['name'] }}
-                                                            </option>
-                                                        @endforeach
+                                                <select class="form-select" name="master_category_id" id="category">
+                                                    @if (!is_null($masterSubCategoriesData['category_name']))
+                                                        @if (!is_null($categoriesData))
+                                                            @foreach ($categoriesData as $category)
+                                                                <option
+                                                                @if($category['id'] == @$masterSubCategoriesData['category_id'])
+                                                                selected
+                                                                 @endif
+                                                                 value="{{ $category['id'] }}">
+                                                                    {{ $category['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    @else
+                                                        <option selected>Select category</option>
+                                                        <option value="1">asdf
+                                                        </option>
                                                     @endif
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <h5>SELECT OPTIONS</h5>
-                                        @if (!is_null($optionsData))
-                                            @foreach ($optionsData as $key => $option)
-                                                <div class="form-group m-0 row">
-                                                    <div class="mb-3">
-                                                        <div class="form-check checkbox checkbox-primary mb-0">
-                                                            <input class="form-check-input"
-                                                                name="option_ids[{{ $option['id']}}]"
-                                                                id="checkbox-primary-{{ $option['id']  }}" type="checkbox">
-                                                            <label class="form-check-label"
-                                                                for="checkbox-primary-{{ $option['id']  }}">{{ @$option['name'] }}</label>
-                                                        </div>
+                                        <hr>
 
-                                                    </div>
+                                        <div class="mb-4">
+                                            <h5>Sub Category Name</h5>
+                                        </div>
+                                        <div class="" id="formDiv">
+                                            <div class="form-group">
+                                                <div class="col-md-9">
+                                                    <textarea type="text" name="name" id="SubCategory${count}" class="form-control"
+                                                        placeholder="Enter Sub Category">{{ $masterSubCategoriesData['name'] }}</textarea>
+                                                    <span class="text-danger error-text features_error"></span>
                                                 </div>
-                                            @endforeach
-                                        @endif
+
+                                            </div>
+                                        </div>
+
+
 
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <div class="col-sm-9 offset-sm-3">
-                                        <button class="btn btn-primary" type="submit">Save</button>
-                                        <button class="btn btn-light" type="submit">Cancel</button>
+                                    <div class="">
+                                        <button class="btn btn-primary btn-lg" type="submit">Update</button>
                                     </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
                 </div>
-
-
             </div>
         </div>
         <!-- Container-fluid Ends-->
@@ -115,7 +106,7 @@
     <script>
         $(function() {
 
-            $('#subCategoryQuestionOptionMappingAdd').on('submit', function(e) {
+            $('#addSubCategory').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -184,5 +175,13 @@
             });
 
         });
+
+
+
+
+
+        function removeSection(element) {
+            element.remove();
+        }
     </script>
 @endsection

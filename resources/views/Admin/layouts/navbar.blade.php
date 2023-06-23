@@ -17,7 +17,7 @@
                 </form>
                 <div class="header-logo-wrapper">
                     <div class="logo-wrapper"><a href="index.html"><img class="img-fluid"
-                                src="{{asset('Assets/Admin//images/logo/logo.png')}}" alt=""></a></div>
+                                src="{{asset('Admin/images/littledoor/logo.png')}}" alt=""></a></div>
                     <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
                         </i></div>
                 </div>
@@ -41,6 +41,15 @@
 
                         <li class="maximize"><a class="text-light" href="#!" onclick="javascript:toggleFullScreen()"><i
                              data-feather="maximize"></i></a></li>
+                            
+                             <li class="profile-nav onhover-dropdown text-light pe-0 py-0">
+                                <div class="media profile-media">
+                                    <i data-feather="user"></i>
+                                  <div class="media-body"><span>Emay Walter</span>
+                                  </div>
+                                </div>
+                                
+                              </li>
                        
                     </ul>
                 </div>
