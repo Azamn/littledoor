@@ -244,3 +244,7 @@ Route::get('/admin/patient-list', function () {
 Route::get('/admin/doctor-list', function () {
     return view('Admin.Doctor.doctor-list');
 });
+
+Route::get('/admin/reset-password', function () {
+    return view('Admin.reset-password');
+});

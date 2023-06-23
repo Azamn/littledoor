@@ -2,9 +2,8 @@
 <div class="sidebar-wrapper">
     <div class="logo-wrapper text-center p-0" style="box-shadow: none">
         <a href="/admin/dashboard">
-            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/logo.png') }}" alt="" width="50%">
-            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/logotext.png') }}" alt=""
-                width="50%">
+            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}"
+                                        alt="" width="50%">
 
         </a>
     </div>
