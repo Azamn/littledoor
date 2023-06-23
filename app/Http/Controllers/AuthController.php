@@ -14,7 +14,7 @@ class AuthController extends Controller
 
     public function loginShow()
     {
-        return view('login');
+        return view('Admin.login');
     }
 
     public function login(Request $request)
@@ -29,8 +29,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             $user = User::where('email', $request->email)->first();
-
-            return response()->json(['status' => true, 'message' => 'Login Successfully', 'data' => ['api_token' => $user->api_token, 'name' => $user->name]]);
+            $name = $user->name;
+            return redirect('/admin/dashboard');
         }
 
         return response()->json(['status' => false, 'message' => 'The provided credentials do not match our records.']);
@@ -92,6 +92,6 @@ class AuthController extends Controller
 
         Auth::logout();
 
-        return response()->json(['status' => true, 'data' => 'Logout Succesfully']);
+        return redirect('/admin/login');
     }
 }
