@@ -43,8 +43,6 @@
 
 
 
-
-
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                         <i class="fa fa-file-text-o fa-lg m-r-10"></i><span>Question Relationship</span></a>
                         <ul class="sidebar-submenu">
@@ -62,9 +60,6 @@
                             </li>
                         </ul>
                     </li>
-
-
-
 
 
                     <li class="sidebar-list">

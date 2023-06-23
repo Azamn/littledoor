@@ -12,7 +12,7 @@
         content="Little Door, scordprotection,Little Door, Security, security, Navi mumbai security, panvel security, office-security, government security">
     <meta name="author" content="pixelstrap">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link rel="shortcut icon" href="{{asset('')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" type="image/x-icon">
     <title>Little Door</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"
