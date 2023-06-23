@@ -53,7 +53,7 @@
                                 @csrf
                                 {{-- <form class="theme-form" method="POST">
                     @csrf --}}
-                                <h4>Sign In</h4>
+                                <h4>Reset Password</h4>
                                 <p>Enter your email & password to login</p>
                                 <div class="form-group">
                                     <label class="col-form-label">Email Address</label>
@@ -69,7 +69,34 @@
                                     {{-- <input class="form-control email" type="email" placeholder="" required autofocus name="email"> --}}
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-form-label">Password</label>
+                                    <label class="col-form-label">Current Password</label>
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        required autocomplete="current-password">
+
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                                    @enderror
+                                    {{-- <input class="form-control pwd" type="password" placeholder="" required name="password"> --}}
+
+                                </div> <div class="form-group">
+                                    <label class="col-form-label">New Password</label>
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        required autocomplete="current-password">
+
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong></strong>
+                                        </span>
+                                    @enderror
+                                    {{-- <input class="form-control pwd" type="password" placeholder="" required name="password"> --}}
+
+                                </div> 
+                                <div class="form-group">
+                                    <label class="col-form-label">Confirm New Password</label>
                                     <input id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
                                         required autocomplete="current-password">
@@ -82,13 +109,10 @@
                                     {{-- <input class="form-control pwd" type="password" placeholder="" required name="password"> --}}
 
                                 </div>
-                                <div class="form-group mb-0">
-                                    <div class="checkbox p-0">
-                                        <input id="checkbox1" type="checkbox" name="remember">
-                                        <label class="text-muted" for="checkbox1">Remember me</label>
-                                    </div>
+                                <div class="mb-4">
+                                    <button class="btn btn-primary btn-block" id="error" type="submit">Reset</button>
+
                                 </div>
-                                <button class="btn btn-primary btn-block" id="error" type="submit">LOGIN</button>
 
                             </form>
                         </div>
