@@ -41,6 +41,15 @@
 
                         <li class="maximize"><a class="text-light" href="#!" onclick="javascript:toggleFullScreen()"><i
                              data-feather="maximize"></i></a></li>
+                            
+                             <li class="profile-nav onhover-dropdown text-light pe-0 py-0">
+                                <div class="media profile-media">
+                                    <i data-feather="user"></i>
+                                  <div class="media-body"><span>Emay Walter</span>
+                                  </div>
+                                </div>
+                                
+                              </li>
                        
                     </ul>
                 </div>
