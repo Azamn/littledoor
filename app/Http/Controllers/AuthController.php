@@ -30,7 +30,7 @@ class AuthController extends Controller
 
             $user = User::where('email', $request->email)->first();
             $name = $user->name;
-            return view('Admin.dashboard',compact('name'));
+            return redirect('/admin/dashboard');
         }
 
         return response()->json(['status' => false, 'message' => 'The provided credentials do not match our records.']);
@@ -92,6 +92,6 @@ class AuthController extends Controller
 
         Auth::logout();
 
-        return view('Admin.login');
+        return redirect('/admin/login');
     }
 }

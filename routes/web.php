@@ -74,18 +74,15 @@ Route::middleware(AdminAccess::class)->group(function () {
 
         Route::get('/dashboard', function () {
             return view('Admin.dashboard');
-        });
-
+        })->name('dashboard');
     });
 });
 
 
 //Auth Routes
-Route::group(['middleware' => []], function () {
-    Route::get('/admin/login', [AuthController::class, 'loginShow'])->name('login.show');
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
-});
 
+Route::get('/admin/login', [AuthController::class, 'loginShow'])->name('login.show');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.passowrd');
@@ -94,7 +91,7 @@ Route::get('/change-password', [AuthController::class, 'getChangePassword'])->na
 
 
 
-// Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
+Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
 
 
 
