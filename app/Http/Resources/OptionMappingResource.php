@@ -15,8 +15,10 @@ class OptionMappingResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'option_id' => optional($this->options)->id,
-            'option' => optional($this->options)->name,
+            'id' => $this?->id,
+            'sub_category_question_mapping_id' => $this?->sub_category_question_mapping_id,
+            'option_id' => $this?->option_id,
+            'option_name' => $this?->option?->name ?? NULL
         ];
     }
 }

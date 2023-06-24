@@ -17,7 +17,8 @@ class MasterCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'status' => $this->status
+            'image_url' => $this->media?->isNotEmpty() ? $this->media?->last()->getFullUrl() : NULL,
+
         ];
     }
 }
