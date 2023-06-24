@@ -78,12 +78,12 @@ Route::middleware(AdminAccess::class)->group(function () {
 
 
 
-        Route::get('/admin/doctor-list', function () {
+        Route::get('/doctor-list', function () {
             return view('Admin.Doctor.doctor-list');
         });
 
 
-        Route::get('/admin/patient-list', function () {
+        Route::get('/patient-list', function () {
             return view('Admin.Patient.patient-list');
         });
 
