@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('patient_question_option_mappings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('patient_id');
-            $table->unsignedInteger('master_question_id');
-            $table->unsignedInteger('master_option_id');
+            $table->unsignedInteger('category_question_mapping_id');
+            $table->unsignedInteger('option_id');
             $table->timestamps();
             $table->softDeletes();
         });

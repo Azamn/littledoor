@@ -16,9 +16,12 @@ class QuestionWithOptionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'options' => $this->subCategoryQuestionOption ? OptionMappingResource::collection($this->subCategoryQuestionOption) : NULL,
+            'id' => $this?->id,
+            'sub_category_id' => $this?->master_sub_category_id,
+            'sub_category_name' => $this?->subCategory?->name ?? NULL,
+            'question_id' => $this?->master_question_id,
+            'question_name' => $this?->question?->name ?? NULL,
+            'options' => $this?->optionMapping ? OptionMappingResource::collection($this?->optionMapping) : NULL,
         ];
     }
 }

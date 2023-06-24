@@ -56,50 +56,12 @@ class PatientController extends Controller
         }
     }
 
-    public function createPatientQuestionMapping(Request $request)
+
+    public function createPateintQuestionMappingOption(Request $request)
     {
-
         $rules = [
-            'patient_id' => 'required|integer',
-            'mental_disorder_category_question_mapping_id' => 'required|integer'
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json(['status' => false, 'errors' => $validator->errors()]);
-        } else {
-
-            $user = $request->user();
-
-            if ($user) {
-
-                $patientQuestionMappingExist = PatientMentalDisorderQuestionMapping::where('patient_id', $request->patient_id)->get();
-                if ($patientQuestionMappingExist) {
-                    foreach ($patientQuestionMappingExist as $patientQuestion) {
-                        $patientQuestion->delete();
-                    }
-                }
-
-                $patientQuestionMapping = new PatientMentalDisorderQuestionMapping();
-                $patientQuestionMapping->user_id = $user->id;
-                $patientQuestionMapping->patient_id = $request->patient_id;
-                $patientQuestionMapping->mental_disorder_category_question_mapping_id = $request->mental_disorder_category_question_mapping_id;
-                $patientQuestionMapping->save();
-
-                return response()->json(['status' => true, 'message' => 'Your Input Submitted Successfully.']);
-            } else {
-                return response()->json(['status' => false, 'message' => 'User Not Found.']);
-            }
-        }
-    }
-
-    public function createPatientQuestionoptionMapping(Request $request)
-    {
-
-        $rules = [
-            'patient_id' => 'required|integer|exists:master_patients,id',
-            'questions.*.question_id' => 'required|integer',
+            'patient_id' => 'required',
+            'questions.*.category_question_mapping_id' => 'required|integer',
             'questions.*.option_id' => 'required|integer'
         ];
 
@@ -113,17 +75,22 @@ class PatientController extends Controller
 
             if ($user) {
 
-                foreach ($request->questions as $question) {
-                    $patientQuestionOption = new PatientQuestionOptionMapping();
-                    $patientQuestionOption->patient_id = $request->patient_id;
-                    $patientQuestionOption->master_question_id = $question->question_id;
-                    $patientQuestionOption->master_option_id = $question->option_id;
-                    $patientQuestionOption->save();
+                $PatientQuestionOptionMapping = PatientQuestionOptionMapping::where('patient_id',$request->patient_id)->get();
+                if($PatientQuestionOptionMapping->isNotEmpty()){
+                    foreach($PatientQuestionOptionMapping as $mapping){
+                        $mapping->delete();
+                    }
                 }
 
-                return response()->json(['status' => true, 'message' => 'Your Input Submitted Successfully.']);
-            } else {
-                return response()->json(['status' => false, 'message' => 'User Not Found.']);
+                foreach ($request->questions as $questionMapping) {
+                    $PatientQuestionOptionMapping = new PatientQuestionOptionMapping();
+                    $PatientQuestionOptionMapping->patient_id = $request->patient_id;
+                    $PatientQuestionOptionMapping->category_question_mapping_id = $questionMapping['category_question_mapping_id'];
+                    $PatientQuestionOptionMapping->option_id = $questionMapping['option_id'];
+                    $PatientQuestionOptionMapping->save();
+                }
+
+                return response()->json(['status' => true, 'message' => 'Successfully submitted your response']);
             }
         }
     }

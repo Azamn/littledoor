@@ -20,15 +20,6 @@ Route::post('/register/login',[AdminManagementController::class,'login']);
 
 Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSProtection::class], function () {
 
-    /** Mental Disorder Category Route */
-    Route::post('/create/mental/disorder/category',[MentalDisorderCategoryController::class,'create']);
-    Route::get('/get-all/mental/disorder/category',[MentalDisorderCategoryController::class,'getAll']);
-    Route::delete('/delete/mental/disorder/category/{mentalDisorderCategoriId}',[MentalDisorderCategoryController::class,'delete']);
-
-    /**Mental Disorder Question Mapping Route */
-    Route::post('/create/mental/disorder/category/question',[MentalDisorderCategoryQuestionController::class,'create']);
-    Route::get('/get-all/mental/disorder/category/question',[MentalDisorderCategoryQuestionController::class,'getAll']);
-    Route::delete('/delete/mental/disorder/category/question/{mentalDisorderQuestionId}',[MentalDisorderCategoryQuestionController::class,'create']);
 
     /** Master Category  */
     Route::post('/create/master/category',[MasterCategoryController::class, 'create']);
@@ -46,13 +37,14 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('create/master/options',[MasterOptionsController::class, 'create']);
     Route::get('get-all/master/options',[MasterOptionsController::class, 'getAll']);
 
-    /** SubCategory Question options Mapping  */
-    Route::post('create/sub-category/question/option/mapping',[SubCategoryQuestionOptionMappingController::class,'create']);
-
+    /** Get category */
+    Route::get('/get/categroy',[AdminManagementController::class,'getCategory']);
 
     /** Get All Questions With Options */
-    Route::get('/get-all/questions/options',[AdminManagementController::class,'getAllQuestionsWithOption']);
+    Route::get('/get/questions',[AdminManagementController::class, 'getAllQuestionsWithOption']);
 
+    /** Submit Patient question option */
+    Route::post('/save/patient/question/response',[PatientController::class,'createPateintQuestionMappingOption']);
 
 
 });

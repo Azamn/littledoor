@@ -6,10 +6,13 @@ use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\MasterCategory;
 use App\Models\MasterQuestion;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\SubCategoryQuestionMapping;
+use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
 
 class AdminManagementController extends Controller
@@ -118,7 +121,7 @@ class AdminManagementController extends Controller
                         // 'valid_till' => $validTill,
                     ]);
                     $existOtp = $otp;
-                }else{
+                } else {
                     $existOtp = $existingOtps->otp;
                 }
             }
@@ -128,14 +131,28 @@ class AdminManagementController extends Controller
         }
     }
 
+    public function getCategory(Request $request)
+    {
+        $user = $request->user();
+        if ($user) {
+            $masterCategory = MasterCategory::with('media')->where('status', 1)->get();
+            if ($masterCategory) {
+                return response()->json(['status' => true, 'data' => MasterCategoryResource::collection($masterCategory)]);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Master Categories Not Found.']);
+            }
+        } else {
+            return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+        }
+    }
+
     public function getAllQuestionsWithOption(Request $request)
     {
         $user = $request->user();
         if ($user) {
-            $questionWithOptions = MasterQuestion::with('subCategoryQuestionOption.options')->where('status', 1)->get();
-            if ($questionWithOptions) {
-
-                return response()->json(['status' => true, 'data' => QuestionWithOptionResource::collection($questionWithOptions)]);
+        $categoryQuestionMappingWithOptions = SubCategoryQuestionMapping::with('subCategory', 'question', 'optionMapping.option')->get();
+            if ($categoryQuestionMappingWithOptions) {
+                return response()->json(['status' => true, 'data' => QuestionWithOptionResource::collection($categoryQuestionMappingWithOptions)]);
             } else {
                 return response()->json(['status' => false, 'message' => 'Questions and options not found.']);
             }
