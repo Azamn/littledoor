@@ -15,4 +15,6 @@ class MasterDoctor extends Model implements HasMedia
     protected $guarded = [];
 
     protected $table = 'master_doctors';
+
+    
 }

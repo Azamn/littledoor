@@ -15,4 +15,6 @@ class MasterPatient extends Model
     protected $guarded = [];
 
     protected $table = 'master_patients';
+
+    
 }

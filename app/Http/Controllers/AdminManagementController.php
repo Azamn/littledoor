@@ -24,8 +24,6 @@ class AdminManagementController extends Controller
         $rules = [
             'mobile_no' => 'required|digits_between:10,10',
             'otp' => 'sometimes|required',
-            'is_patient' => 'sometimes|required',
-            'is_doctor' => 'sometimes|required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -46,14 +44,8 @@ class AdminManagementController extends Controller
                     $apiToken = Str::random(60);
                     $rememberToken = Str::random(80);
 
-                    if ($request->has('is_patient')) {
-                        $masterUserTypeId = 3;
-                    } elseif ($request->has('is_doctor')) {
-                        $masterUserTypeId = 2;
-                    }
-
                     $user = new User();
-                    $user->master_user_type_id = $masterUserTypeId;
+                    $user->master_user_type_id = 0;
                     $user->mobile_no = $request->mobile_no;
                     $user->api_token = $apiToken;
                     $user->remember_token = $rememberToken;
@@ -63,16 +55,16 @@ class AdminManagementController extends Controller
                 }
             } elseif ($request->has('mobile_no') && ($request->has('otp') && !is_null($request->otp))) {
 
-                $user = User::with('patient')->where('mobile_no', $request->mobile_no)->first();
-                if ($user) {
+                $user = User::with('patient', 'doctor')->where('mobile_no', $request->mobile_no)->first();
+                if ($user->master_user_type_id == 3 || $user->master_user_type_id == 4) {
 
                     $gender = null;
                     $dob = null;
                     $city = NULL;
                     if (!is_null($user->patient)) {
-                        $gender = $user->patient->gender;
-                        $dob = Carbon::parse($user->patient->dob)->format('d-m-Y');
-                        $city = $user->patient->city_id;
+                        $gender = $user?->patient?->gender;
+                        $dob = Carbon::parse($user?->patient?->dob)->format('d-m-Y');
+                        $city = $user?->patient?->city_id;
                     }
 
                     $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
@@ -81,7 +73,35 @@ class AdminManagementController extends Controller
                             'status' => true,
                             'message' => 'Successfully Logged In!',
                             'api_token' => $user->api_token,
-                            'basic_details' => [
+                            'patient_details' => [
+                                'name' => $user->name,
+                                'email' => $user->email,
+                                'gender' => $gender,
+                                'dob' => $dob,
+                                'city_id' => $city,
+
+                            ],
+                        ]);
+                    } else {
+                        return response()->json(['status' => false, 'message' => 'Otp Not Matched']);
+                    }
+                } elseif ($user->master_user_type_id == 2) { // doctor
+                    $gender = null;
+                    $dob = null;
+                    $city = NULL;
+                    if (!is_null($user->doctor)) {
+                        $gender = $user?->doctor?->gender;
+                        $dob = Carbon::parse($user?->doctor?->dob)->format('d-m-Y');
+                        $city = $user?->doctor?->city_id;
+                    }
+
+                    $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
+                    if ($userOtp) {
+                        return response()->json([
+                            'status' => true,
+                            'message' => 'Successfully Logged In!',
+                            'api_token' => $user->api_token,
+                            'doctor_details' => [
                                 'name' => $user->name,
                                 'email' => $user->email,
                                 'gender' => $gender,
@@ -150,7 +170,7 @@ class AdminManagementController extends Controller
     {
         $user = $request->user();
         if ($user) {
-        $categoryQuestionMappingWithOptions = SubCategoryQuestionMapping::with('subCategory', 'question', 'optionMapping.option')->get();
+            $categoryQuestionMappingWithOptions = SubCategoryQuestionMapping::with('subCategory', 'question', 'optionMapping.option')->get();
             if ($categoryQuestionMappingWithOptions) {
                 return response()->json(['status' => true, 'data' => QuestionWithOptionResource::collection($categoryQuestionMappingWithOptions)]);
             } else {
@@ -160,5 +180,4 @@ class AdminManagementController extends Controller
             return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
         }
     }
-
 }

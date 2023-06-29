@@ -34,6 +34,9 @@ Route::middleware(AdminAccess::class)->group(function () {
     Route::prefix('admin')->group(function () {
 
         // Category
+        Route::get('/category', function () {
+            return view('Admin.Category.category-create');
+        });
         Route::get('/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
         Route::post('/create/category', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
         Route::delete('/delete/category', [MasterCategoryController::class, 'delete'])->name('delete.category');
@@ -49,6 +52,9 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/edit/sub-category/{categoryId}', [MasterSubCategoryController::class, 'edit'])->name('edit.sub-category');
         Route::post('/update/sub-category/{categoryId}', [MasterCategoryController::class, 'update'])->name('update.sub-category');
         // Question
+        Route::get('/questions', function () {
+            return view('Admin.Questions.questions-create');
+        });
         Route::get('/get-all/questions', [MasterQuestionController::class, 'getAllThroughAdmin'])->name('get.questions');
         Route::get('/change/question/status', [MasterQuestionController::class, 'changeQuestionStatus'])->name('question.change.status');
         Route::post('/create/questions', [MasterQuestionController::class, 'createThroughAdmin'])->name('create.questions');
@@ -57,6 +63,9 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::post('/update/question/{questionId}', [MasterQuestionController::class, 'update'])->name('update.question');
 
         //options
+        Route::get('/options', function () {
+            return view('Admin.Options.options-create');
+        });
         Route::get('/get-all/options', [MasterOptionsController::class, 'getAllThroughAdmin'])->name('get.options');
         Route::get('/change/option/status', [MasterOptionsController::class, 'changeOptionStatus'])->name('option.change.status');
         Route::post('/create/option', [MasterOptionsController::class, 'createThroughAdmin'])->name('create.options');
@@ -86,7 +95,6 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/admin/patient-list', function () {
             return view('Admin.Patient.patient-list');
         });
-
     });
 });
 

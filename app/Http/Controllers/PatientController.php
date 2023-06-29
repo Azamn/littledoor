@@ -34,10 +34,10 @@ class PatientController extends Controller
             if ($user) {
 
                 DB::transaction(function () use ($user, $request) {
-
+                    $user->master_user_type_id = 3;
                     $user->name = $request->name;
                     $user->email = $request->email;
-                    $user->save();
+                    $user->update();
 
                     $patient = new MasterPatient();
                     $patient->user_id = $user->id;
