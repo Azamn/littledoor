@@ -45,7 +45,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function patient(){
-        return $this->belongsTo(MasterPatient::class, 'id','user_id');
+    public function patient()
+    {
+        return $this->belongsTo(MasterPatient::class, 'id', 'user_id');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(MasterDoctor::class, 'id', 'user_id');
     }
 }
