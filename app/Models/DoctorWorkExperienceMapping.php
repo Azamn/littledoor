@@ -15,4 +15,8 @@ class DoctorWorkExperienceMapping extends Model implements HasMedia
     protected $guarded = [];
 
     protected $table = 'doctor_work_experience_mappings';
+
+    public function category(){
+        return $this->belongsTo(MasterCategory::class,'category_id','id');
+    }
 }
