@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('doctor_mental_disorder_category_mappings', function (Blueprint $table) {
+        Schema::create('doctor_work_experience_mappings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('doctor_id');
-            $table->unsignedInteger('mental_disorder_category_id');
-            $table->unsignedInteger('status')->default(1);
+            $table->unsignedBigInteger('category_id');
+            $table->string('sub_category_id');
+            $table->string('year_of_experience');
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctor_mental_disorder_category_mappings');
+        Schema::dropIfExists('doctor_work_experience_mappings');
     }
 };
