@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DoctorSubCategoryMapping;
+use App\Models\DoctorWorkExperienceMapping;
 use App\Models\User;
 use App\Models\UserOtp;
 use App\Models\MasterDoctor;
@@ -89,6 +91,68 @@ class DoctorController extends Controller
             return response()->json(['status' => true, 'message' => 'Basic details save and Otp Sent Successfully', 'otp' => $existOtp]);
         } else {
             return response()->json(['status' => false, 'message' => 'Otp Not Sent']);
+        }
+    }
+
+    public function submitDoctorDetail(Request $request)
+    {
+
+        $rules = [
+            'step' => 'required|integer',
+            'work' => 'required|array',
+            'work.*.category_id' => 'required|integer',
+            'work.*.sub_category_id' => 'required|string',
+            'work.*.year_of_experience' => 'required|integer',
+            'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg|max:5000',
+            'work.*.description' => 'sometimes|required|string'
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+
+                $doctor = MasterDoctor::where('user_id', $user->id)->first();
+
+                if ($doctor) {
+
+                    if ($request->has('step') && $request->step == 1) {
+
+                        foreach ($request->work as $workData) {
+
+                            $doctorWorkMapping = new DoctorWorkExperienceMapping();
+                            $doctorWorkMapping->doctor_id = $doctor->id;
+                            $doctorWorkMapping->category_id = $workData->category_id;
+                            $doctorWorkMapping->sub_category_id = $workData->sub_category_id;
+                            $doctorWorkMapping->year_of_experience = $workData->year_of_experience;
+                            if ($workData->certificate) {
+                                foreach ($workData->certificate as $certificates) {
+                                    $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-certificate');
+                                }
+                            }
+
+                            if ($workData->description) {
+                                $doctorWorkMapping->description = $workData->description;
+                            }
+
+                            $workData->save();
+                        }
+
+                        return response()->json(['status' => true, 'message' => 'Work Experience Save Successfully']);
+                    }
+
+                } else {
+                    return response()->json(['status' => false, 'message' => 'Doctor Data Not Found']);
+                }
+            } else {
+                return response()->json(['status' => false, 'message' => 'User Not Found']);
+            }
         }
     }
 }
