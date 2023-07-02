@@ -12,6 +12,7 @@ use App\Models\DoctorSubCategoryMapping;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DoctorWorkExperienceMapping;
 use App\Http\Resources\DoctorWorkExperienceResource;
+use App\Models\DoctorAppreciationMapping;
 use App\Models\DoctorEducationMapping;
 use App\Models\DoctorSkillsMapping;
 
@@ -104,13 +105,14 @@ class DoctorController extends Controller
 
         $rules = [
             'step' => 'required|integer',
+            /** step 1 of doctor work Experience */
             'work' => 'required_if:step,1|array',
             'work.*.category_id' => 'required|integer',
             'work.*.sub_category_id' => 'sometimes|required|string',
             'work.*.year_of_experience' => 'sometimes|required|integer',
             'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg|max:5000',
             'work.*.description' => 'sometimes|required|string',
-
+            /** Step 2 of doctor qducation */
             'education' => 'required_if:step,2|array',
             'education.*.name' => 'sometimes|required',
             'education.*.institution_name' => 'sometimes|required',
@@ -119,11 +121,18 @@ class DoctorController extends Controller
             'education.*.end_date' => 'sometimes|date|required',
             'education.*.certificate.*' => 'sometimes|required',
             'education.*.description' => 'sometimes|required',
-
+            /** Step 3 of doctor skills */
             'skills.*' => 'required_if:step,3',
-
-
-
+            /** Step 4 of doctor languages*/
+            'languages.*' => 'required_if:step,4',
+            /** Step 5 of appreciation */
+            'appreciation' => 'required_if:step,5|array',
+            'appreciation.*.name' => 'sometimes|required',
+            'appreciation.*.category_achieved' => 'sometimes|required',
+            'appreciation.*.issue_date' => 'sometimes|required|date',
+            'appreciation.*.category_achieved' => 'sometimes|required',
+            'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000',
+            'appreciation.*.description' => 'sometimes|required|string',
 
         ];
 
@@ -142,68 +151,228 @@ class DoctorController extends Controller
                 if ($doctor) {
 
                     if ($request->has('step') && $request->step == 1) {
+                        if ($request->has('work')) {
+                            $doctorWork = DoctorWorkExperienceMapping::where('doctor_id', $doctor->id)->get();
 
-                        foreach ($request->work as $workData) {
-                            $doctorWorkMapping = new DoctorWorkExperienceMapping();
-                            $doctorWorkMapping->doctor_id = $doctor->id;
-                            $doctorWorkMapping->category_id = $workData['category_id'] ?? NULL;
-                            $doctorWorkMapping->sub_category_id = $workData['sub_category_id'] ?? NULL;
-                            $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
-                            if ($workData['certificate']) {
-                                foreach ($workData['certificate'] as $certificates) {
-                                    $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                            if ($doctorWork->isNotEmpty()) {
+
+                                foreach ($doctorWork as $work) {
+                                    $work->delete();
                                 }
-                            }
 
-                            if ($workData['description']) {
-                                $doctorWorkMapping->description = $workData['description'] ?? NULL;
-                            }
+                                foreach ($request->work as $workData) {
+                                    $doctorWorkMapping = new DoctorWorkExperienceMapping();
+                                    $doctorWorkMapping->doctor_id = $doctor->id;
+                                    $doctorWorkMapping->category_id = $workData['category_id'] ?? NULL;
+                                    $doctorWorkMapping->sub_category_id = $workData['sub_category_id'] ?? NULL;
+                                    $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
+                                    if ($workData['certificate']) {
+                                        foreach ($workData['certificate'] as $certificates) {
+                                            $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                                        }
+                                    }
 
-                            $doctorWorkMapping->save();
+                                    if ($workData['description']) {
+                                        $doctorWorkMapping->description = $workData['description'] ?? NULL;
+                                    }
+
+                                    $doctorWorkMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Work Experience Update Successfully']);
+                            } else {
+                                foreach ($request->work as $workData) {
+                                    $doctorWorkMapping = new DoctorWorkExperienceMapping();
+                                    $doctorWorkMapping->doctor_id = $doctor->id;
+                                    $doctorWorkMapping->category_id = $workData['category_id'] ?? NULL;
+                                    $doctorWorkMapping->sub_category_id = $workData['sub_category_id'] ?? NULL;
+                                    $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
+                                    if ($workData['certificate']) {
+                                        foreach ($workData['certificate'] as $certificates) {
+                                            $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                                        }
+                                    }
+
+                                    if ($workData['description']) {
+                                        $doctorWorkMapping->description = $workData['description'] ?? NULL;
+                                    }
+
+                                    $doctorWorkMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Work Experience Save Successfully']);
+                            }
                         }
-
-                        return response()->json(['status' => true, 'message' => 'Work Experience Save Successfully']);
                     }
 
                     if ($request->has('step') && $request->step == 2) {
-                        foreach ($request->education as $deucationData) {
-                            $doctorEducationMapping = new DoctorEducationMapping();
-                            $doctorEducationMapping->doctor_id = $doctor->id;
-                            $doctorEducationMapping->name = $deucationData['name'] ?? NULL;
-                            $doctorEducationMapping->institution_name = $deucationData['institution_name'] ?? NULL;
-                            $doctorEducationMapping->field_of_study = $deucationData['field_of_study'] ?? NULL;
-                            $doctorEducationMapping->start_date = $deucationData['start_date'] ?? NULL;
-                            $doctorEducationMapping->end_date = $deucationData['end_date'] ?? NULL;
 
-                            if ($deucationData['certificate']) {
-                                foreach ($deucationData['certificate'] as $certificates) {
-                                    $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                        if ($request->has('education')) {
+                            $doctorEdu = DoctorEducationMapping::where('doctor_id', $doctor->id)->get();
+
+                            if ($doctorEdu->isNotEmpty()) {
+
+                                foreach ($doctorEdu as $dEdu) {
+                                    $dEdu->delete();
                                 }
-                            }
 
-                            if ($deucationData['description']) {
-                                $doctorEducationMapping->description = $deucationData['description'] ?? NULL;
-                            }
+                                foreach ($request->education as $deucationData) {
+                                    $doctorEducationMapping = new DoctorEducationMapping();
+                                    $doctorEducationMapping->doctor_id = $doctor->id;
+                                    $doctorEducationMapping->name = $deucationData['name'] ?? NULL;
+                                    $doctorEducationMapping->institution_name = $deucationData['institution_name'] ?? NULL;
+                                    $doctorEducationMapping->field_of_study = $deucationData['field_of_study'] ?? NULL;
+                                    $doctorEducationMapping->start_date = $deucationData['start_date'] ?? NULL;
+                                    $doctorEducationMapping->end_date = $deucationData['end_date'] ?? NULL;
 
-                            $doctorEducationMapping->save();
+                                    if ($deucationData['certificate']) {
+                                        foreach ($deucationData['certificate'] as $certificates) {
+                                            $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                        }
+                                    }
+
+                                    if ($deucationData['description']) {
+                                        $doctorEducationMapping->description = $deucationData['description'] ?? NULL;
+                                    }
+
+                                    $doctorEducationMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Education Details Update Successfully']);
+                            } else {
+                                foreach ($request->education as $deucationData) {
+                                    $doctorEducationMapping = new DoctorEducationMapping();
+                                    $doctorEducationMapping->doctor_id = $doctor->id;
+                                    $doctorEducationMapping->name = $deucationData['name'] ?? NULL;
+                                    $doctorEducationMapping->institution_name = $deucationData['institution_name'] ?? NULL;
+                                    $doctorEducationMapping->field_of_study = $deucationData['field_of_study'] ?? NULL;
+                                    $doctorEducationMapping->start_date = $deucationData['start_date'] ?? NULL;
+                                    $doctorEducationMapping->end_date = $deucationData['end_date'] ?? NULL;
+
+                                    if ($deucationData['certificate']) {
+                                        foreach ($deucationData['certificate'] as $certificates) {
+                                            $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                        }
+                                    }
+
+                                    if ($deucationData['description']) {
+                                        $doctorEducationMapping->description = $deucationData['description'] ?? NULL;
+                                    }
+
+                                    $doctorEducationMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Education Details Save Successfully']);
+                            }
                         }
-
-                        return response()->json(['status' => true, 'message' => 'Education Details Save Successfully']);
                     }
 
                     if ($request->has('step') && $request->step == 3) {
-                        foreach ($request->skills as $skill) {
-                            $doctorSkillsMapping = new DoctorSkillsMapping();
-                            $doctorSkillsMapping->doctor_id = $doctor->id;
-                            $doctorSkillsMapping->skill_name = $skill;
-                            $doctorSkillsMapping->save();
-                        }
 
-                        return response()->json(['status' => true, 'message' => 'Skills Details Save Successfully']);
+                        if ($request->has('skills')) {
+
+                            $doctorSkills = DoctorSkillsMapping::where('doctor_id', $doctor->id)->get();
+
+                            if ($doctorSkills->isNotEmpty()) {
+                                foreach ($doctorSkills as $skill) {
+                                    $skill->delete();
+                                }
+
+                                foreach ($request->skills as $skill) {
+                                    $doctorSkillsMapping = new DoctorSkillsMapping();
+                                    $doctorSkillsMapping->doctor_id = $doctor->id;
+                                    $doctorSkillsMapping->skill_name = $skill;
+                                    $doctorSkillsMapping->save();
+                                }
+                            } else {
+                                foreach ($request->skills as $skill) {
+                                    $doctorSkillsMapping = new DoctorSkillsMapping();
+                                    $doctorSkillsMapping->doctor_id = $doctor->id;
+                                    $doctorSkillsMapping->skill_name = $skill;
+                                    $doctorSkillsMapping->save();
+                                }
+                            }
+
+                            return response()->json(['status' => true, 'message' => 'Skills Details Save Successfully']);
+                        }
                     }
 
+                    if ($request->has('step') && $request->step == 4) {
+                        if ($request->has('languages')) {
+
+                            if (!is_null($doctor->languages_known)) {
+
+                                $doctor->languages_known = NULL;
+
+                                $doctorLang = implode(',', $request->languages);
+                                $doctor->languages_known = $doctorLang;
+                                $doctor->save();
+                            } else {
+                                $doctorLang = implode(',', $request->languages);
+                                $doctor->languages_known = $doctorLang;
+                                $doctor->save();
+                            }
+                        }
+                    }
+
+                    if ($request->has('step') && $request->step == 5) {
+
+                        if ($request->has('appreciation')) {
+
+                            $doctorAppreciation = DoctorAppreciationMapping::where('doctor_id', $doctor->id)->get();
+
+                            if ($doctorAppreciation->isNotEmpty()) {
+
+                                foreach ($doctorAppreciation as $appreciation) {
+                                    $appreciation->delete();
+                                }
+
+                                foreach ($request->appreciation as $appreciationData) {
+                                    $doctorAppreciationMapping = new DoctorAppreciationMapping();
+                                    $doctorAppreciationMapping->doctor_id = $doctor->id;
+                                    $doctorAppreciationMapping->name = $appreciationData['name'] ?? NULL;
+                                    $doctorAppreciationMapping->category_achieved = $appreciationData['category_achieved'] ?? NULL;
+                                    $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
+
+                                    if ($appreciationData['image']) {
+                                        $doctorAppreciationMapping->addMediaFromRequest($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                    }
+
+                                    if ($doctorAppreciationMapping['description']) {
+                                        $doctorAppreciationMapping->description = $appreciationData['description'] ?? NULL;
+                                    }
+
+                                    $doctorAppreciationMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Appreciation Data Update Successfully']);
+                            } else {
+
+                                foreach ($request->appreciation as $appreciationData) {
+                                    $doctorAppreciationMapping = new DoctorAppreciationMapping();
+                                    $doctorAppreciationMapping->doctor_id = $doctor->id;
+                                    $doctorAppreciationMapping->name = $appreciationData['name'] ?? NULL;
+                                    $doctorAppreciationMapping->category_achieved = $appreciationData['category_achieved'] ?? NULL;
+                                    $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
+
+                                    if ($appreciationData['image']) {
+                                        $doctorAppreciationMapping->addMediaFromRequest($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                    }
+
+                                    if ($doctorAppreciationMapping['description']) {
+                                        $doctorAppreciationMapping->description = $appreciationData['description'] ?? NULL;
+                                    }
+
+                                    $doctorAppreciationMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Appreciation Data Save Successfully']);
+                            }
+                        }
+                    }
+                    
                 } else {
-                    return response()->json(['status' => false, 'message' => 'Doctor Data Not Found']);
+                    return response()->json(['status' => false, 'message' => 'Doctor Details Not Found']);
                 }
             } else {
                 return response()->json(['status' => false, 'message' => 'User Not Found']);
