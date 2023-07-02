@@ -36,7 +36,7 @@ class DoctorWorkExperienceResource extends JsonResource
         }
 
         if ($this->media->isNotEmpty()) {
-            $docotrCertificate = $this->media->where('collection_name', 'doctor-certificate');
+            $docotrCertificate = $this->media->where('collection_name', 'doctor-work-certificate');
             if ($docotrCertificate->isNotEmpty()) {
                 foreach ($docotrCertificate as $certificate) {
                     $doctorPrescriptionUrl = $certificate->getFullUrl();

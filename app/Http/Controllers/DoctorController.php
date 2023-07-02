@@ -12,6 +12,8 @@ use App\Models\DoctorSubCategoryMapping;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DoctorWorkExperienceMapping;
 use App\Http\Resources\DoctorWorkExperienceResource;
+use App\Models\DoctorEducationMapping;
+use App\Models\DoctorSkillsMapping;
 
 class DoctorController extends Controller
 {
@@ -102,12 +104,26 @@ class DoctorController extends Controller
 
         $rules = [
             'step' => 'required|integer',
-            'work' => 'required|array',
+            'work' => 'required_if:step,1|array',
             'work.*.category_id' => 'required|integer',
             'work.*.sub_category_id' => 'sometimes|required|string',
             'work.*.year_of_experience' => 'sometimes|required|integer',
             'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg|max:5000',
-            'work.*.description' => 'sometimes|required|string'
+            'work.*.description' => 'sometimes|required|string',
+
+            'education' => 'required_if:step,2|array',
+            'education.*.name' => 'sometimes|required',
+            'education.*.institution_name' => 'sometimes|required',
+            'education.*.field_of_study' => 'sometimes|required',
+            'education.*.start_date' => 'sometimes|date|required',
+            'education.*.end_date' => 'sometimes|date|required',
+            'education.*.certificate.*' => 'sometimes|required',
+            'education.*.description' => 'sometimes|required',
+
+            'skills.*' => 'required_if:step,3',
+
+
+
 
         ];
 
@@ -130,17 +146,17 @@ class DoctorController extends Controller
                         foreach ($request->work as $workData) {
                             $doctorWorkMapping = new DoctorWorkExperienceMapping();
                             $doctorWorkMapping->doctor_id = $doctor->id;
-                            $doctorWorkMapping->category_id = $workData['category_id'];
-                            $doctorWorkMapping->sub_category_id = $workData['sub_category_id'];
-                            $doctorWorkMapping->year_of_experience = $workData['year_of_experience'];
+                            $doctorWorkMapping->category_id = $workData['category_id'] ?? NULL;
+                            $doctorWorkMapping->sub_category_id = $workData['sub_category_id'] ?? NULL;
+                            $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
                             if ($workData['certificate']) {
                                 foreach ($workData['certificate'] as $certificates) {
-                                    $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-certificate');
+                                    $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
                                 }
                             }
 
                             if ($workData['description']) {
-                                $doctorWorkMapping->description = $workData['description'];
+                                $doctorWorkMapping->description = $workData['description'] ?? NULL;
                             }
 
                             $doctorWorkMapping->save();
@@ -148,6 +164,44 @@ class DoctorController extends Controller
 
                         return response()->json(['status' => true, 'message' => 'Work Experience Save Successfully']);
                     }
+
+                    if ($request->has('step') && $request->step == 2) {
+                        foreach ($request->education as $deucationData) {
+                            $doctorEducationMapping = new DoctorEducationMapping();
+                            $doctorEducationMapping->doctor_id = $doctor->id;
+                            $doctorEducationMapping->name = $deucationData['name'] ?? NULL;
+                            $doctorEducationMapping->institution_name = $deucationData['institution_name'] ?? NULL;
+                            $doctorEducationMapping->field_of_study = $deucationData['field_of_study'] ?? NULL;
+                            $doctorEducationMapping->start_date = $deucationData['start_date'] ?? NULL;
+                            $doctorEducationMapping->end_date = $deucationData['end_date'] ?? NULL;
+
+                            if ($deucationData['certificate']) {
+                                foreach ($deucationData['certificate'] as $certificates) {
+                                    $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                }
+                            }
+
+                            if ($deucationData['description']) {
+                                $doctorEducationMapping->description = $deucationData['description'] ?? NULL;
+                            }
+
+                            $doctorEducationMapping->save();
+                        }
+
+                        return response()->json(['status' => true, 'message' => 'Education Details Save Successfully']);
+                    }
+
+                    if ($request->has('step') && $request->step == 3) {
+                        foreach ($request->skills as $skill) {
+                            $doctorSkillsMapping = new DoctorSkillsMapping();
+                            $doctorSkillsMapping->doctor_id = $doctor->id;
+                            $doctorSkillsMapping->skill_name = $skill;
+                            $doctorSkillsMapping->save();
+                        }
+
+                        return response()->json(['status' => true, 'message' => 'Skills Details Save Successfully']);
+                    }
+
                 } else {
                     return response()->json(['status' => false, 'message' => 'Doctor Data Not Found']);
                 }
