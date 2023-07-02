@@ -14,6 +14,7 @@ use App\Models\DoctorWorkExperienceMapping;
 use App\Http\Resources\DoctorWorkExperienceResource;
 use App\Models\DoctorAppreciationMapping;
 use App\Models\DoctorEducationMapping;
+use App\Models\DoctorOtherDocumentMapping;
 use App\Models\DoctorSkillsMapping;
 
 class DoctorController extends Controller
@@ -105,25 +106,25 @@ class DoctorController extends Controller
 
         $rules = [
             'step' => 'required|integer',
-            /** step 1 of doctor work Experience */
+            /** step 1 of work Experience */
             'work' => 'required_if:step,1|array',
             'work.*.category_id' => 'required|integer',
             'work.*.sub_category_id' => 'sometimes|required|string',
             'work.*.year_of_experience' => 'sometimes|required|integer',
             'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg|max:5000',
             'work.*.description' => 'sometimes|required|string',
-            /** Step 2 of doctor qducation */
+            /** Step 2 of education */
             'education' => 'required_if:step,2|array',
             'education.*.name' => 'sometimes|required',
             'education.*.institution_name' => 'sometimes|required',
             'education.*.field_of_study' => 'sometimes|required',
             'education.*.start_date' => 'sometimes|date|required',
             'education.*.end_date' => 'sometimes|date|required',
-            'education.*.certificate.*' => 'sometimes|required',
+            'education.*.certificate.*' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000',
             'education.*.description' => 'sometimes|required',
-            /** Step 3 of doctor skills */
+            /** Step 3 of skills */
             'skills.*' => 'required_if:step,3',
-            /** Step 4 of doctor languages*/
+            /** Step 4 of languages*/
             'languages.*' => 'required_if:step,4',
             /** Step 5 of appreciation */
             'appreciation' => 'required_if:step,5|array',
@@ -133,6 +134,10 @@ class DoctorController extends Controller
             'appreciation.*.category_achieved' => 'sometimes|required',
             'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000',
             'appreciation.*.description' => 'sometimes|required|string',
+            /** Step 6 other document */
+            'other' => 'required_if:step,6|array',
+            'other.*.name' => 'sometimes|required|string',
+            'other.*.document' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000'
 
         ];
 
@@ -370,7 +375,48 @@ class DoctorController extends Controller
                             }
                         }
                     }
-                    
+
+                    if ($request->has('step') && $request->step == 6) {
+
+                        if ($request->has('other')) {
+
+                            $doctorOther = DoctorOtherDocumentMapping::where('doctor_id', $doctor->id)->get();
+                            if ($doctorOther->isNotEmpty()) {
+                                foreach ($doctorOther as $other) {
+                                    $other->delete();
+                                }
+
+                                foreach ($request->other as $otherData) {
+                                    $otherDoctorDocument = new DoctorOtherDocumentMapping();
+                                    $otherDoctorDocument->doctor_id = $doctor->id;
+                                    $otherDoctorDocument->name = $otherData['name'];
+
+                                    if ($otherData['document']) {
+                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-document');
+                                    }
+
+                                    $otherDoctorDocument->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Other Details Update Successfully']);
+                            } else {
+
+                                foreach ($request->other as $otherData) {
+                                    $otherDoctorDocument = new DoctorOtherDocumentMapping();
+                                    $otherDoctorDocument->doctor_id = $doctor->id;
+                                    $otherDoctorDocument->name = $otherData['name'];
+
+                                    if ($otherData['document']) {
+                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-document');
+                                    }
+
+                                    $otherDoctorDocument->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Other Details Save Successfully']);
+                            }
+                        }
+                    }
                 } else {
                     return response()->json(['status' => false, 'message' => 'Doctor Details Not Found']);
                 }
