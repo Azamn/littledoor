@@ -8,14 +8,17 @@ use Illuminate\Support\Str;
 use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\DoctorSubCategoryMapping;
-use Illuminate\Support\Facades\Validator;
-use App\Models\DoctorWorkExperienceMapping;
-use App\Http\Resources\DoctorWorkExperienceResource;
-use App\Models\DoctorAppreciationMapping;
-use App\Models\DoctorEducationMapping;
-use App\Models\DoctorOtherDocumentMapping;
+use App\Models\DoctorAdressMapping;
 use App\Models\DoctorSkillsMapping;
+use App\Models\DoctorEducationMapping;
+use App\Models\DoctorSubCategoryMapping;
+use App\Models\DoctorAppreciationMapping;
+use Illuminate\Support\Facades\Validator;
+use App\Models\DoctorOtherDocumentMapping;
+use App\Models\DoctorWorkExperienceMapping;
+use App\Http\Resources\DoctorSkillsResource;
+use App\Http\Resources\DoctorEducationResource;
+use App\Http\Resources\DoctorWorkExperienceResource;
 
 class DoctorController extends Controller
 {
@@ -29,7 +32,6 @@ class DoctorController extends Controller
             'gender' => 'required|string',
             'dob' => 'required|date',
             'city_id' => 'required|integer',
-            'address_line_1' => 'required|string',
             'mobile_no' => 'required'
         ];
 
@@ -61,7 +63,6 @@ class DoctorController extends Controller
                     $doctor->dob = $request->dob;
                     $doctor->gender = $request->gender;
                     $doctor->contact_1 = $request->mobile_no;
-                    $doctor->address_line_1 = $request->address_line_1;
                     $doctor->city_id = $request->city_id;
 
                     $doctor->save();
@@ -124,18 +125,26 @@ class DoctorController extends Controller
             'education.*.description' => 'sometimes|required',
             /** Step 3 of skills */
             'skills.*' => 'required_if:step,3',
-            /** Step 4 of languages*/
-            'languages.*' => 'required_if:step,4',
-            /** Step 5 of appreciation */
-            'appreciation' => 'required_if:step,5|array',
+            /** Step 4 of skills */
+            'address' => 'required_if:step,4',
+            'address.*.address_type' => 'sometimes|required|string',
+            'address.*.address_line_1' => 'sometimes|required|string',
+            'address.*.address_line_2' => 'sometimes|required|string',
+            'address.*.pincode' => 'sometimes|required|string',
+            'address.*.city_id' => 'sometimes|required|integer',
+            'address.*.state_id' => 'sometimes|required|integer',
+            /** Step 5 of languages*/
+            'languages.*' => 'required_if:step,5',
+            /** Step 6 of appreciation */
+            'appreciation' => 'required_if:step,6|array',
             'appreciation.*.name' => 'sometimes|required',
             'appreciation.*.category_achieved' => 'sometimes|required',
             'appreciation.*.issue_date' => 'sometimes|required|date',
             'appreciation.*.category_achieved' => 'sometimes|required',
             'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000',
             'appreciation.*.description' => 'sometimes|required|string',
-            /** Step 6 other document */
-            'other' => 'required_if:step,6|array',
+            /** Step 7 other document */
+            'other' => 'required_if:step,7|array',
             'other.*.name' => 'sometimes|required|string',
             'other.*.document' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000'
 
@@ -303,6 +312,46 @@ class DoctorController extends Controller
                     }
 
                     if ($request->has('step') && $request->step == 4) {
+                        if ($request->has('address')) {
+
+                            $doctorAddress = DoctorAdressMapping::where('doctor_id', $doctor->id)->get();
+                            if ($doctorAddress->isNotEmpty()) {
+
+                                foreach ($doctorAddress as $doctorAdd) {
+                                    $doctorAdd->delete();
+                                }
+
+                                foreach ($request->address as $address) {
+                                    $doctorAddressMapping = new DoctorAdressMapping();
+                                    $doctorAddressMapping->doctor_id = $doctor->id;
+                                    $doctorAddressMapping->address_type = $address['address_type'];
+                                    $doctorAddressMapping->address_line_1 = $address['address_line_1'];
+                                    $doctorAddressMapping->address_line_2 = $address['address_line_1'] ?? NULL;
+                                    $doctorAddressMapping->pincode = $address['pincode'];
+                                    $doctorAddressMapping->city_id = $address['city_id'];
+                                    $doctorAddressMapping->state_id = $address['state_id'];
+                                    $doctorAddressMapping->save();
+                                }
+                                return response()->json(['status' => true, 'message' => 'Address Update Successfully']);
+                            } else {
+                                foreach ($request->address as $address) {
+                                    $doctorAddressMapping = new DoctorAdressMapping();
+                                    $doctorAddressMapping->doctor_id = $doctor->id;
+                                    $doctorAddressMapping->address_type = $address['address_type'];
+                                    $doctorAddressMapping->address_line_1 = $address['address_line_1'];
+                                    $doctorAddressMapping->address_line_2 = $address['address_line_1'] ?? NULL;
+                                    $doctorAddressMapping->pincode = $address['pincode'];
+                                    $doctorAddressMapping->city_id = $address['city_id'];
+                                    $doctorAddressMapping->state_id = $address['state_id'];
+                                    $doctorAddressMapping->save();
+                                }
+
+                                return response()->json(['status' => true, 'message' => 'Address Added Successfully']);
+                            }
+                        }
+                    }
+
+                    if ($request->has('step') && $request->step == 5) {
                         if ($request->has('languages')) {
 
                             if (!is_null($doctor->languages_known)) {
@@ -320,7 +369,7 @@ class DoctorController extends Controller
                         }
                     }
 
-                    if ($request->has('step') && $request->step == 5) {
+                    if ($request->has('step') && $request->step == 6) {
 
                         if ($request->has('appreciation')) {
 
@@ -376,7 +425,7 @@ class DoctorController extends Controller
                         }
                     }
 
-                    if ($request->has('step') && $request->step == 6) {
+                    if ($request->has('step') && $request->step == 7) {
 
                         if ($request->has('other')) {
 
@@ -433,7 +482,7 @@ class DoctorController extends Controller
 
         if ($user) {
 
-            $masterDoctor = MasterDoctor::with('doctorWorkMapping.media')->where('user_id', $user->id)->first();
+            $masterDoctor = MasterDoctor::with('doctorWorkMapping.media','doctorEducationMapping.media','doctorSkillsMapping')->where('user_id', $user->id)->first();
             if ($masterDoctor) {
 
                 return response()->json(
@@ -445,7 +494,9 @@ class DoctorController extends Controller
                             'dob' => $masterDoctor?->dob,
                             'gender' => $masterDoctor?->gender,
                             'mobile_no' => $masterDoctor?->contact_1,
-                            'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL
+                            'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
+                            'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
+                            'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
                         ]
                     ]
                 );
