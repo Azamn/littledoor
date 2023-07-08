@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** Submit Patient question option */
     Route::post('/save/patient/question/response',[PatientController::class,'createPateintQuestionMappingOption']);
 
+    /** Get languages */
+    Route::get('/get/languages',[AdminManagementController::class,'getLanguages']);
+
 
 });
 

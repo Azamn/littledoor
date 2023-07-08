@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\MasterCity;
 use Spatie\MediaLibrary\HasMedia;
+use App\Models\DoctorAdressMapping;
 use App\Models\DoctorEducationMapping;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DoctorAppreciationMapping;
 use App\Models\DoctorWorkExperienceMapping;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,5 +31,21 @@ class MasterDoctor extends Model implements HasMedia
 
     public function doctorSkillsMapping(){
         return $this->hasMany(DoctorSkillsMapping::class, 'doctor_id','id');
+    }
+
+    public function doctorAdressMapping(){
+        return $this->hasMany(DoctorAdressMapping::class, 'doctor_id','id');
+    }
+
+    public function doctorAppreciationMapping(){
+        return $this->hasMany(DoctorAppreciationMapping::class, 'doctor_id','id');
+    }
+
+    public function otherDocMapping(){
+        return $this->hasMany(DoctorOtherDocumentMapping::class,'doctor_id','id');
+    }
+
+    public function city(){
+        return $this->belongsTo(MasterCity::class, 'city_id','id');
     }
 }

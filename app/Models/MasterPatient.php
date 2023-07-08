@@ -16,5 +16,7 @@ class MasterPatient extends Model
 
     protected $table = 'master_patients';
 
-    
+    public function city(){
+        return $this->belongsTo(MasterCity::class, 'city_id','id');
+    }
 }

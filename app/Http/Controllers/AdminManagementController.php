@@ -7,9 +7,11 @@ use App\Models\UserOtp;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\MasterCategory;
+use App\Models\MasterLanguage;
 use App\Models\MasterQuestion;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\LanguagesResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
 use App\Http\Resources\MasterCategoryResource;
@@ -178,6 +180,23 @@ class AdminManagementController extends Controller
             }
         } else {
             return response()->json(['status' => false, 'message' => 'User Not Authenticated.']);
+        }
+    }
+
+    public function getLanguages(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+            $languages = MasterLanguage::where('status', 1)->get();
+            if ($languages) {
+                return response()->json(['statsu' => true, 'data' => LanguagesResource::collection($languages)]);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Languages not found']);
+            }
+        } else {
+            return response()->json(['status' => false, 'message' => 'User not authorized']);
         }
     }
 }

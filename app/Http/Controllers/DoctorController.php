@@ -17,7 +17,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\DoctorOtherDocumentMapping;
 use App\Models\DoctorWorkExperienceMapping;
 use App\Http\Resources\DoctorSkillsResource;
+use App\Http\Resources\DoctorAddressResource;
+use App\Http\Resources\DoctorOtherDocResource;
 use App\Http\Resources\DoctorEducationResource;
+use App\Http\Resources\DoctorAppeciationResource;
 use App\Http\Resources\DoctorWorkExperienceResource;
 
 class DoctorController extends Controller
@@ -125,8 +128,9 @@ class DoctorController extends Controller
             'education.*.description' => 'sometimes|required',
             /** Step 3 of skills */
             'skills.*' => 'required_if:step,3',
-            /** Step 4 of skills */
-            'address' => 'required_if:step,4',
+            /** Step 4 of address */
+            'address_proof_document' => 'required_if:step,4',
+            'address' => 'sometimes|required_if:step,4',
             'address.*.address_type' => 'sometimes|required|string',
             'address.*.address_line_1' => 'sometimes|required|string',
             'address.*.address_line_2' => 'sometimes|required|string',
@@ -312,7 +316,8 @@ class DoctorController extends Controller
                     }
 
                     if ($request->has('step') && $request->step == 4) {
-                        if ($request->has('address')) {
+
+                        if ($request->has('address') && $request->has('address_proof_document')) {
 
                             $doctorAddress = DoctorAdressMapping::where('doctor_id', $doctor->id)->get();
                             if ($doctorAddress->isNotEmpty()) {
@@ -346,8 +351,19 @@ class DoctorController extends Controller
                                     $doctorAddressMapping->save();
                                 }
 
+                                if ($request->has('address_proof_document')) {
+                                    $doctor->addMediaFromRequest('address_proof_document')->toMediaCollection('doctor-address-proof');
+                                }
+
                                 return response()->json(['status' => true, 'message' => 'Address Added Successfully']);
                             }
+                        }
+
+                        if ($request->has('address_proof_document')) {
+                            $doctor->addMediaFromRequest('address_proof_document')->toMediaCollection('doctor-address-proof');
+                            $doctor->update();
+
+                            return response()->json(['status' => true, 'message' => 'Address-proof document addded Successfully']);
                         }
                     }
 
@@ -441,7 +457,7 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-document');
+                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-other-document');
                                     }
 
                                     $otherDoctorDocument->save();
@@ -456,7 +472,7 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-document');
+                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-other-document');
                                     }
 
                                     $otherDoctorDocument->save();
@@ -482,8 +498,19 @@ class DoctorController extends Controller
 
         if ($user) {
 
-            $masterDoctor = MasterDoctor::with('doctorWorkMapping.media','doctorEducationMapping.media','doctorSkillsMapping')->where('user_id', $user->id)->first();
+            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('user_id', $user->id)->first();
             if ($masterDoctor) {
+
+                $addressProofData = NULL;
+                $langages = NULL;
+
+                if ($masterDoctor->media->isNotEmpty()) {
+                    $addressProofData = $masterDoctor->media->where('collection_name', 'doctor-address-proof')->last()->getFullUrl();
+                }
+
+                if (!is_null($masterDoctor->languages_known)) {
+                    $langages = explode(",", $masterDoctor->languages_known);
+                }
 
                 return response()->json(
                     [
@@ -494,13 +521,19 @@ class DoctorController extends Controller
                             'dob' => $masterDoctor?->dob,
                             'gender' => $masterDoctor?->gender,
                             'mobile_no' => $masterDoctor?->contact_1,
+                            'address_proof_url' => $addressProofData ?? NULL,
                             'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
                             'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
                             'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
+                            'address' => $masterDoctor?->doctorAdressMapping ? DoctorAddressResource::collection($masterDoctor?->doctorAdressMapping) : NULL,
+                            'languages' => $langages,
+                            'appreciation' => $masterDoctor?->doctorAppreciationMapping ? DoctorAppeciationResource::collection($masterDoctor?->doctorAppreciationMapping) : NULL,
+                            'other' => $masterDoctor?->otherDocMapping ? DoctorOtherDocResource::collection($masterDoctor?->otherDocMapping) : NULL
                         ]
                     ]
                 );
             }
         }
     }
+
 }
