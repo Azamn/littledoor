@@ -22,7 +22,6 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Patient </h3>
-
                     </div>
                     @if (!is_null(@$patientData))
                     <div class="table-responsive">

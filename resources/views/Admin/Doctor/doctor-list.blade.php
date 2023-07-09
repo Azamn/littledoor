@@ -22,90 +22,93 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Doctor </h3>
-
                     </div>
-                    @if (!is_null($doctorData))
-                    <div class="table-responsive">
-                        <table class="display" id="data-source-1" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Mobile Number</th>
-                                        <th scope="col">City </th>
-                                        <th scope="col">Status </th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                @foreach ($doctorData as $key => $doctor)
+
+                    <div class="card-body">
+                        @if (!is_null($doctorData))
+                        <div class="table-responsive">
+                            <table class="display" id="data-source-1" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Mobile Number</th>
+                                            <th scope="col">City </th>
+                                            <th scope="col">Status </th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($doctorData as $key => $doctor)
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">{{ $key+1 }}</th>
+                                                <td>{{ $doctor['name'] }}</td>
+                                                <td>{{ $doctor['email'] }}</td>
+                                                <td>{{ $doctor['mobile_no'] }}</td>
+                                                <td>{{ $doctor['city'] }}</td>
+                                                <td>
+                                                    <div class="media-body  switch-m">
+                                                        <label class="switch">
+                                                            @csrf
+                                                            <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                            <input type="checkbox"
+                                                                onchange="doctor_active_toggle_function({{ $doctor['id'] }})"
+                                                                @if ($doctor['status']) checked="" @endif><span
+                                                                class="switch-state"></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
+                                                    <button class="btn btn-primary m-2" data-id="" >View Details</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    @endforeach
+    
+                                </table>
+                            </div>
+                        @else
+                            <div class="table-responsive">
+                                <table class="table" id='client_table'>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Mobile Number</th>
+                                            <th scope="col">Qualification </th>
+                                            <th scope="col">Status </th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row">{{ $key+1 }}</th>
-                                            <td>{{ $doctor['name'] }}</td>
-                                            <td>{{ $doctor['email'] }}</td>
-                                            <td>{{ $doctor['mobile_no'] }}</td>
-                                            <td>{{ $doctor['city'] }}</td>
+                                            <th scope="row">1</th>
+                                            <td>sdv</td>
+                                            <td>sdv</td>
+                                            <td>sdv</td>
+                                            <td>sdv</td>
                                             <td>
                                                 <div class="media-body  switch-m">
                                                     <label class="switch">
-                                                        @csrf
-                                                        <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                                        <input type="checkbox"
-                                                            onchange="doctor_active_toggle_function({{ $doctor['id'] }})"
-                                                            @if ($doctor['status']) checked="" @endif><span
-                                                            class="switch-state"></span>
+                                                        <input type="checkbox"><span class="switch-state"></span>
                                                     </label>
                                                 </div>
                                             </td>
                                             <td>
                                                 {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                                <button class="btn btn-primary m-2" data-id="" >View Details</button>
+                                                <button class="btn btn-primary m-2" data-id="" id="deleteBtn"
+                                                    type="submit">View Details</button>
                                             </td>
                                         </tr>
                                     </tbody>
-                                @endforeach
-
-                            </table>
-                        </div>
-                    @else
-                        <div class="table-responsive">
-                            <table class="table" id='client_table'>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Mobile Number</th>
-                                        <th scope="col">Qualification </th>
-                                        <th scope="col">Status </th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>sdv</td>
-                                        <td>sdv</td>
-                                        <td>sdv</td>
-                                        <td>sdv</td>
-                                        <td>
-                                            <div class="media-body  switch-m">
-                                                <label class="switch">
-                                                    <input type="checkbox"><span class="switch-state"></span>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                            <button class="btn btn-primary m-2" data-id="" id="deleteBtn"
-                                                type="submit">View Details</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    @endif
+                                </table>
+                            </div>
+                        @endif
+                    </div>
+                   
 
                 </div>
             </div>
