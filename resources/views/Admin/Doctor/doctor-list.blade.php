@@ -48,7 +48,7 @@
                                                 <td>{{ $doctor['mobile_no'] }}</td>
                                                 <td>{{ $doctor['city'] }}</td>
                                                 <td>
-                                                    <div class="media-body switch-m icon-state">
+                                                    <div class="media-body switch-m">
                                                         <label class="switch">
                                                             @csrf
                                                             <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -66,12 +66,12 @@
                                             </tr>
                                         </tbody>
                                     @endforeach
-    
+
                                 </table>
                             </div>
                         @endif
                     </div>
-                   
+
 
                 </div>
             </div>
