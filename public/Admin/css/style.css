@@ -9046,7 +9046,7 @@ table.dataTable.display tbody tr.odd > .sorting_1 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #f4f4f4;
+  background-color: #f73164;
   -webkit-transition: .4s;
   transition: .4s; }
   .switch-state:before {
