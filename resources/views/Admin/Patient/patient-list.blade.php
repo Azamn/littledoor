@@ -25,8 +25,8 @@
 
                     </div>
                     @if (!is_null(@$patientData))
-                        <div class="table-responsive">
-                            <table class="table" id='client_table'>
+                    <div class="table-responsive">
+                        <table class="display" id="data-source-1" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>

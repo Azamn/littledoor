@@ -25,8 +25,8 @@
 
                     </div>
                     @if (!is_null($doctorData))
-                        <div class="table-responsive">
-                            <table class="table" id='client_table'>
+                    <div class="table-responsive">
+                        <table class="display" id="data-source-1" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -60,8 +60,7 @@
                                             </td>
                                             <td>
                                                 {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                                <button class="btn btn-primary m-2" data-id="" id="deleteBtn"
-                                                    type="submit">View Details</button>
+                                                <button class="btn btn-primary m-2" data-id="" >View Details</button>
                                             </td>
                                         </tr>
                                     </tbody>
