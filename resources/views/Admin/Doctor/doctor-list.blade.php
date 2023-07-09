@@ -48,7 +48,7 @@
                                                 <td>{{ $doctor['mobile_no'] }}</td>
                                                 <td>{{ $doctor['city'] }}</td>
                                                 <td>
-                                                    <div class="media-body  switch-m">
+                                                    <div class="media-body switch-m switch-outline icon-state">
                                                         <label class="switch">
                                                             @csrf
                                                             <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -67,43 +67,6 @@
                                         </tbody>
                                     @endforeach
     
-                                </table>
-                            </div>
-                        @else
-                            <div class="table-responsive">
-                                <table class="table" id='client_table'>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Mobile Number</th>
-                                            <th scope="col">Qualification </th>
-                                            <th scope="col">Status </th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>sdv</td>
-                                            <td>sdv</td>
-                                            <td>sdv</td>
-                                            <td>sdv</td>
-                                            <td>
-                                                <div class="media-body  switch-m">
-                                                    <label class="switch">
-                                                        <input type="checkbox"><span class="switch-state"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                                <button class="btn btn-primary m-2" data-id="" id="deleteBtn"
-                                                    type="submit">View Details</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         @endif
