@@ -21,6 +21,11 @@ class MasterDoctor extends Model implements HasMedia
 
     protected $table = 'master_doctors';
 
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id','id');
+    }
+
     public function doctorWorkMapping(){
         return $this->hasMany(DoctorWorkExperienceMapping::class,'doctor_id','id');
     }

@@ -19,4 +19,8 @@ class MasterPatient extends Model
     public function city(){
         return $this->belongsTo(MasterCity::class, 'city_id','id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

@@ -67,6 +67,7 @@ class DoctorController extends Controller
                     $doctor->gender = $request->gender;
                     $doctor->contact_1 = $request->mobile_no;
                     $doctor->city_id = $request->city_id;
+                    $doctor->status = 0;
 
                     $doctor->save();
                 });
@@ -536,4 +537,37 @@ class DoctorController extends Controller
         }
     }
 
+    public function getDoctorList(Request $request)
+    {
+        $doctorData = [];
+        $masterDoctors = MasterDoctor::with('user')->get();
+        if ($masterDoctors->isNotEmpty()) {
+
+            foreach ($masterDoctors as $doctor) {
+
+                $data = [
+                    'id' => $doctor->id,
+                    'name' => $doctor->first_name,
+                    'email' => $doctor?->user?->email ?? NULL,
+                    'mobile_no' => $doctor?->contact_1,
+                    'city' => $doctor?->city?->city_name ?? NULL,
+                    'status' => $doctor->status
+                ];
+
+                array_push($doctorData, $data);
+            }
+        }
+        return view('Admin.Doctor.doctor-list', Compact('doctorData'));
+    }
+
+    public function changeDoctorStatus(Request $request)
+    {
+
+        $masterDoctor = MasterDoctor::where('id', $request->doctor_id)->first();
+        if ($masterDoctor) {
+            $masterDoctor->status = !$masterDoctor->status;
+            $masterDoctor->save();
+            return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
+        }
+    }
 }
