@@ -116,7 +116,16 @@ class AdminManagementController extends Controller
                         return response()->json(['status' => false, 'message' => 'Otp Not Matched']);
                     }
                 } else {
-                    return response()->json(['status' => false, 'User Not Found.']);
+                    $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
+                    if ($userOtp) {
+                        return response()->json([
+                            'status' => true,
+                            'message' => 'Successfully Logged In!',
+                            'api_token' => $user->api_token,
+                        ]);
+                    } else {
+                        return response()->json(['status' => false, 'User Not Found.']);
+                    }
                 }
             }
         }
