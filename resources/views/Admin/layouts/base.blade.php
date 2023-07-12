@@ -46,6 +46,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/vendors/prism.css')}}">
      <link rel="stylesheet" type="text/css"  href="{{asset('Admin/css/vendors/animate.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/vendors/bootstrap.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/bootstrap.css')}}">
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/style.css')}}">
     <link id="color" rel="stylesheet" href="{{asset('Admin/css/color-1.css')}}" media="screen">
@@ -67,8 +68,10 @@
     @include('Admin.layouts.navbar')
     @yield('content')
     @include('Admin.layouts.footer')
-    <script src="{{asset('Admin/js/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{asset('Admin/js/jquery.min.js')}}"></script>
     <!-- Bootstrap js-->
+    
+    <script src="{{asset('Admin/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('Admin/js/bootstrap/popper.min.js')}}"></script>
     <script src="{{asset('Admin/js/bootstrap/bootstrap.js')}}"></script>
     <!-- feather icon js-->
@@ -106,9 +109,12 @@
     <script src="{{asset('Admin/js/owlcarousel/owl.carousel.js')}}"></script>
     <script src="{{asset('Admin/js/dashboard/dashboard_2.js')}}"></script>
 
+    <script src="{{asset('Admin/js/height-equal.js')}}"></script>
 
     <!-- Theme js-->
     <script src="{{asset('Admin/js/script.js')}}"></script>
+    
+    <script src="{{asset('Admin/js/theme-customizer/customizer.js')}}"></script>
     <!-- login js-->
     <!-- Plugin used-->
 {{--        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.minjs')}}"></script>--}}

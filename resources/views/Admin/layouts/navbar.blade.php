@@ -1,20 +1,7 @@
 <!-- Page Header Start-->
 <div class="page-header" style="background-color:#643fdb">
             <div class="header-wrapper bg-primmrary row m-0">
-                <form class="form-inline search-full" action="#" method="get">
-                    <div class="form-group w-100">
-                        <div class="Typeahead Typeahead--twitterUsers">
-                            <div class="u-posRelative">
-                                <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text"
-                                    placeholder="Search Cuba .." name="q" title="" autofocus>
-                                <div class="spinner-border Typeahead-spinner" role="status"><span
-                                        class="sr-only">Loading...</span></div><i class="close-search"
-                                    data-feather="x"></i>
-                            </div>
-                            <div class="Typeahead-menu"></div>
-                        </div>
-                    </div>
-                </form>
+                
                 <div class="header-logo-wrapper">
                     <div class="logo-wrapper"><a href="index.html"><img class="img-fluid"
                                 src="{{asset('Admin/images/littledoor/logo.png')}}" alt=""></a></div>

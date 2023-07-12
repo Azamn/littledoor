@@ -2,8 +2,8 @@
 <div class="sidebar-wrapper">
     <div class="logo-wrapper text-center p-0" style="box-shadow: none">
         <a href="/admin/dashboard">
-            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}"
-                                        alt="" width="50%">
+            <img class="img-fluid" src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
+                width="50%">
 
         </a>
     </div>
@@ -66,7 +66,6 @@
                     <li class="sidebar-list">
                         <a class="nav-link" href="{{ route('logout') }}"><i data-feather="log-out"></i>
                             <span>Logout</span></>
-
                     </li>
 
                 </ul>

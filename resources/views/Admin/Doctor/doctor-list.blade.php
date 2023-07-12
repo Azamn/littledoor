@@ -61,7 +61,7 @@
                                                 </td>
                                                 <td>
                                                     {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                                    <button class="btn btn-primary m-2" data-id="" >View Details</button>
+                                                    <a class="btn btn-primary m-2" href="/admin/doctor-view" data-id="" >View Details</a>
                                                 </td>
                                             </tr>
                                         </tbody>
