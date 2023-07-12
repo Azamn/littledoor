@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Models\SubCategoryQuestionMapping;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MasterOptionsController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
 /*
@@ -34,6 +36,9 @@ Route::middleware(AdminAccess::class)->group(function () {
     Route::prefix('admin')->group(function () {
 
         // Category
+        Route::get('/category', function () {
+            return view('Admin.Category.category-create');
+        });
         Route::get('/get-all/categories', [MasterCategoryController::class, 'getAllThroughAdmin'])->name('get.all-categories');
         Route::post('/create/category', [MasterCategoryController::class, 'createThroughAdmin'])->name('create.category');
         Route::delete('/delete/category', [MasterCategoryController::class, 'delete'])->name('delete.category');
@@ -49,6 +54,9 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/edit/sub-category/{categoryId}', [MasterSubCategoryController::class, 'edit'])->name('edit.sub-category');
         Route::post('/update/sub-category/{categoryId}', [MasterCategoryController::class, 'update'])->name('update.sub-category');
         // Question
+        Route::get('/questions', function () {
+            return view('Admin.Questions.questions-create');
+        });
         Route::get('/get-all/questions', [MasterQuestionController::class, 'getAllThroughAdmin'])->name('get.questions');
         Route::get('/change/question/status', [MasterQuestionController::class, 'changeQuestionStatus'])->name('question.change.status');
         Route::post('/create/questions', [MasterQuestionController::class, 'createThroughAdmin'])->name('create.questions');
@@ -57,6 +65,9 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::post('/update/question/{questionId}', [MasterQuestionController::class, 'update'])->name('update.question');
 
         //options
+        Route::get('/options', function () {
+            return view('Admin.Options.options-create');
+        });
         Route::get('/get-all/options', [MasterOptionsController::class, 'getAllThroughAdmin'])->name('get.options');
         Route::get('/change/option/status', [MasterOptionsController::class, 'changeOptionStatus'])->name('option.change.status');
         Route::post('/create/option', [MasterOptionsController::class, 'createThroughAdmin'])->name('create.options');
@@ -77,15 +88,12 @@ Route::middleware(AdminAccess::class)->group(function () {
         })->name('dashboard');
 
 
+        /** Doctor Route */
+        Route::get('/get/doctor-list',[DoctorController::class,'getDoctorList'])->name('get.all-doctors');
+        Route::get('/change/doctor-status',[DoctorController::class, 'changeDoctorStatus'])->name('change.doctor-status');
 
-        Route::get('/doctor-list', function () {
-            return view('Admin.Doctor.doctor-list');
-        });
-
-
-        Route::get('/patient-list', function () {
-            return view('Admin.Patient.patient-list');
-        });
+        /** Patient Route */
+        Route::get('/get/patient-list',[PatientController::class,'getAllPatient'])->name('get.all-patient');
 
     });
 });
@@ -106,6 +114,9 @@ Route::get('/change-password', [AuthController::class, 'getChangePassword'])->na
 Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
 
 
+// Route::get('/patient-list', function () {
+//     return view('Admin.Patient.patient-list');
+// });
 
 // Route::get('/admin/request-completed', function () {
 //     return view('admin.Request.request-list-completed');

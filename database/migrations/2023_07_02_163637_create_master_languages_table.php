@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('doctor_mental_disorder_category_mappings', function (Blueprint $table) {
+        Schema::create('master_languages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('doctor_id');
-            $table->unsignedInteger('mental_disorder_category_id');
-            $table->unsignedInteger('status')->default(1);
+            $table->string('name');
+            $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctor_mental_disorder_category_mappings');
+        Schema::dropIfExists('master_languages');
     }
 };

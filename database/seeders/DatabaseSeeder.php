@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(MasterUserTypeSeeder::class);
+        $this->call(AdminUserSeeder::class);
 
     }
 }

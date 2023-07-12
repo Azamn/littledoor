@@ -34,10 +34,10 @@ class PatientController extends Controller
             if ($user) {
 
                 DB::transaction(function () use ($user, $request) {
-
+                    $user->master_user_type_id = 3;
                     $user->name = $request->name;
                     $user->email = $request->email;
-                    $user->save();
+                    $user->update();
 
                     $patient = new MasterPatient();
                     $patient->user_id = $user->id;
@@ -93,5 +93,30 @@ class PatientController extends Controller
                 return response()->json(['status' => true, 'message' => 'Successfully submitted your response']);
             }
         }
+    }
+
+    public function getAllPatient(Request $request){
+
+        $patientData = [];
+
+        $masterPatients = MasterPatient::with('user')->get();
+        if($masterPatients->isNotEmpty()){
+
+            foreach($masterPatients as $patient){
+
+                $data = [
+                    'id' => $patient->id,
+                    'name' => $patient?->first_name,
+                    'email' => $patient?->user?->email ?? NULL,
+                    'mobile_no' => $patient?->user?->mobile_no ?? NULL,
+                    'city' => $patient?->city?->city_name ?? NULL,
+                ];
+
+                array_push($patientData, $data);
+            }
+
+        }
+
+        return view('Admin.Patient.patient-list',compact('patientData'));
     }
 }
