@@ -114,7 +114,6 @@
     <!-- Theme js-->
     <script src="{{asset('Admin/js/script.js')}}"></script>
     
-    <script src="{{asset('Admin/js/theme-customizer/customizer.js')}}"></script>
     <!-- login js-->
     <!-- Plugin used-->
 {{--        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.minjs')}}"></script>--}}
