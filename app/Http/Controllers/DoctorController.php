@@ -185,7 +185,7 @@ class DoctorController extends Controller
                                     $doctorWorkMapping->category_id = $workData['category_id'] ?? NULL;
                                     $doctorWorkMapping->sub_category_id = $workData['sub_category_id'] ?? NULL;
                                     $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
-                                    if ($workData['certificate']) {
+                                    if (isset($workData['certificate']) && !is_null($workData['certificate'])) {
                                         foreach ($workData['certificate'] as $certificates) {
                                             $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
                                         }
@@ -206,7 +206,7 @@ class DoctorController extends Controller
                                     $doctorWorkMapping->category_id = $workData['category_id'] ?? NULL;
                                     $doctorWorkMapping->sub_category_id = $workData['sub_category_id'] ?? NULL;
                                     $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
-                                    if ($workData['certificate']) {
+                                    if (isset($workData['certificate']) && !is_null($workData['certificate'])) {
                                         foreach ($workData['certificate'] as $certificates) {
                                             $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
                                         }
@@ -244,7 +244,7 @@ class DoctorController extends Controller
                                     $doctorEducationMapping->start_date = $deucationData['start_date'] ?? NULL;
                                     $doctorEducationMapping->end_date = $deucationData['end_date'] ?? NULL;
 
-                                    if ($deucationData['certificate']) {
+                                    if (isset($deucationData['certificate']) && !is_null($deucationData['certificate'])) {
                                         foreach ($deucationData['certificate'] as $certificates) {
                                             $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
                                         }
@@ -268,7 +268,7 @@ class DoctorController extends Controller
                                     $doctorEducationMapping->start_date = $deucationData['start_date'] ?? NULL;
                                     $doctorEducationMapping->end_date = $deucationData['end_date'] ?? NULL;
 
-                                    if ($deucationData['certificate']) {
+                                    if (isset($deucationData['certificate']) && !is_null($deucationData['certificate'])) {
                                         foreach ($deucationData['certificate'] as $certificates) {
                                             $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
                                         }
@@ -405,7 +405,7 @@ class DoctorController extends Controller
                                     $doctorAppreciationMapping->category_achieved = $appreciationData['category_achieved'] ?? NULL;
                                     $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
 
-                                    if ($appreciationData['image']) {
+                                    if (isset($appreciationData['image']) && !is_null($appreciationData['image'])) {
                                         $doctorAppreciationMapping->addMediaFromRequest($appreciationData['image'])->toMediaCollection('doctor-appreciation');
                                     }
 
@@ -426,7 +426,7 @@ class DoctorController extends Controller
                                     $doctorAppreciationMapping->category_achieved = $appreciationData['category_achieved'] ?? NULL;
                                     $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
 
-                                    if ($appreciationData['image']) {
+                                    if (isset($appreciationData['image']) && !is_null($appreciationData['image'])) {
                                         $doctorAppreciationMapping->addMediaFromRequest($appreciationData['image'])->toMediaCollection('doctor-appreciation');
                                     }
 
