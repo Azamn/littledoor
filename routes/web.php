@@ -95,7 +95,6 @@ Route::middleware(AdminAccess::class)->group(function () {
         /** Patient Route */
         Route::get('/get/patient-list',[PatientController::class,'getAllPatient'])->name('get.all-patient');
 
-
     });
 });
 

@@ -570,4 +570,14 @@ class DoctorController extends Controller
             return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
         }
     }
+
+    public function viewSingleDoctorDetails(Request $request, $doctorId)
+    {
+
+        $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $doctorId)->first();
+        if ($masterDoctor) {
+        } else {
+            return response()->json(['status' => false, 'message' => 'Doctor Data Not Found']);
+        }
+    }
 }
