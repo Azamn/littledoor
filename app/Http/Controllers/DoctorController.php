@@ -374,14 +374,18 @@ class DoctorController extends Controller
                             if (!is_null($doctor->languages_known)) {
 
                                 $doctor->languages_known = NULL;
+                                $doctor->update();
 
                                 $doctorLang = implode(',', $request->languages);
                                 $doctor->languages_known = $doctorLang;
                                 $doctor->save();
+
+                                return response()->json(['status' => true, 'message' => 'Languages Update Successfully']);
                             } else {
                                 $doctorLang = implode(',', $request->languages);
                                 $doctor->languages_known = $doctorLang;
                                 $doctor->save();
+                                return response()->json(['status' => true, 'message' => 'Languages Added Successfully']);
                             }
                         }
                     }
@@ -406,7 +410,7 @@ class DoctorController extends Controller
                                     $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
 
                                     if (isset($appreciationData['image']) && !is_null($appreciationData['image'])) {
-                                        $doctorAppreciationMapping->addMediaFromRequest($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                        $doctorAppreciationMapping->addMedia($appreciationData['image'])->toMediaCollection('doctor-appreciation');
                                     }
 
                                     if ($doctorAppreciationMapping['description']) {
@@ -427,7 +431,7 @@ class DoctorController extends Controller
                                     $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
 
                                     if (isset($appreciationData['image']) && !is_null($appreciationData['image'])) {
-                                        $doctorAppreciationMapping->addMediaFromRequest($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                        $doctorAppreciationMapping->addMedia($appreciationData['image'])->toMediaCollection('doctor-appreciation');
                                     }
 
                                     if ($doctorAppreciationMapping['description']) {
@@ -458,7 +462,7 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-other-document');
+                                        $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
                                     }
 
                                     $otherDoctorDocument->save();
@@ -473,7 +477,7 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $otherDoctorDocument->addMediaFromRequest($otherData['document'])->toMediaCollection('doctor-other-document');
+                                        $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
                                     }
 
                                     $otherDoctorDocument->save();

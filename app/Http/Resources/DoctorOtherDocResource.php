@@ -18,7 +18,7 @@ class DoctorOtherDocResource extends JsonResource
             'id' => $this?->id,
             'doctor_id' => $this?->doctor_id,
             'name' => $this?->name,
-            'document' => $this?->media->isNotEmpty() ? $this->media->where('collection_name','doctor-appreciation')->last()->getFullUrl() : NULL
+            'document' => $this?->media->isNotEmpty() ? $this->media->where('collection_name','doctor-other-document')->last()->getFullUrl() : NULL
         ];
     }
 }

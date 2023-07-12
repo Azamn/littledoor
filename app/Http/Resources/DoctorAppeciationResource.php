@@ -22,7 +22,7 @@ class DoctorAppeciationResource extends JsonResource
             'category_achieved' => $this?->category_achieved ?? NULL,
             'issue_date' => Carbon::parse($this?->issue_date)->format('d-m-Y'),
             'description' => $this?->description ?? NULL,
-            'image_url' => $this->media->isNotEmpty() ? $this->media->where('collection_name','doctor-other-document')->last()->getFullUrl() : NULL
+            'image_url' => $this->media->isNotEmpty() ? $this->media->where('collection_name','doctor-appreciation')->last()->getFullUrl() : NULL
         ];
     }
 }
