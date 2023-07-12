@@ -18,11 +18,11 @@
                     <li class="sidebar-list"><a class="nav-link " href="/admin/dashboard">
                             <i data-feather="home"></i><span>Dashboard</span></a></li>
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/doctor-list">
+                        <a class="nav-link  " href="{{ route('get.all-doctors') }}">
                             <i class="fa fa-stethoscope fa-lg m-r-10"></i><span>Doctors</span></a>
                     </li>
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/patient-list">
+                        <a class="nav-link  " href="{{ route('get.all-patient') }}">
                             <i class="fa fa-wheelchair  fa-lg m-r-10"></i><span>Patients</span></a>
                     </li>
 

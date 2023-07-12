@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Wanc Studios">
     <link rel="icon" href="{{ asset('') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" type="image/x-icon">
     <title>Login</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap"

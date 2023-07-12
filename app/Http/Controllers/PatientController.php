@@ -94,4 +94,29 @@ class PatientController extends Controller
             }
         }
     }
+
+    public function getAllPatient(Request $request){
+
+        $patientData = [];
+
+        $masterPatients = MasterPatient::with('user')->get();
+        if($masterPatients->isNotEmpty()){
+
+            foreach($masterPatients as $patient){
+
+                $data = [
+                    'id' => $patient->id,
+                    'name' => $patient?->first_name,
+                    'email' => $patient?->user?->email ?? NULL,
+                    'mobile_no' => $patient?->user?->mobile_no ?? NULL,
+                    'city' => $patient?->city?->city_name ?? NULL,
+                ];
+
+                array_push($patientData, $data);
+            }
+
+        }
+
+        return view('Admin.Patient.patient-list',compact('patientData'));
+    }
 }
