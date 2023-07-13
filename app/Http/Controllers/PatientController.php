@@ -61,7 +61,7 @@ class PatientController extends Controller
     {
         $rules = [
             'patient_id' => 'required',
-            'questions.*.category_question_mapping_id' => 'required|integer',
+            'questions.*.sub_category_question_mapping_id' => 'required|integer',
             'questions.*.option_id' => 'required|integer'
         ];
 
@@ -85,7 +85,7 @@ class PatientController extends Controller
                 foreach ($request->questions as $questionMapping) {
                     $PatientQuestionOptionMapping = new PatientQuestionOptionMapping();
                     $PatientQuestionOptionMapping->patient_id = $request->patient_id;
-                    $PatientQuestionOptionMapping->category_question_mapping_id = $questionMapping['category_question_mapping_id'];
+                    $PatientQuestionOptionMapping->category_question_mapping_id = $questionMapping['sub_category_question_mapping_id'];
                     $PatientQuestionOptionMapping->option_id = $questionMapping['option_id'];
                     $PatientQuestionOptionMapping->save();
                 }
