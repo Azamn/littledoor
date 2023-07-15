@@ -233,7 +233,7 @@ class AdminManagementController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
-            $subCategory = MasterSubCategory::where('category_id', $request->category_id)->where('statsu', 1)->get();
+            $subCategory = MasterSubCategory::where('master_category_id', $request->category_id)->where('status', 1)->get();
             if ($subCategory) {
                 return response()->json(['status' => true, 'data' => MasterSubCategoryResource::collection($subCategory)]);
             } else {
