@@ -39,12 +39,16 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Get category */
     Route::get('/get/categroy',[AdminManagementController::class,'getCategory']);
+    Route::post('/get/sub/category',[AdminManagementController::class,'getSubCategory']);
 
     /** Get All Questions With Options */
     Route::get('/get/questions',[AdminManagementController::class, 'getAllQuestionsWithOption']);
 
     /** Submit Patient question option */
     Route::post('/save/patient/question/response',[PatientController::class,'createPateintQuestionMappingOption']);
+
+    /** Get user Details */
+    Route::get('/get/user/details',[AdminManagementController::class,'getUserDetails']);
 
     /** Get languages */
     Route::get('/get/languages',[AdminManagementController::class,'getLanguages']);
