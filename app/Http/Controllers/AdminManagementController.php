@@ -67,7 +67,9 @@ class AdminManagementController extends Controller
                     $gender = null;
                     $dob = null;
                     $city = NULL;
+                    $patientId = NULL;
                     if (!is_null($user->patient)) {
+                        $patientId = $user?->patient?->id;
                         $gender = $user?->patient?->gender;
                         $dob = Carbon::parse($user?->patient?->dob)->format('d-m-Y');
                         $city = $user?->patient?->city_id;
@@ -97,7 +99,9 @@ class AdminManagementController extends Controller
                     $gender = null;
                     $dob = null;
                     $city = NULL;
+                    $doctorId = NULL;
                     if (!is_null($user->doctor)) {
+                        $doctorId = $user?->doctor?->id;
                         $gender = $user?->doctor?->gender;
                         $dob = Carbon::parse($user?->doctor?->dob)->format('d-m-Y');
                         $city = $user?->doctor?->city_id;
