@@ -46,33 +46,40 @@ class DoctorController extends Controller
 
 
             if ($request->has('mobile_no') && !is_null($request->mobile_no)) {
-                DB::transaction(function () use ($request) {
 
-                    $apiToken = Str::random(60);
-                    $rememberToken = Str::random(80);
+                $doctor = MasterDoctor::where('contact_1', $request->mobile_no)->first();
+                if (!is_null($doctor)) {
+                    return response()->json(['status' => false, 'message' => 'Doctor Details Already Exist with this mobile no :' . $request->mobile_no]);
+                } else {
 
-                    $user = new User();
-                    $user->master_user_type_id = 2;
-                    $user->api_token = $apiToken;
-                    $user->remember_token = $rememberToken;
-                    $user->mobile_no = $request->mobile_no;
-                    $user->name = $request->name;
-                    $user->email = $request->email;
-                    $user->save();
+                    DB::transaction(function () use ($request) {
 
-                    $doctor = new MasterDoctor();
-                    $doctor->user_id = $user->id;
-                    $doctor->first_name = $request->name;
-                    $doctor->dob = $request->dob;
-                    $doctor->gender = $request->gender;
-                    $doctor->contact_1 = $request->mobile_no;
-                    $doctor->city_id = $request->city_id;
-                    $doctor->status = 0;
+                        $apiToken = Str::random(60);
+                        $rememberToken = Str::random(80);
 
-                    $doctor->save();
-                });
+                        $user = new User();
+                        $user->master_user_type_id = 2;
+                        $user->api_token = $apiToken;
+                        $user->remember_token = $rememberToken;
+                        $user->mobile_no = $request->mobile_no;
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        $user->save();
 
-                return $this->sendLoginOtp($request->mobile_no);
+                        $doctor = new MasterDoctor();
+                        $doctor->user_id = $user->id;
+                        $doctor->first_name = $request->name;
+                        $doctor->dob = $request->dob;
+                        $doctor->gender = $request->gender;
+                        $doctor->contact_1 = $request->mobile_no;
+                        $doctor->city_id = $request->city_id;
+                        $doctor->status = 0;
+
+                        $doctor->save();
+                    });
+
+                    return $this->sendLoginOtp($request->mobile_no);
+                }
             }
         }
     }

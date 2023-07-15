@@ -63,7 +63,9 @@ class AdminManagementController extends Controller
                     $gender = null;
                     $dob = null;
                     $city = NULL;
+                    $patientId = NULL;
                     if (!is_null($user->patient)) {
+                        $patientId = $user?->patient?->id;
                         $gender = $user?->patient?->gender;
                         $dob = Carbon::parse($user?->patient?->dob)->format('d-m-Y');
                         $city = $user?->patient?->city_id;
@@ -76,6 +78,7 @@ class AdminManagementController extends Controller
                             'message' => 'Successfully Logged In!',
                             'api_token' => $user->api_token,
                             'patient_details' => [
+                                'patient_id' => $patientId,
                                 'name' => $user->name,
                                 'email' => $user->email,
                                 'gender' => $gender,
@@ -91,7 +94,9 @@ class AdminManagementController extends Controller
                     $gender = null;
                     $dob = null;
                     $city = NULL;
+                    $doctorId = NULL;
                     if (!is_null($user->doctor)) {
+                        $doctorId = $user?->doctor?->id;
                         $gender = $user?->doctor?->gender;
                         $dob = Carbon::parse($user?->doctor?->dob)->format('d-m-Y');
                         $city = $user?->doctor?->city_id;
@@ -104,6 +109,7 @@ class AdminManagementController extends Controller
                             'message' => 'Successfully Logged In!',
                             'api_token' => $user->api_token,
                             'doctor_details' => [
+                                'doctor_id' => $doctorId,
                                 'name' => $user->name,
                                 'email' => $user->email,
                                 'gender' => $gender,
