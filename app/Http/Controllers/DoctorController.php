@@ -44,8 +44,16 @@ class DoctorController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
+            $user = User::where('mobile_no', $request->mobile_no)->first();
+            if ($user) {
+                $doctor = MasterDoctor::where('user_id', $user->id)->first();
+                if (!is_null($doctor)) {
+                    return response()->json(['status' => false, 'message' => 'Doctor Details Already Exist with this mobile no :' . $request->mobile_no]);
+                } else {
+                    return response()->json(['status' => false, 'message' => 'User Exist with this mobile no :' . $request->mobile_no]);
+                }
+            } else {
 
-            if ($request->has('mobile_no') && !is_null($request->mobile_no)) {
                 DB::transaction(function () use ($request) {
 
                     $apiToken = Str::random(60);
