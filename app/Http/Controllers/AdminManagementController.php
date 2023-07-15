@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Str;
+use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
+use App\Models\MasterPatient;
 use App\Models\MasterCategory;
 use App\Models\MasterLanguage;
 use App\Models\MasterQuestion;
 use Illuminate\Support\Carbon;
+use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\LanguagesResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
 use App\Http\Resources\MasterCategoryResource;
+use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
 
 class AdminManagementController extends Controller
@@ -77,7 +81,8 @@ class AdminManagementController extends Controller
                             'status' => true,
                             'message' => 'Successfully Logged In!',
                             'api_token' => $user->api_token,
-                            'patient_details' => [
+                            'is_patient' => 1,
+                            'user_details' => [
                                 'patient_id' => $patientId,
                                 'name' => $user->name,
                                 'email' => $user->email,
@@ -108,7 +113,8 @@ class AdminManagementController extends Controller
                             'status' => true,
                             'message' => 'Successfully Logged In!',
                             'api_token' => $user->api_token,
-                            'doctor_details' => [
+                            'is_doctor' => 1,
+                            'user_details' => [
                                 'doctor_id' => $doctorId,
                                 'name' => $user->name,
                                 'email' => $user->email,
@@ -212,6 +218,71 @@ class AdminManagementController extends Controller
             }
         } else {
             return response()->json(['status' => false, 'message' => 'User not authorized']);
+        }
+    }
+
+    public function getSubCategory(Request $request)
+    {
+        $rules = [
+            'category_id' => 'required|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $subCategory = MasterSubCategory::where('category_id', $request->category_id)->where('statsu', 1)->get();
+            if ($subCategory) {
+                return response()->json(['status' => true, 'data' => MasterSubCategoryResource::collection($subCategory)]);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Data Not Found']);
+            }
+        }
+    }
+
+    public function getUserDetails(Request $request)
+    {
+
+        $user = $request->user();
+        if ($user) {
+
+            $pateint = MasterPatient::with('city')->where('user_id', $user->id)->first();
+            if ($pateint) {
+                $pateintId = $pateint->id;
+                $gender = $pateint->gender;
+                $dob = Carbon::parse($pateint->dob)->format('d-m-Y');
+                $city = $pateint->city_id;
+                $cityName = $pateint?->city?->city_name;
+            }
+
+            $doctor = MasterDoctor::with('city')->where('user_id', $user->id)->first();
+            if ($doctor) {
+                $doctorId = $doctor->id;
+                $gender = $doctor->gender;
+                $dob = Carbon::parse($doctor->dob)->format('d-m-Y');
+                $city = $doctor->city_id;
+                $cityName = $doctor?->city?->city_name;
+            }
+
+            $data = [
+                'id' => $user->id,
+                'pateint_id' => $pateintId ?? NULL,
+                'doctor_id' => $doctorId ?? NULL,
+                'name' => $user->name,
+                'email' => $user->email,
+                'mobile_no' => $user->mobile_no,
+                'gender' => $gender ?? NULL,
+                'dob' => $dob ?? NULL,
+                'city_id' => $city ?? NULL,
+                'city_name' => $cityName ?? NULL,
+
+            ];
+
+            return response()->json(['status' => true, 'data' => $data]);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Unauthorized User']);
         }
     }
 }
