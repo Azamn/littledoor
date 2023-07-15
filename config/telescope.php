@@ -91,9 +91,9 @@ return [
     |
     */
 
-    'only_paths' => [
-        // 'api/*'
-    ],
+    // 'only_paths' => [
+    //     // 'api/*'
+    // ],
 
     'ignore_paths' => [
         'nova-api*',
