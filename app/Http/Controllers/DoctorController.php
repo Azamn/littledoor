@@ -137,7 +137,7 @@ class DoctorController extends Controller
             'education.*.field_of_study' => 'sometimes|required',
             'education.*.start_date' => 'sometimes|date|required',
             'education.*.end_date' => 'sometimes|date|required',
-            'education.*.certificate.*' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000',
+            'education.*.certificate.*' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000',
             'education.*.description' => 'sometimes|required',
             /** Step 3 of skills */
             'skills.*' => 'required_if:step,3',
@@ -158,12 +158,12 @@ class DoctorController extends Controller
             'appreciation.*.category_achieved' => 'sometimes|required',
             'appreciation.*.issue_date' => 'sometimes|required|date',
             'appreciation.*.category_achieved' => 'sometimes|required',
-            'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000',
+            'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000',
             'appreciation.*.description' => 'sometimes|required|string',
             /** Step 7 other document */
             'other' => 'required_if:step,7|array',
             'other.*.name' => 'sometimes|required|string',
-            'other.*.document' => 'sometimes|required|file|mimes:jpg,png,jpeg|max:5000'
+            'other.*.document' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000'
 
         ];
 
