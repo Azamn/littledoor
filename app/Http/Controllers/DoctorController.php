@@ -128,7 +128,7 @@ class DoctorController extends Controller
             'work.*.category_id' => 'required|integer',
             'work.*.sub_category_id' => 'sometimes|required|string',
             'work.*.year_of_experience' => 'sometimes|required|integer',
-            'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg|max:5000',
+            'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg,pdf|max:5000',
             'work.*.description' => 'sometimes|required|string',
             /** Step 2 of education */
             'education' => 'required_if:step,2|array',
