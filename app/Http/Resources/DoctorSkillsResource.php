@@ -17,7 +17,8 @@ class DoctorSkillsResource extends JsonResource
         return [
             'id' => $this?->id,
             'doctor_id' => $this?->doctor_id,
-            'skill_name' => $this?->skill_name,
+            'skill_id' => $this?->skill_id,
+            'skill_name' => $this?->skill?->name ?? NULL,
         ];
     }
 }
