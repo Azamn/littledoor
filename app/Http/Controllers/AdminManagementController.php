@@ -248,6 +248,9 @@ class AdminManagementController extends Controller
         $user = $request->user();
         if ($user) {
 
+            $doctorStatus = NULL;
+
+
             $pateint = MasterPatient::with('city')->where('user_id', $user->id)->first();
             if ($pateint) {
                 $pateintId = $pateint->id;
@@ -257,19 +260,36 @@ class AdminManagementController extends Controller
                 $cityName = $pateint?->city?->city_name;
             }
 
-            $doctor = MasterDoctor::with('city')->where('user_id', $user->id)->first();
+            $doctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping','city')->where('user_id', $user->id)->first();
             if ($doctor) {
+
+                $addressProofData = NULL;
+                $formStatus  = NULL;
+
                 $doctorId = $doctor->id;
                 $gender = $doctor->gender;
                 $dob = Carbon::parse($doctor->dob)->format('d-m-Y');
                 $city = $doctor->city_id;
                 $cityName = $doctor?->city?->city_name;
+                $doctorStatus = $doctor->status;
+
+
+                if ($doctor->media->isNotEmpty()) {
+                    $addressProofData = $doctor->media->where('collection_name', 'doctor-address-proof')->last()->getFullUrl();
+                }
+
+                $formStatus = 0;
+                if(!is_null($addressProofData) && !is_null($doctor->doctorWorkMapping) && !is_null($doctor->doctorEducationMapping) && !is_null($doctor->doctorSkillsMapping)){
+                    $formStatus = 1;
+                }
             }
 
             $data = [
                 'id' => $user->id,
                 'pateint_id' => $pateintId ?? NULL,
                 'doctor_id' => $doctorId ?? NULL,
+                'status' => $doctorStatus,
+                'form_status' => $formStatus,
                 'name' => $user->name,
                 'email' => $user->email,
                 'mobile_no' => $user->mobile_no,
