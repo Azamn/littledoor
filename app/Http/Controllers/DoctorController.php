@@ -22,6 +22,7 @@ use App\Http\Resources\DoctorOtherDocResource;
 use App\Http\Resources\DoctorEducationResource;
 use App\Http\Resources\DoctorAppeciationResource;
 use App\Http\Resources\DoctorWorkExperienceResource;
+use App\Models\MasterSkill;
 
 class DoctorController extends Controller
 {
@@ -306,9 +307,20 @@ class DoctorController extends Controller
                                 }
 
                                 foreach ($request->skills as $skill) {
+
+                                    $skills = MasterSkill::whereLike('name',$skill)->first();
+                                    if($skills){
+                                        $skillId = $skills->id;
+                                    }else{
+                                        $skills = new MasterSkill();
+                                        $skills->name = $skill;
+                                        $skill->save();
+                                        $skillId = $skill->id;
+                                    }
+
                                     $doctorSkillsMapping = new DoctorSkillsMapping();
                                     $doctorSkillsMapping->doctor_id = $doctor->id;
-                                    $doctorSkillsMapping->skill_name = $skill;
+                                    $doctorSkillsMapping->skill_id = $skillId;
                                     $doctorSkillsMapping->save();
                                 }
                             } else {
@@ -511,7 +523,7 @@ class DoctorController extends Controller
 
         if ($user) {
 
-            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('user_id', $user->id)->first();
+            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('user_id', $user->id)->first();
             if ($masterDoctor) {
 
                 $addressProofData = NULL;
