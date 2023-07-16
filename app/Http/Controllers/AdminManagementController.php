@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserOtp;
+use App\Models\MasterSkill;
 use Illuminate\Support\Str;
 use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\LanguagesResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
+use App\Http\Resources\MasterSkillsResource;
 use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
@@ -261,7 +263,7 @@ class AdminManagementController extends Controller
                 $cityName = $pateint?->city?->city_name;
             }
 
-            $doctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping','city')->where('user_id', $user->id)->first();
+            $doctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping', 'city')->where('user_id', $user->id)->first();
             if ($doctor) {
 
                 $doctorId = $doctor->id;
@@ -277,7 +279,7 @@ class AdminManagementController extends Controller
                 }
 
                 $formStatus = 0;
-                if(!is_null($addressProofData) && !is_null($doctor->doctorWorkMapping) && !is_null($doctor->doctorEducationMapping) && !is_null($doctor->doctorSkillsMapping)){
+                if (!is_null($addressProofData) && !is_null($doctor->doctorWorkMapping) && !is_null($doctor->doctorEducationMapping) && !is_null($doctor->doctorSkillsMapping)) {
                     $formStatus = 1;
                 }
             }
@@ -299,6 +301,22 @@ class AdminManagementController extends Controller
             ];
 
             return response()->json(['status' => true, 'data' => $data]);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Unauthorized User']);
+        }
+    }
+
+    public function getSkills(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $skills = MasterSkill::get();
+            if($skills->isNotEmpty()){
+                return response()->json(['status' => 'true', 'data' => MasterSkillsResource::collection($skills)]);
+            }
         } else {
             return response()->json(['status' => false, 'message' => 'Unauthorized User']);
         }
