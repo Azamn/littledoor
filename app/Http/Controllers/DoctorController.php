@@ -342,7 +342,7 @@ class DoctorController extends Controller
 
                                     $doctorSkillsMapping = new DoctorSkillsMapping();
                                     $doctorSkillsMapping->doctor_id = $doctor->id;
-                                    $doctorSkillsMapping->skill_name = $skill;
+                                    $doctorSkillsMapping->skill_id = $skill;
                                     $doctorSkillsMapping->save();
                                 }
                             }
