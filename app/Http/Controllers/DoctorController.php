@@ -529,6 +529,11 @@ class DoctorController extends Controller
                     $langages = explode(",", $masterDoctor->languages_known);
                 }
 
+                $formStatus = 0;
+                if(!is_null($addressProofData) && !is_null($masterDoctor->doctorWorkMapping) && !is_null($masterDoctor->doctorEducationMapping) && !is_null($masterDoctor->doctorSkillsMapping)){
+                    $formStatus = 1;
+                }
+
                 return response()->json(
                     [
                         'status' => true,
@@ -539,6 +544,8 @@ class DoctorController extends Controller
                             'gender' => $masterDoctor?->gender,
                             'mobile_no' => $masterDoctor?->contact_1,
                             'address_proof_url' => $addressProofData ?? NULL,
+                            'status' => $masterDoctor->status,
+                            'form_status' => $formStatus,
                             'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
                             'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
                             'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
