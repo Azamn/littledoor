@@ -37,9 +37,10 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('create/master/options',[MasterOptionsController::class, 'create']);
     Route::get('get-all/master/options',[MasterOptionsController::class, 'getAll']);
 
-    /** Get category */
+    /** Master Common API */
     Route::get('/get/categroy',[AdminManagementController::class,'getCategory']);
     Route::post('/get/sub/category',[AdminManagementController::class,'getSubCategory']);
+    Route::get('/get/skills',[AdminManagementController::class,'getSkills']);
 
     /** Get All Questions With Options */
     Route::get('/get/questions',[AdminManagementController::class, 'getAllQuestionsWithOption']);
