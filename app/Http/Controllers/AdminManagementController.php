@@ -250,6 +250,7 @@ class AdminManagementController extends Controller
 
             $addressProofData = NULL;
             $formStatus  = NULL;
+            $doctorStatus = NULL;
 
             $pateint = MasterPatient::with('city')->where('user_id', $user->id)->first();
             if ($pateint) {
