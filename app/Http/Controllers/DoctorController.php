@@ -312,14 +312,14 @@ class DoctorController extends Controller
 
                                 foreach ($request->skills as $skill) {
 
-                                    $skills = MasterSkill::whereLike('name',$skill)->first();
+                                    $skills = MasterSkill::where('name',$skill)->first();
                                     if($skills){
                                         $skillId = $skills->id;
                                     }else{
                                         $skills = new MasterSkill();
                                         $skills->name = $skill;
-                                        $skill->save();
-                                        $skillId = $skill->id;
+                                        $skills->save();
+                                        $skillId = $skills->id;
                                     }
 
                                     $doctorSkillsMapping = new DoctorSkillsMapping();
@@ -330,14 +330,14 @@ class DoctorController extends Controller
                             } else {
                                 foreach ($request->skills as $skill) {
 
-                                    $skills = MasterSkill::whereLike('name',$skill)->first();
+                                    $skills = MasterSkill::where('name',$skill)->first();
                                     if($skills){
                                         $skillId = $skills->id;
                                     }else{
                                         $skills = new MasterSkill();
                                         $skills->name = $skill;
-                                        $skill->save();
-                                        $skillId = $skill->id;
+                                        $skills->save();
+                                        $skillId = $skills->id;
                                     }
 
                                     $doctorSkillsMapping = new DoctorSkillsMapping();
