@@ -248,8 +248,8 @@ class AdminManagementController extends Controller
         $user = $request->user();
         if ($user) {
 
-            $doctorStatus = NULL;
-
+            $addressProofData = NULL;
+            $formStatus  = NULL;
 
             $pateint = MasterPatient::with('city')->where('user_id', $user->id)->first();
             if ($pateint) {
@@ -262,9 +262,6 @@ class AdminManagementController extends Controller
 
             $doctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping', 'doctorAdressMapping','city')->where('user_id', $user->id)->first();
             if ($doctor) {
-
-                $addressProofData = NULL;
-                $formStatus  = NULL;
 
                 $doctorId = $doctor->id;
                 $gender = $doctor->gender;
