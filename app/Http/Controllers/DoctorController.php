@@ -325,6 +325,17 @@ class DoctorController extends Controller
                                 }
                             } else {
                                 foreach ($request->skills as $skill) {
+
+                                    $skills = MasterSkill::whereLike('name',$skill)->first();
+                                    if($skills){
+                                        $skillId = $skills->id;
+                                    }else{
+                                        $skills = new MasterSkill();
+                                        $skills->name = $skill;
+                                        $skill->save();
+                                        $skillId = $skill->id;
+                                    }
+
                                     $doctorSkillsMapping = new DoctorSkillsMapping();
                                     $doctorSkillsMapping->doctor_id = $doctor->id;
                                     $doctorSkillsMapping->skill_name = $skill;
