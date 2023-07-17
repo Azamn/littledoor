@@ -592,10 +592,10 @@ class DoctorController extends Controller
         }
     }
 
-    public function getDoctorDetails(Request $request)
+    public function getDoctorDetails(Request $request, $doctorId)
     {
 
-        if ($request->has('doctor_id')) {
+        if (isset($doctorId) && !is_null($doctorId)) {
             $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $request->doctor_id)->first();
         } elseif ($request->user()) {
             $user = $request->user();
@@ -639,7 +639,7 @@ class DoctorController extends Controller
             ];
 
             if ($request->has('doctor_id')) {
-                return view('Admin');
+                return view('Admin.Doctor.doctor-view', compact('data'));
             } else {
                 return response()->json(
                     [
