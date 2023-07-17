@@ -595,49 +595,56 @@ class DoctorController extends Controller
     public function getDoctorDetails(Request $request)
     {
 
-        $user = $request->user();
-
-        if ($user) {
-
+        if ($request->has('doctor_id')) {
+            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $request->doctor_id)->first();
+        } elseif ($request->user()) {
+            $user = $request->user();
             $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('user_id', $user->id)->first();
-            if ($masterDoctor) {
+        }
 
-                $addressProofData = NULL;
-                $langages = NULL;
+        if ($masterDoctor) {
 
-                if ($masterDoctor->media->isNotEmpty()) {
-                    $addressProofData = $masterDoctor->media->where('collection_name', 'doctor-address-proof')->last()->getFullUrl();
-                }
+            $addressProofData = NULL;
+            $langages = NULL;
 
-                if (!is_null($masterDoctor->languages_known)) {
-                    $langages = explode(",", $masterDoctor->languages_known);
-                }
+            if ($masterDoctor->media->isNotEmpty()) {
+                $addressProofData = $masterDoctor->media->where('collection_name', 'doctor-address-proof')->last()->getFullUrl();
+            }
 
-                $formStatus = 0;
-                if (!is_null($addressProofData) && !is_null($masterDoctor->doctorWorkMapping) && !is_null($masterDoctor->doctorEducationMapping) && !is_null($masterDoctor->doctorSkillsMapping)) {
-                    $formStatus = 1;
-                }
+            if (!is_null($masterDoctor->languages_known)) {
+                $langages = explode(",", $masterDoctor->languages_known);
+            }
 
+            $formStatus = 0;
+            if (!is_null($addressProofData) && !is_null($masterDoctor->doctorWorkMapping) && !is_null($masterDoctor->doctorEducationMapping) && !is_null($masterDoctor->doctorSkillsMapping)) {
+                $formStatus = 1;
+            }
+
+            $data =  [
+                'id' => $masterDoctor?->id,
+                'first_name' => $masterDoctor?->first_name,
+                'dob' => $masterDoctor?->dob,
+                'gender' => $masterDoctor?->gender,
+                'mobile_no' => $masterDoctor?->contact_1,
+                'address_proof_url' => $addressProofData ?? NULL,
+                'status' => $masterDoctor->status,
+                'form_status' => $formStatus,
+                'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
+                'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
+                'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
+                'address' => $masterDoctor?->doctorAdressMapping ? DoctorAddressResource::collection($masterDoctor?->doctorAdressMapping) : NULL,
+                'languages' => $langages,
+                'appreciation' => $masterDoctor?->doctorAppreciationMapping ? DoctorAppeciationResource::collection($masterDoctor?->doctorAppreciationMapping) : NULL,
+                'other' => $masterDoctor?->otherDocMapping ? DoctorOtherDocResource::collection($masterDoctor?->otherDocMapping) : NULL
+            ];
+
+            if ($request->has('doctor_id')) {
+                return view('Admin')
+            } else {
                 return response()->json(
                     [
                         'status' => true,
-                        'data' => [
-                            'id' => $masterDoctor?->id,
-                            'first_name' => $masterDoctor?->first_name,
-                            'dob' => $masterDoctor?->dob,
-                            'gender' => $masterDoctor?->gender,
-                            'mobile_no' => $masterDoctor?->contact_1,
-                            'address_proof_url' => $addressProofData ?? NULL,
-                            'status' => $masterDoctor->status,
-                            'form_status' => $formStatus,
-                            'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
-                            'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
-                            'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
-                            'address' => $masterDoctor?->doctorAdressMapping ? DoctorAddressResource::collection($masterDoctor?->doctorAdressMapping) : NULL,
-                            'languages' => $langages,
-                            'appreciation' => $masterDoctor?->doctorAppreciationMapping ? DoctorAppeciationResource::collection($masterDoctor?->doctorAppreciationMapping) : NULL,
-                            'other' => $masterDoctor?->otherDocMapping ? DoctorOtherDocResource::collection($masterDoctor?->otherDocMapping) : NULL
-                        ]
+                        'data' => $data
                     ]
                 );
             }
