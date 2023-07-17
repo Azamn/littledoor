@@ -600,7 +600,7 @@ class DoctorController extends Controller
     {
 
         if (isset($doctorId) && !is_null($doctorId)) {
-            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $request->doctor_id)->first();
+            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $doctorId)->first();
         } elseif ($request->user()) {
             $user = $request->user();
             $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('user_id', $user->id)->first();
@@ -642,7 +642,10 @@ class DoctorController extends Controller
                 'other' => $masterDoctor?->otherDocMapping ? DoctorOtherDocResource::collection($masterDoctor?->otherDocMapping) : NULL
             ];
 
-            if ($request->has('doctor_id')) {
+            if (isset($doctorId) && !is_null($doctorId)) {
+                $data['email'] = $masterDoctor?->user?->email ?? NULL;
+                $data['city'] = $masterDoctor?->city?->city_name ?? NULL;
+
                 return view('Admin.Doctor.doctor-view', compact('data'));
             } else {
                 return response()->json(
