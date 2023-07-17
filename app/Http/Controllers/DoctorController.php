@@ -275,11 +275,17 @@ class DoctorController extends Controller
 
                                     if (isset($deucationData['certificate']) && !is_null($deucationData['certificate'])) {
                                         foreach ($deucationData['certificate'] as $certificates) {
-                                            $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                            $type = gettype($certificates);
+                                            if ($type == 'string') {
+                                                $certificateUrl = $certificates;
+                                                $doctorEducationMapping->addMediaFromUrl($certificateUrl)->toMediaCollection('doctor-edu-certificate');
+                                            } else {
+                                                $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                            }
                                         }
                                     }
 
-                                    if ($deucationData['description']) {
+                                    if (isset($deucationData['description']) && !is_null($deucationData['description'])) {
                                         $doctorEducationMapping->description = $deucationData['description'] ?? NULL;
                                     }
 
@@ -299,11 +305,17 @@ class DoctorController extends Controller
 
                                     if (isset($deucationData['certificate']) && !is_null($deucationData['certificate'])) {
                                         foreach ($deucationData['certificate'] as $certificates) {
-                                            $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                            $type = gettype($certificates);
+                                            if ($type == 'string') {
+                                                $certificateUrl = $certificates;
+                                                $doctorEducationMapping->addMediaFromUrl($certificateUrl)->toMediaCollection('doctor-edu-certificate');
+                                            } else {
+                                                $doctorEducationMapping->addMedia($certificates)->toMediaCollection('doctor-edu-certificate');
+                                            }
                                         }
                                     }
 
-                                    if ($deucationData['description']) {
+                                    if (isset($deucationData['description']) && !is_null($deucationData['description'])) {
                                         $doctorEducationMapping->description = $deucationData['description'] ?? NULL;
                                     }
 
@@ -404,7 +416,13 @@ class DoctorController extends Controller
                                 }
 
                                 if ($request->has('address_proof_document')) {
-                                    $doctor->addMediaFromRequest('address_proof_document')->toMediaCollection('doctor-address-proof');
+                                    $type = gettype($request->address_proof_document);
+                                    if ($type == 'string') {
+                                        $addressProofUrl = $request->address_proof_document;
+                                        $doctor->addMediaFromUrl($addressProofUrl)->toMediaCollection('doctor-address-proof');
+                                    } else {
+                                        $doctor->addMediaFromRequest('address_proof_document')->toMediaCollection('doctor-address-proof');
+                                    }
                                 }
 
                                 return response()->json(['status' => true, 'message' => 'Address Added Successfully']);
@@ -412,7 +430,13 @@ class DoctorController extends Controller
                         }
 
                         if ($request->has('address_proof_document')) {
-                            $doctor->addMediaFromRequest('address_proof_document')->toMediaCollection('doctor-address-proof');
+                            $type = gettype($request->address_proof_document);
+                            if ($type == 'string') {
+                                $addressProofUrl = $request->address_proof_document;
+                                $doctor->addMediaFromUrl($addressProofUrl)->toMediaCollection('doctor-address-proof');
+                            } else {
+                                $doctor->addMediaFromRequest('address_proof_document')->toMediaCollection('doctor-address-proof');
+                            }
                             $doctor->update();
 
                             return response()->json(['status' => true, 'message' => 'Address-proof document addded Successfully']);
@@ -461,10 +485,16 @@ class DoctorController extends Controller
                                     $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
 
                                     if (isset($appreciationData['image']) && !is_null($appreciationData['image'])) {
-                                        $doctorAppreciationMapping->addMedia($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                        $type = gettype($appreciationData['image']);
+                                        if ($type == 'string') {
+                                            $apreciationUrl = $appreciationData['image'];
+                                            $doctorAppreciationMapping->addMediaFromUrl($apreciationUrl)->toMediaCollection('doctor-appreciation');
+                                        } else {
+                                            $doctorAppreciationMapping->addMedia($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                        }
                                     }
 
-                                    if ($doctorAppreciationMapping['description']) {
+                                    if (isset($appreciationData['description']) && !is_null($appreciationData['description'])) {
                                         $doctorAppreciationMapping->description = $appreciationData['description'] ?? NULL;
                                     }
 
@@ -482,10 +512,17 @@ class DoctorController extends Controller
                                     $doctorAppreciationMapping->issue_date = $appreciationData['issue_date'] ?? NULL;
 
                                     if (isset($appreciationData['image']) && !is_null($appreciationData['image'])) {
-                                        $doctorAppreciationMapping->addMedia($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+
+                                        $type = gettype($appreciationData['image']);
+                                        if ($type == 'string') {
+                                            $apreciationUrl = $appreciationData['image'];
+                                            $doctorAppreciationMapping->addMediaFromUrl($apreciationUrl)->toMediaCollection('doctor-appreciation');
+                                        } else {
+                                            $doctorAppreciationMapping->addMedia($appreciationData['image'])->toMediaCollection('doctor-appreciation');
+                                        }
                                     }
 
-                                    if ($doctorAppreciationMapping['description']) {
+                                    if (isset($appreciationData['description']) && !is_null($appreciationData['description'])) {
                                         $doctorAppreciationMapping->description = $appreciationData['description'] ?? NULL;
                                     }
 
@@ -513,7 +550,13 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
+                                        $type = gettype($otherData['image']);
+                                        if ($type == 'string') {
+                                            $otherDocumentUrl = $otherData['image'];
+                                            $otherDoctorDocument->addMediaFromUrl($otherDocumentUrl)->toMediaCollection('doctor-other-document');
+                                        } else {
+                                            $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
+                                        }
                                     }
 
                                     $otherDoctorDocument->save();
@@ -528,7 +571,13 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
+                                        $type = gettype($otherData['image']);
+                                        if ($type == 'string') {
+                                            $otherDocumentUrl = $otherData['image'];
+                                            $otherDoctorDocument->addMediaFromUrl($otherDocumentUrl)->toMediaCollection('doctor-other-document');
+                                        } else {
+                                            $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
+                                        }
                                     }
 
                                     $otherDoctorDocument->save();
