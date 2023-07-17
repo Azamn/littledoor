@@ -91,6 +91,7 @@ Route::middleware(AdminAccess::class)->group(function () {
         /** Doctor Route */
         Route::get('/get/doctor-list',[DoctorController::class,'getDoctorList'])->name('get.all-doctors');
         Route::get('/change/doctor-status',[DoctorController::class, 'changeDoctorStatus'])->name('change.doctor-status');
+        Route::get('/get/doctor/details/view/{doctorId}',[DoctorController::class,'getDoctorDetails']);
 
         /** Patient Route */
         Route::get('/get/patient-list',[PatientController::class,'getAllPatient'])->name('get.all-patient');
