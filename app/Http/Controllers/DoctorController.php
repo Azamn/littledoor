@@ -639,7 +639,7 @@ class DoctorController extends Controller
             ];
 
             if ($request->has('doctor_id')) {
-                return view('Admin')
+                return view('Admin');
             } else {
                 return response()->json(
                     [
