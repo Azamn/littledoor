@@ -129,7 +129,8 @@ class DoctorController extends Controller
             'work.*.category_id' => 'required|integer',
             'work.*.sub_category_id' => 'sometimes|required|string',
             'work.*.year_of_experience' => 'sometimes|required|integer',
-            'work.*.certificate.*' => 'sometimes|nullable|file|mimes:jpg,png,jpeg,pdf|max:5000',
+            'work.*.certificate.*' => 'sometimes|required|max:5000',
+            // 'work.*.certificate.*' => 'sometimes|nullable|string|mimes:jpg,png,jpeg,pdf|max:5000',
             'work.*.description' => 'sometimes|required|string',
             /** Step 2 of education */
             'education' => 'required_if:step,2|array',
@@ -138,7 +139,8 @@ class DoctorController extends Controller
             'education.*.field_of_study' => 'sometimes|required',
             'education.*.start_date' => 'sometimes|date|required',
             'education.*.end_date' => 'sometimes|date|required',
-            'education.*.certificate.*' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000',
+            'education.*.certificate.*' => 'sometimes|required|max:5000',
+            // 'education.*.certificate.*' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000',
             'education.*.description' => 'sometimes|required',
             /** Step 3 of skills */
             'skills.*' => 'required_if:step,3',
@@ -159,12 +161,14 @@ class DoctorController extends Controller
             'appreciation.*.category_achieved' => 'sometimes|required',
             'appreciation.*.issue_date' => 'sometimes|required|date',
             'appreciation.*.category_achieved' => 'sometimes|required',
-            'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000',
+            'appreciation.*.image' => 'sometimes|required|max:5000',
+            // 'appreciation.*.image' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000',
             'appreciation.*.description' => 'sometimes|required|string',
             /** Step 7 other document */
             'other' => 'required_if:step,7|array',
             'other.*.name' => 'sometimes|required|string',
-            'other.*.document' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000'
+            'other.*.document' => 'sometimes|required|max:5000'
+            // 'other.*.document' => 'sometimes|required|file|mimes:jpg,png,jpeg,pdf|max:5000'
 
         ];
 
@@ -200,11 +204,17 @@ class DoctorController extends Controller
                                     $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
                                     if (isset($workData['certificate']) && !is_null($workData['certificate'])) {
                                         foreach ($workData['certificate'] as $certificates) {
-                                            $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                                            $type = gettype($certificates);
+                                            if ($type == 'string') {
+                                                $certificateUrl = $certificates;
+                                                $doctorWorkMapping->addMediaFromUrl($certificateUrl)->toMediaCollection('doctor-work-certificate');
+                                            } else {
+                                                $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                                            }
                                         }
                                     }
 
-                                    if ($workData['description']) {
+                                    if (isset($workData['description']) && !is_null($workData['description'])) {
                                         $doctorWorkMapping->description = $workData['description'] ?? NULL;
                                     }
 
@@ -221,11 +231,17 @@ class DoctorController extends Controller
                                     $doctorWorkMapping->year_of_experience = $workData['year_of_experience'] ?? NULL;
                                     if (isset($workData['certificate']) && !is_null($workData['certificate'])) {
                                         foreach ($workData['certificate'] as $certificates) {
-                                            $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                                            $type = gettype($certificates);
+                                            if ($type == 'string') {
+                                                $certificateUrl = $certificates;
+                                                $doctorWorkMapping->addMediaFromUrl($certificateUrl)->toMediaCollection('doctor-work-certificate');
+                                            } else {
+                                                $doctorWorkMapping->addMedia($certificates)->toMediaCollection('doctor-work-certificate');
+                                            }
                                         }
                                     }
 
-                                    if ($workData['description']) {
+                                    if (isset($workData['description']) && !is_null($workData['description'])) {
                                         $doctorWorkMapping->description = $workData['description'] ?? NULL;
                                     }
 
@@ -312,10 +328,10 @@ class DoctorController extends Controller
 
                                 foreach ($request->skills as $skill) {
 
-                                    $skills = MasterSkill::where('name',$skill)->first();
-                                    if($skills){
+                                    $skills = MasterSkill::where('name', $skill)->first();
+                                    if ($skills) {
                                         $skillId = $skills->id;
-                                    }else{
+                                    } else {
                                         $skills = new MasterSkill();
                                         $skills->name = $skill;
                                         $skills->save();
@@ -330,10 +346,10 @@ class DoctorController extends Controller
                             } else {
                                 foreach ($request->skills as $skill) {
 
-                                    $skills = MasterSkill::where('name',$skill)->first();
-                                    if($skills){
+                                    $skills = MasterSkill::where('name', $skill)->first();
+                                    if ($skills) {
                                         $skillId = $skills->id;
-                                    }else{
+                                    } else {
                                         $skills = new MasterSkill();
                                         $skills->name = $skill;
                                         $skills->save();
@@ -553,7 +569,7 @@ class DoctorController extends Controller
                 }
 
                 $formStatus = 0;
-                if(!is_null($addressProofData) && !is_null($masterDoctor->doctorWorkMapping) && !is_null($masterDoctor->doctorEducationMapping) && !is_null($masterDoctor->doctorSkillsMapping)){
+                if (!is_null($addressProofData) && !is_null($masterDoctor->doctorWorkMapping) && !is_null($masterDoctor->doctorEducationMapping) && !is_null($masterDoctor->doctorSkillsMapping)) {
                     $formStatus = 1;
                 }
 
