@@ -54,7 +54,8 @@ class DoctorWorkExperienceResource extends JsonResource
             'category_id' => $this?->category_id,
             'category_name' => $this->category?->name,
             'sub_category' => $subCategoriesData ?? NULL,
-            'certificate' => $certificates ?? NULL
+            'certificate' => $certificates ?? NULL,
+            'description' => $this?->description ?? NULL
         ];
     }
 }
