@@ -550,9 +550,9 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $type = gettype($otherData['image']);
+                                        $type = gettype($otherData['document']);
                                         if ($type == 'string') {
-                                            $otherDocumentUrl = $otherData['image'];
+                                            $otherDocumentUrl = $otherData['document'];
                                             $otherDoctorDocument->addMediaFromUrl($otherDocumentUrl)->toMediaCollection('doctor-other-document');
                                         } else {
                                             $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
@@ -571,9 +571,9 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $type = gettype($otherData['image']);
+                                        $type = gettype($otherData['document']);
                                         if ($type == 'string') {
-                                            $otherDocumentUrl = $otherData['image'];
+                                            $otherDocumentUrl = $otherData['document'];
                                             $otherDoctorDocument->addMediaFromUrl($otherDocumentUrl)->toMediaCollection('doctor-other-document');
                                         } else {
                                             $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
