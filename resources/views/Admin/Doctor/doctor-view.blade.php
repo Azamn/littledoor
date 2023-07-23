@@ -102,9 +102,9 @@
                                                             <tr>
                                                                 <td> <b>Sub Category &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> {{ implode(@$experience['sub_category'], ',') }} </td>
+                                                                <td> {{ implode(',', @$experience['sub_category']) }} </td>
                                                             </tr>
-                                                            
+
                                                             <tr>
                                                                 @foreach(@$experience['certificate'] as $certificate)
                                                                 <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
@@ -146,7 +146,7 @@
                                         <div class="accordion-collapse collapse" id="left-collapseOne1"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                @foreach($data['expertise'] as $education)
+                                                @foreach($data['education'] as $education)
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
