@@ -102,7 +102,10 @@
                                                             <tr>
                                                                 <td> <b>Sub Category &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> {{ implode(',', @$experience['sub_category']) }} </td>
+                                                                <td>  @foreach(@$experience['sub_category'] as $subCat)
+                                                                    {{ @$subCat['name'] }},
+                                                                @endforeach
+                                                            </td>
                                                             </tr>
 
                                                             <tr>
