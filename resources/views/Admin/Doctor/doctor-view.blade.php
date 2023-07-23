@@ -96,31 +96,27 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
+                                                                <td>{{ @$data['work_experience']['name'] }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
+                                                                <td> {{ @$data['work_experience']['field_of_study'] }} </td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
+                                                                <td>{{ @$data['work_experience']['start_date'] }} to {{ @$data['work_experience']['end_date'] }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Description &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
+                                                                <td>{{ @$data['work_experience']['description'] }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
+                                                                <td><a class="btn btn-primary" href="{{ @$data['work_experience']['documents'] }}"> <i
                                                                             class="icon-eye"></i> View
                                                                         Certificate </a></td>
                                                             </tr>
