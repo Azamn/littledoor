@@ -85,46 +85,62 @@
                                     <div class="accordion-item accordion-wrapper">
                                         <h2 class="accordion-header" id="headingOne">
                                             <button class="accordion-button collapsed accordion-light-primary txt-primary"
-                                                type="button" data-bs-toggle="collapse" data-bs-target="#left-collapseOne10"
-                                                aria-expanded="true" aria-controls="left-collapseOne">Work Experience</button>
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#left-collapseOne10" aria-expanded="true"
+                                                aria-controls="left-collapseOne">Work Experience</button>
                                         </h2>
                                         <div class="accordion-collapse collapse" id="left-collapseOne10"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                @foreach($data['work_experience'] as $experience)
-                                                <div>
-                                                    <table class="product-page-width">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td> <b>Category Name &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>{{ @$experience['category_name'] }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Sub Category &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>  @foreach(@$experience['sub_category'] as $subCat)
-                                                                    {{ @$subCat['name'] }},
-                                                                @endforeach
-                                                            </td>
-                                                            </tr>
 
-                                                            <tr>
-                                                                @foreach(@$experience['certificate'] as $certificate)
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href="{{ @$certificate}}"> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                                @endforeach
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> {{ @$experience['description'] }} </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($data['work_experience'] as $experience)
+                                                    <div>
+                                                        <table class="product-page-width">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td> <b>Category Name &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                    <td>{{ $experience['category_name'] }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Sub Category &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b>
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (!is_null($experience['sub_category']))
+                                                                            @foreach (@$experience['sub_category'] as $subCat)
+                                                                                {{ @$subCat['name'] }},
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </td>
+
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td> <b>Year Of Experience &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td> {{ @$experience['year_of_experience'] }} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Description &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td> {{ @$experience['description'] }} </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    @if (!is_null($experience['certificate']))
+                                                                        @foreach (@$experience['certificate'] as $certificate)
+                                                                            <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
+                                                                                    &nbsp;&nbsp;&nbsp;</b></td>
+                                                                            <td><a class="btn btn-primary"
+                                                                                    href="{{ @$certificate }}"> <i
+                                                                                        class="icon-eye"></i> View
+                                                                                    Certificate </a></td>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -149,39 +165,41 @@
                                         <div class="accordion-collapse collapse" id="left-collapseOne1"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                @foreach($data['education'] as $education)
-                                                <div>
-                                                    <table class="product-page-width">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>{{ @$education['name'] }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> {{ @$education['field_of_study'] }} </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>{{ @$education['start_date'] }} to {{ @$education['end_date'] }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>{{ @$education['description'] }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href="{{ @$education['documents'] }}"> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($data['education'] as $education)
+                                                    <div>
+                                                        <table class="product-page-width">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                    <td>{{ @$education['name'] }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td> {{ @$education['field_of_study'] }} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td>{{ @$education['start_date'] }} to
+                                                                        {{ @$education['end_date'] }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Description &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td>{{ @$education['description'] }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td><a class="btn btn-primary"
+                                                                            href="{{ @$education['documents'] }}"> <i
+                                                                                class="icon-eye"></i> View
+                                                                            Certificate </a></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -321,8 +339,9 @@
                                     <div class="accordion-item accordion-wrapper">
                                         <h2 class="accordion-header" id="headingOne">
                                             <button class="accordion-button collapsed accordion-light-primary txt-primary"
-                                                type="button" data-bs-toggle="collapse" data-bs-target="#left-collapseOne4"
-                                                aria-expanded="true" aria-controls="left-collapseOne">Language</button>
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#left-collapseOne4" aria-expanded="true"
+                                                aria-controls="left-collapseOne">Language</button>
                                         </h2>
                                         <div class="accordion-collapse collapse" id="left-collapseOne4"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
