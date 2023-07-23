@@ -91,38 +91,40 @@
                                         <div class="accordion-collapse collapse" id="left-collapseOne1"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
+                                                @foreach ($data['education']=> $education)
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
                                                             <tr>
                                                                 <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>{{ @$data['work_experience']['name'] }}</td>
+                                                                <td>{{ @$education['name'] }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> {{ @$data['work_experience']['field_of_study'] }} </td>
+                                                                <td> {{ @$education['field_of_study'] }} </td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>{{ @$data['work_experience']['start_date'] }} to {{ @$data['work_experience']['end_date'] }}</td>
+                                                                <td>{{ @$education['start_date'] }} to {{ @$education['end_date'] }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Description &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>{{ @$data['work_experience']['description'] }}</td>
+                                                                <td>{{ @$education['description'] }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href="{{ @$data['work_experience']['documents'] }}"> <i
+                                                                <td><a class="btn btn-primary" href="{{ @$education['documents'] }}"> <i
                                                                             class="icon-eye"></i> View
                                                                         Certificate </a></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
