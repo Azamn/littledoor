@@ -170,16 +170,21 @@
                                                         <table class="product-page-width">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                    <td> <b>Course Name &nbsp;&nbsp;&nbsp;:</b></td>
                                                                     <td>{{ @$education['name'] }}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
+                                                                    <td> <b>Insitution Name &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                    <td> {{ @$education['institution_name'] }} </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td> <b>Filed Of Study &nbsp;&nbsp;&nbsp;:
                                                                             &nbsp;&nbsp;&nbsp;</b></td>
                                                                     <td> {{ @$education['field_of_study'] }} </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
+                                                                    <td> <b>Time Period &nbsp;&nbsp;&nbsp;:
                                                                             &nbsp;&nbsp;&nbsp;</b></td>
                                                                     <td>{{ @$education['start_date'] }} to
                                                                         {{ @$education['end_date'] }}</td>
@@ -190,12 +195,16 @@
                                                                     <td>{{ @$education['description'] }}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                            &nbsp;&nbsp;&nbsp;</b></td>
-                                                                    <td><a class="btn btn-primary"
-                                                                            href="{{ @$education['documents'] }}"> <i
-                                                                                class="icon-eye"></i> View
-                                                                            Certificate </a></td>
+                                                                    @if (!is_null($education['documents']))
+                                                                        @foreach (@$education['documents'] as $certificate)
+                                                                            <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
+                                                                                    &nbsp;&nbsp;&nbsp;</b></td>
+                                                                            <td><a class="btn btn-primary"
+                                                                                    href="{{ @$certificate }}"> <i
+                                                                                        class="icon-eye"></i> View
+                                                                                    Certificate </a></td>
+                                                                        @endforeach
+                                                                    @endif
                                                                 </tr>
                                                             </tbody>
                                                         </table>

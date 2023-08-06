@@ -58,3 +58,4 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 });
 
 Route::get('/get/cities',[MasterCityController::class,'getCity']);
+Route::get('/get/unique/category',[PatientController::class, 'testCategory']);
