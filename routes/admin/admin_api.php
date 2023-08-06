@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** Get languages */
     Route::get('/get/languages',[AdminManagementController::class,'getLanguages']);
 
+    /** GET Doctor list in pateint */
+    Route::get('/get/doctor/list',[PatientController::class,'getDoctor']);
+
 
 });
 

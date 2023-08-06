@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
 use App\Models\MasterPatient;
 use App\Models\MasterSubCategory;
-use App\Models\PatientMentalDisorderQuestionMapping;
-use App\Models\PatientQuestionOptionMapping;
-use App\Models\SubCategoryQuestionMapping;
-use App\Models\SubCategoryQuestionMappingWithOption;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\SubCategoryQuestionMapping;
+use App\Models\PatientQuestionOptionMapping;
+use App\Http\Resources\MasterDoctorDetailResource;
+use App\Models\PatientMentalDisorderQuestionMapping;
+use App\Models\SubCategoryQuestionMappingWithOption;
 
 class PatientController extends Controller
 {
@@ -174,6 +176,34 @@ class PatientController extends Controller
             $pateintData->category_id = $categoryId ?? NULL;
             $pateintData->sub_category_id = $subCategoryId ?? NULL;
             $pateintData->update();
+        }
+    }
+
+    public function getDoctor(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $patient = $user->patient;
+
+            if ($patient) {
+
+                $categoryId = $patient->category_id;
+
+                if ($categoryId) {
+                    $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
+                        return $query->where('category_id', $categoryId);
+                    }], 'user', 'city')->where('status', 1)->get();
+                }
+
+                if ($masterDoctor->isEmpty()) {
+                    return $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'user', 'city')->where('status', 1)->get();
+                }
+
+                return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
+            }
         }
     }
 }
