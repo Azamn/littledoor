@@ -13,4 +13,8 @@ class PatientQuestionOptionMapping extends Model
     protected $guarded = [];
 
     protected $table = "patient_question_option_mappings";
+
+    public function subCategoryQuestionMapping(){
+        return $this->belongsTo(SubCategoryQuestionMapping::class, 'category_question_mapping_id','id');
+    }
 }

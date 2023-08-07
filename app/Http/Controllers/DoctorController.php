@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserOtp;
+use App\Models\MasterSkill;
 use Illuminate\Support\Str;
 use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\DoctorAdressMapping;
 use App\Models\DoctorSkillsMapping;
@@ -22,7 +25,6 @@ use App\Http\Resources\DoctorOtherDocResource;
 use App\Http\Resources\DoctorEducationResource;
 use App\Http\Resources\DoctorAppeciationResource;
 use App\Http\Resources\DoctorWorkExperienceResource;
-use App\Models\MasterSkill;
 
 class DoctorController extends Controller
 {
@@ -684,7 +686,9 @@ class DoctorController extends Controller
 
     public function getDoctorDetailsView(Request $request, $doctorId)
     {
-        $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $doctorId)->first();
+
+        $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorWorkMapping.category', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $doctorId)->first();
+
 
         if ($masterDoctor) {
 
@@ -704,6 +708,160 @@ class DoctorController extends Controller
                 $formStatus = 1;
             }
 
+
+            $workExperienceData = [];
+            $educationData = [];
+            $skillsData = [];
+            $addressData = [];
+            $appreciationData = [];
+            $otherData = [];
+
+            /** Work Experience Data */
+            if (!is_null($masterDoctor->doctorWorkMapping)) {
+                foreach ($masterDoctor->doctorWorkMapping as $doctorWE) {
+
+                    $subCategoriesData = [];
+                    $certificates = [];
+
+                    if ($doctorWE->sub_category_id) {
+                        $subCategoryIds = explode(',', $doctorWE->sub_category_id);
+
+                        foreach ($subCategoryIds as $subCategoryId) {
+
+                            $subCategory = MasterSubCategory::where('id', $subCategoryId)->first();
+                            if ($subCategory) {
+                                $data = [
+                                    'id' => $subCategory->id,
+                                    'name' => $subCategory->name,
+                                ];
+
+                                array_push($subCategoriesData, $data);
+                            }
+                        }
+                    }
+
+                    if ($doctorWE->media->isNotEmpty()) {
+                        $docotrCertificate = $doctorWE->media->where('collection_name', 'doctor-work-certificate');
+                        if ($docotrCertificate->isNotEmpty()) {
+                            foreach ($docotrCertificate as $certificate) {
+                                $doctorCertificationUrl = $certificate->getFullUrl();
+
+                                if ($doctorCertificationUrl) {
+                                    array_push($certificates, $doctorCertificationUrl);
+                                }
+                            }
+                        }
+                    }
+
+
+                    $data = [
+                        'category_name' => $doctorWE->category->name,
+                        'sub_category' => $subCategoriesData ?? NULL,
+                        'certificate' => $certificates ?? NULL,
+                        'year_of_experience' => $doctorWE->year_of_experience ?? NULL,
+                        'description' => $doctorWE->description ?? NULL
+
+                    ];
+
+                    array_push($workExperienceData, $data);
+                }
+            }
+
+            /** Doctor Education Data */
+            if (!is_null($masterDoctor->doctorEducationMapping)) {
+                foreach ($masterDoctor->doctorEducationMapping as $education) {
+
+                    $documents = [];
+
+                    if ($education->media->isNotEmpty()) {
+                        $docotrEducation = $education->media->where('collection_name', 'doctor-edu-certificate');
+                        if ($docotrEducation->isNotEmpty()) {
+                            foreach ($docotrEducation as $certificate) {
+                                $doctorEducationDocumentUrl = $certificate->getFullUrl();
+
+                                if ($doctorEducationDocumentUrl) {
+                                    array_push($documents, $doctorEducationDocumentUrl);
+                                }
+                            }
+                        }
+                    }
+
+                    $data = [
+                        'name' => $education?->name,
+                        'institution_name' => $education?->institution_name,
+                        'field_of_study' => $education?->field_of_study,
+                        'start_date' => Carbon::parse($education?->start_date)->format('d-m-Y'),
+                        'end_date' => Carbon::parse($education?->end_date)->format('d-m-Y'),
+                        'documents' => $documents ?? NULL,
+                        'description' => $education?->description ?? NULL
+                    ];
+
+                    array_push($educationData, $data);
+                }
+            }
+
+            /** Doctor Skills data  */
+            if (!is_null($masterDoctor?->doctorSkillsMapping)) {
+                foreach ($masterDoctor?->doctorSkillsMapping as $doctorSkills) {
+
+                    $data =  [
+                        'skill_id' => $doctorSkills?->skill_id,
+                        'skill_name' => $doctorSkills?->skill?->name ?? NULL,
+                    ];
+
+                    array_push($skillsData, $data);
+                }
+            }
+
+            /** Doctor Address */
+            if (!is_null($masterDoctor?->doctorAdressMapping)) {
+                foreach ($masterDoctor?->doctorAdressMapping as $address) {
+
+                    $data =  [
+                        'address_type' => $address?->address_type,
+                        'address_line_1' => $address?->address_line_1 ?? NULL,
+                        'address_line_2' => $address?->address_line_2 ?? NULL,
+                        'pincode' => $address?->pincode ?? NULL,
+                        'city_id' => $address?->city_id ?? NULL,
+                        'city_name' => $address?->city?->city_name ?? NULL,
+                        'state_id' => $address?->state_id ?? NULL,
+                        'state_name' => $address?->state?->state_name ?? NULL
+                    ];
+
+                    array_push($addressData, $data);
+                }
+            }
+
+            /** Doctor Appreciation */
+            if (!is_null($masterDoctor?->doctorAppreciationMapping)) {
+                foreach ($masterDoctor?->doctorAppreciationMapping as $appreciation) {
+
+                    $data =  [
+                        'name' => $appreciation?->name,
+                        'category_achieved' => $appreciation?->category_achieved ?? NULL,
+                        'issue_date' => Carbon::parse($appreciation?->issue_date)->format('d-m-Y'),
+                        'description' => $appreciation?->description ?? NULL,
+                        'image_url' => $appreciation->media->isNotEmpty() ? $appreciation->media->where('collection_name', 'doctor-appreciation')->last()->getFullUrl() : NULL
+                    ];
+
+                    array_push($appreciationData, $data);
+                }
+            }
+
+            /** Doctor Other Document */
+            if (!is_null($masterDoctor?->otherDocMapping)) {
+                foreach ($masterDoctor?->otherDocMapping as $other) {
+
+                    $data =  [
+                        'name' => $other?->name,
+                        'document' => $other?->media->isNotEmpty() ? $other->media->where('collection_name', 'doctor-other-document')->last()->getFullUrl() : NULL
+                    ];
+
+                    array_push($otherData, $data);
+                }
+            }
+
+
             $data =  [
                 'id' => $masterDoctor?->id,
                 'first_name' => $masterDoctor?->first_name,
@@ -713,13 +871,14 @@ class DoctorController extends Controller
                 'gender' => $masterDoctor?->gender,
                 'mobile_no' => $masterDoctor?->contact_1,
                 'address_proof_url' => $addressProofData ?? NULL,
-                'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
-                'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
-                'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
-                'address' => $masterDoctor?->doctorAdressMapping ? DoctorAddressResource::collection($masterDoctor?->doctorAdressMapping) : NULL,
+                'work_experience' => $workExperienceData ?? NULL,
+                'education' => $educationData ?? NULL,
+                'skills' => $skillsData ?? NULL,
+                'address' => $addressData ?? NULL,
                 'languages' => $langages,
-                'appreciation' => $masterDoctor?->doctorAppreciationMapping ? DoctorAppeciationResource::collection($masterDoctor?->doctorAppreciationMapping) : NULL,
-                'other' => $masterDoctor?->otherDocMapping ? DoctorOtherDocResource::collection($masterDoctor?->otherDocMapping) : NULL
+                'appreciation' => $appreciationData ?? NULL,
+                'other' => $otherData ?? NULL
+
             ];
 
             return view('Admin.Doctor.doctor-view', compact('data'));
