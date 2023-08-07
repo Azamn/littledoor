@@ -47,43 +47,47 @@ class DoctorController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
-            $user = User::where('mobile_no', $request->mobile_no)->first();
-            if ($user) {
-                $doctor = MasterDoctor::where('user_id', $user->id)->first();
-                if (!is_null($doctor)) {
-                    return response()->json(['status' => false, 'message' => 'Doctor Details Already Exist with this mobile no :' . $request->mobile_no]);
+
+            if ($request->has('mobile_no') && !is_null($request->mobile_no)) {
+
+                $user = User::where('mobile_no', $request->mobile_no)->first();
+                if ($user) {
+                    $doctor = MasterDoctor::where('user_id', $user->id)->first();
+                    if (!is_null($doctor)) {
+                        return response()->json(['status' => false, 'message' => 'Doctor Details Already Exist with this mobile no :' . $request->mobile_no]);
+                    } else {
+                        return response()->json(['status' => false, 'message' => 'User Exist with this mobile no :' . $request->mobile_no]);
+                    }
                 } else {
-                    return response()->json(['status' => false, 'message' => 'User Exist with this mobile no :' . $request->mobile_no]);
+
+                    DB::transaction(function () use ($request) {
+
+                        $apiToken = Str::random(60);
+                        $rememberToken = Str::random(80);
+
+                        $user = new User();
+                        $user->master_user_type_id = 2;
+                        $user->api_token = $apiToken;
+                        $user->remember_token = $rememberToken;
+                        $user->mobile_no = $request->mobile_no;
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        $user->save();
+
+                        $doctor = new MasterDoctor();
+                        $doctor->user_id = $user->id;
+                        $doctor->first_name = $request->name;
+                        $doctor->dob = $request->dob;
+                        $doctor->gender = $request->gender;
+                        $doctor->contact_1 = $request->mobile_no;
+                        $doctor->city_id = $request->city_id;
+                        $doctor->status = 0;
+
+                        $doctor->save();
+                    });
+
+                    return $this->sendLoginOtp($request->mobile_no);
                 }
-            } else {
-
-                DB::transaction(function () use ($request) {
-
-                    $apiToken = Str::random(60);
-                    $rememberToken = Str::random(80);
-
-                    $user = new User();
-                    $user->master_user_type_id = 2;
-                    $user->api_token = $apiToken;
-                    $user->remember_token = $rememberToken;
-                    $user->mobile_no = $request->mobile_no;
-                    $user->name = $request->name;
-                    $user->email = $request->email;
-                    $user->save();
-
-                    $doctor = new MasterDoctor();
-                    $doctor->user_id = $user->id;
-                    $doctor->first_name = $request->name;
-                    $doctor->dob = $request->dob;
-                    $doctor->gender = $request->gender;
-                    $doctor->contact_1 = $request->mobile_no;
-                    $doctor->city_id = $request->city_id;
-                    $doctor->status = 0;
-
-                    $doctor->save();
-                });
-
-                return $this->sendLoginOtp($request->mobile_no);
             }
         }
     }
@@ -548,9 +552,9 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $type = gettype($otherData['image']);
+                                        $type = gettype($otherData['document']);
                                         if ($type == 'string') {
-                                            $otherDocumentUrl = $otherData['image'];
+                                            $otherDocumentUrl = $otherData['document'];
                                             $otherDoctorDocument->addMediaFromUrl($otherDocumentUrl)->toMediaCollection('doctor-other-document');
                                         } else {
                                             $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
@@ -569,9 +573,9 @@ class DoctorController extends Controller
                                     $otherDoctorDocument->name = $otherData['name'];
 
                                     if ($otherData['document']) {
-                                        $type = gettype($otherData['image']);
+                                        $type = gettype($otherData['document']);
                                         if ($type == 'string') {
-                                            $otherDocumentUrl = $otherData['image'];
+                                            $otherDocumentUrl = $otherData['document'];
                                             $otherDoctorDocument->addMediaFromUrl($otherDocumentUrl)->toMediaCollection('doctor-other-document');
                                         } else {
                                             $otherDoctorDocument->addMedia($otherData['document'])->toMediaCollection('doctor-other-document');
@@ -682,7 +686,9 @@ class DoctorController extends Controller
 
     public function getDoctorDetailsView(Request $request, $doctorId)
     {
+
         $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorWorkMapping.category', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('id', $doctorId)->first();
+
 
         if ($masterDoctor) {
 
@@ -701,6 +707,7 @@ class DoctorController extends Controller
             if (!is_null($addressProofData) && !is_null($masterDoctor->doctorWorkMapping) && !is_null($masterDoctor->doctorEducationMapping) && !is_null($masterDoctor->doctorSkillsMapping)) {
                 $formStatus = 1;
             }
+
 
             $workExperienceData = [];
             $educationData = [];
@@ -854,6 +861,7 @@ class DoctorController extends Controller
                 }
             }
 
+
             $data =  [
                 'id' => $masterDoctor?->id,
                 'first_name' => $masterDoctor?->first_name,
@@ -870,6 +878,7 @@ class DoctorController extends Controller
                 'languages' => $langages,
                 'appreciation' => $appreciationData ?? NULL,
                 'other' => $otherData ?? NULL
+
             ];
 
             return view('Admin.Doctor.doctor-view', compact('data'));

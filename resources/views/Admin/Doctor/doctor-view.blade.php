@@ -165,6 +165,7 @@
                                         <div class="accordion-collapse collapse" id="left-collapseOne1"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
+
                                                 @foreach ($data['education'] as $education)
                                                     <div>
                                                         <table class="product-page-width">
@@ -210,6 +211,7 @@
                                                         </table>
                                                     </div>
                                                 @endforeach
+
                                             </div>
                                         </div>
                                     </div>
@@ -348,9 +350,11 @@
                                     <div class="accordion-item accordion-wrapper">
                                         <h2 class="accordion-header" id="headingOne">
                                             <button class="accordion-button collapsed accordion-light-primary txt-primary"
+
                                                 type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#left-collapseOne4" aria-expanded="true"
                                                 aria-controls="left-collapseOne">Language</button>
+
                                         </h2>
                                         <div class="accordion-collapse collapse" id="left-collapseOne4"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
