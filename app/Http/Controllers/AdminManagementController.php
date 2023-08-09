@@ -284,6 +284,12 @@ class AdminManagementController extends Controller
                 }
             }
 
+            if($user->media){
+              $imageUrl =  $user->media->isNotEmpty() ? $user->media->last()->getFullUrl() : NULL;
+            }else{
+                $imageUrl = NULL;
+            }
+
             $data = [
                 'id' => $user->id,
                 'pateint_id' => $pateintId ?? NULL,
@@ -297,6 +303,7 @@ class AdminManagementController extends Controller
                 'dob' => $dob ?? NULL,
                 'city_id' => $city ?? NULL,
                 'city_name' => $cityName ?? NULL,
+                'image_url' => $imageUrl ?? NULL
 
             ];
 
