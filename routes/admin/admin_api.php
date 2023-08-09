@@ -48,13 +48,18 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** Submit Patient question option */
     Route::post('/save/patient/question/response',[PatientController::class,'createPateintQuestionMappingOption']);
 
-    /** Get user Details */
+    /** user Details */
     Route::get('/get/user/details',[AdminManagementController::class,'getUserDetails']);
+    Route::post('/update/user/details',[AdminManagementController::class,'updateUserDetails']);
 
     /** Get languages */
     Route::get('/get/languages',[AdminManagementController::class,'getLanguages']);
+
+    /** GET Doctor list in pateint */
+    Route::get('/get/doctor/list',[PatientController::class,'getDoctor']);
 
 
 });
 
 Route::get('/get/cities',[MasterCityController::class,'getCity']);
+Route::get('/get/unique/category',[PatientController::class, 'testCategory']);

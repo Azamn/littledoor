@@ -313,6 +313,44 @@ class AdminManagementController extends Controller
         }
     }
 
+    public function updateUserDetails(Request $request)
+    {
+
+        $rules = [
+            'name' => 'sometimes|required',
+            'email' => 'sometimes|required',
+            'image' => 'sometimes|required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+
+                if ($request->has('name')) {
+                    $user->name = $request->name;
+                }
+
+                if ($request->has('email')) {
+                    $user->email = $request->email;
+                }
+
+                if ($request->has('image')) {
+                    $user->addMediaFromRequest('image')->toMediaCollection('user-profile');
+                }
+
+                $user->update();
+
+                return response()->json(['status' => true, 'message' => 'User Details Update Successfully.']);
+            }
+        }
+    }
+
     public function getSkills(Request $request)
     {
 
@@ -321,7 +359,7 @@ class AdminManagementController extends Controller
         if ($user) {
 
             $skills = MasterSkill::get();
-            if($skills->isNotEmpty()){
+            if ($skills->isNotEmpty()) {
                 return response()->json(['status' => 'true', 'data' => MasterSkillsResource::collection($skills)]);
             }
         } else {
