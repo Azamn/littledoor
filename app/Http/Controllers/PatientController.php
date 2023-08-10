@@ -201,7 +201,7 @@ class PatientController extends Controller
                 }
 
                 if ($masterDoctor->isEmpty()) {
-                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'user', 'city')->where('status', 1)->get();
+                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'user', 'city')->where('status', 1)->orderBy('category_id')->get();
                 }
 
                 return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
