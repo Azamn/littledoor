@@ -192,6 +192,8 @@ class PatientController extends Controller
 
                 $categoryId = $patient->category_id;
 
+                $masterDoctor = collect();
+
                 if ($categoryId) {
                     $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
                         return $query->where('category_id', $categoryId);
