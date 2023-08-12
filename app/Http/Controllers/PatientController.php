@@ -192,6 +192,8 @@ class PatientController extends Controller
 
                 $categoryId = $patient->category_id;
 
+                $masterDoctor = collect();
+
                 if ($categoryId) {
                     $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
                         return $query->where('category_id', $categoryId);
@@ -199,7 +201,7 @@ class PatientController extends Controller
                 }
 
                 if ($masterDoctor->isEmpty()) {
-                    return $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'user', 'city')->where('status', 1)->get();
+                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'user', 'city')->where('status', 1)->get();
                 }
 
                 return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
