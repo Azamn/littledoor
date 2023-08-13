@@ -27,10 +27,14 @@ class MasterDoctorDetailResource extends JsonResource
             'name' => $this->user?->name ?? NULL,
             'email' => $this->user?->email ?? NULL,
             'image' => $this->user?->media?->isNotEmpty() ? $this->user?->media->last()->getFullUrl() : NULL,
-            'category_name' => implode(',',$category),
             'city' => $this->city?->city_name,
             'state' => $this->city?->state?->state_name,
             'total_year_of_experience' => $this->total_no_of_years_experience ?? NULL,
+            'category_name' => implode(',',$category),
+            'skills' => $this->doctorSkillsMapping ? DoctorSkillsResource::collection($this->doctorSkillsMapping) : NULL,
+            'appreciation' => $this->doctorAppreciationMapping ? DoctorAppeciationResource::collection($this->doctorAppreciationMapping) : NULL,
+            'time_slot' => $this->timeSlot ? DoctorTimeSlotResource::collection($this->timeSlot) : NULL
+
         ];
     }
 }

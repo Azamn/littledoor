@@ -53,4 +53,8 @@ class MasterDoctor extends Model implements HasMedia
     public function city(){
         return $this->belongsTo(MasterCity::class, 'city_id','id');
     }
+
+    public function timeSlot(){
+        return $this->hasMany(DoctorTimeSlot::class,'doctor_id','id');
+    }
 }
