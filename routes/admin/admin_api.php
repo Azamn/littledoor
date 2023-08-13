@@ -11,6 +11,7 @@ use App\Http\Controllers\MasterOptionsController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\AdminManagementController;
+use App\Http\Controllers\MasterSlotController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryQuestionController;
@@ -58,6 +59,8 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** GET Doctor list in pateint */
     Route::get('/get/doctor/list',[PatientController::class,'getDoctor']);
 
+    /** TIme Slot */
+    Route::get('get/all-slot',[MasterSlotController::class,'getTimeSlot']);
 
 });
 
