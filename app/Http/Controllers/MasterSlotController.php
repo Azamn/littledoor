@@ -55,8 +55,11 @@ class MasterSlotController extends Controller
     {
 
         $rules = [
+            'available_for_consultancy' => 'required',
             'doctor_id' => 'required|integer',
-            'time_slot_ids.*' => 'required|integer'
+            'time_slot.*.day' => 'required|integer',
+            'time_slot.*.all' => 'sometimes|required',
+            'time_slot.*.slot_ids.*' => 'sometimes|required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);

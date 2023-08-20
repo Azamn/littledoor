@@ -22,6 +22,10 @@ class MasterDoctorDetailResource extends JsonResource
             }
         }
 
+        if (!is_null($this->languages_known)) {
+            $languages = explode(",", $this->languages_known);
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->user?->name ?? NULL,
@@ -31,6 +35,7 @@ class MasterDoctorDetailResource extends JsonResource
             'state' => $this->city?->state?->state_name,
             'total_year_of_experience' => $this->total_no_of_years_experience ?? NULL,
             'category_name' => implode(',',$category),
+            'languages' => $languages ?? NULL,
             'skills' => $this->doctorSkillsMapping ? DoctorSkillsResource::collection($this->doctorSkillsMapping) : NULL,
             'appreciation' => $this->doctorAppreciationMapping ? DoctorAppeciationResource::collection($this->doctorAppreciationMapping) : NULL,
             'time_slot' => $this->timeSlot ? DoctorTimeSlotResource::collection($this->timeSlot) : NULL

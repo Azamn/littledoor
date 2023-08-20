@@ -19,4 +19,11 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/create/slot',[MasterSlotController::class,'createDoctorTimeSlot']);
     Route::delete('/delete/slot/{doctorSlotId}',[MasterSlotController::class,'deleteDoctorSlot']);
 
+    /** Doctor Session Charge */
+    Route::post('/create/update/sesion/charge',[DoctorController::class,'addorUpdateSessionCharge']);
+    Route::post('/get/session/charge',[DoctorController::class,'getDoctorSession']);
+
+    /** Doctor consultancy update */
+    Route::post('update/availability/consultancy',[DoctorController::class,'updateAvailableConsultancy']);
+
 });
