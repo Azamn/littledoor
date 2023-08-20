@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\DoctorAdressMapping;
+use App\Models\DoctorSessionCharge;
 use App\Models\DoctorSkillsMapping;
 use App\Models\DoctorEducationMapping;
 use App\Models\DoctorSubCategoryMapping;
@@ -24,6 +25,7 @@ use App\Http\Resources\DoctorAddressResource;
 use App\Http\Resources\DoctorOtherDocResource;
 use App\Http\Resources\DoctorEducationResource;
 use App\Http\Resources\DoctorAppeciationResource;
+use App\Http\Resources\DoctorSessionChargeResource;
 use App\Http\Resources\DoctorWorkExperienceResource;
 
 class DoctorController extends Controller
@@ -614,7 +616,7 @@ class DoctorController extends Controller
                 }
 
                 if (!is_null($masterDoctor->languages_known)) {
-                    $langages = explode(",", $masterDoctor->languages_known);
+                    $languages = explode(",", $masterDoctor->languages_known);
                 }
 
                 $formStatus = 0;
@@ -635,7 +637,7 @@ class DoctorController extends Controller
                     'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
                     'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
                     'address' => $masterDoctor?->doctorAdressMapping ? DoctorAddressResource::collection($masterDoctor?->doctorAdressMapping) : NULL,
-                    'languages' => $langages,
+                    'languages' => $languages,
                     'appreciation' => $masterDoctor?->doctorAppreciationMapping ? DoctorAppeciationResource::collection($masterDoctor?->doctorAppreciationMapping) : NULL,
                     'other' => $masterDoctor?->otherDocMapping ? DoctorOtherDocResource::collection($masterDoctor?->otherDocMapping) : NULL
                 ];
@@ -882,6 +884,85 @@ class DoctorController extends Controller
             ];
 
             return view('Admin.Doctor.doctor-view', compact('data'));
+        }
+    }
+
+    /** Doctor Session  charges*/
+
+    public function addorUpdateSessionCharge(Request $request)
+    {
+
+        $rules = [
+            'doctor_id' => 'required|integer|exists:master_doctors,id',
+            'session_charge_amount' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $doctorSession = DoctorSessionCharge::where('doctor_id', $request->doctor_id)->first();
+            if (is_null($doctorSession)) {
+
+                $doctorSessionCharge = new DoctorSessionCharge();
+                $doctorSessionCharge->doctor_id = $request->doctor_id;
+                $doctorSessionCharge->session_amount = $request->session_charge_amount;
+                $doctorSessionCharge->save();
+
+                return response()->json(['status' => true, 'message' => 'Doctor Session Charge Added Successfully.']);
+            } else {
+
+                $doctorSession->session_amount = $request->session_charge_amount;
+                $doctorSession->update();
+
+                return response()->json(['status' => true, 'message' => 'Doctor Session Charge Updated Successfully.']);
+            }
+        }
+    }
+
+    public function getDoctorSession(Request $request)
+    {
+
+        $rules = [
+            'doctor_id' => 'required|integer|exists:master_doctors,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $doctorSession = DoctorSessionCharge::where('doctor_id', $request->doctor_id)->first();
+            if (!is_null($doctorSession)) {
+                return response()->json(['status' => true, 'data' => DoctorSessionChargeResource::collection($doctorSession)]);
+            }
+        }
+    }
+
+    public function updateAvailableConsultancy(Request $request)
+    {
+
+        $rules = [
+            'doctor_id' => 'required|integer|exists:master_doctors,id',
+            'consultancy_status' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $masterDoctor = MasterDoctor::where('id', $request->doctor_id)->first();
+            if (!is_null($masterDoctor)) {
+                $masterDoctor->consultancy_status = $request->consultancy_status;
+                $masterDoctor->update();
+
+                return response()->json(['status' => true, 'message' => 'Doctor Availability Consultancy updated successfully.']);
+            }
         }
     }
 }
