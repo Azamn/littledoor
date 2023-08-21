@@ -935,7 +935,7 @@ class DoctorController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
-            $doctorSession = DoctorSessionCharge::where('doctor_id', $request->doctor_id)->first();
+            $doctorSession = DoctorSessionCharge::where('doctor_id', $request->doctor_id)->get();
             if (!is_null($doctorSession)) {
                 return response()->json(['status' => true, 'data' => DoctorSessionChargeResource::collection($doctorSession)]);
             }
