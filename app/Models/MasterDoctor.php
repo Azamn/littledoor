@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\MasterCity;
+use App\Models\DoctorTimeSlot;
 use Spatie\MediaLibrary\HasMedia;
 use App\Models\DoctorAdressMapping;
+use App\Models\DoctorSessionCharge;
+use App\Models\DoctorSkillsMapping;
 use App\Models\DoctorEducationMapping;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DoctorAppreciationMapping;
+use App\Models\DoctorOtherDocumentMapping;
 use App\Models\DoctorWorkExperienceMapping;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -56,5 +61,9 @@ class MasterDoctor extends Model implements HasMedia
 
     public function timeSlot(){
         return $this->hasMany(DoctorTimeSlot::class,'doctor_id','id');
+    }
+
+    public function doctorSession(){
+        return $this->belongsTo(DoctorSessionCharge::class,'doctor_id','id');
     }
 }

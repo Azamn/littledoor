@@ -197,13 +197,13 @@ class PatientController extends Controller
                 if ($categoryId) {
                     $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
                         return $query->where('category_id', $categoryId);
-                    }], 'user', 'city','doctorSkillsMapping.skill','doctorAppreciationMapping.media','timeSlot')->where('status', 1)->get();
+                    }], 'user', 'city','doctorSkillsMapping.skill','doctorAppreciationMapping.media','timeSlot','doctorSession')->where('status', 1)->get();
                 }
 
                 if ($masterDoctor->isEmpty()) {
-                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill','doctorAppreciationMapping.media','timeSlot','user', 'city')->where('status', 1)->get();
+                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill','doctorAppreciationMapping.media','timeSlot','user', 'city','doctorSession')->where('status', 1)->get();
                 }
-
+                //return $masterDoctor;
                 return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
             }
         }
