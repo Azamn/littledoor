@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('master_emotions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedTinyInteger('status')->default(1);
+            $table->unsignedTinyInteger('status')->default(1)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

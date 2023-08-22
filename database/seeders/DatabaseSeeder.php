@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(MasterUserTypeSeeder::class);
         $this->call(AdminUserSeeder::class);
+        $this->call(MasterEmotionsSeedeer::class);
+        $this->call(MasterLanguagesSeeder::class);
+        $this->call(MasterTimeSlotSeeder::class);
+
 
     }
 }
