@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DailyJournalController;
 use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,5 +16,10 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/create/patient/question',[PatientController::class,'createPatientQuestionMapping']);
 
     Route::post('/create/patient/question-option',[PatientController::class,'createPatientQuestionoptionMapping']);
+
+    /** Daily Journal route */
+    Route::post('add/daily/journal',[DailyJournalController::class,'addDailyJournal']);
+    Route::get('get/daily/journal',[DailyJournalController::class,'getUserJournal']);
+    Route::delete('delete/daily/journal/{dailyJournalId}',[DailyJournalController::class,'deleteUserJournal']);
 
 });
