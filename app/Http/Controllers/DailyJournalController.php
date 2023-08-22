@@ -60,8 +60,8 @@ class DailyJournalController extends Controller
 
                 if (!is_null($patientId) || !is_null($doctorId)) {
                     $dailyJournal = new DailyJournal();
-                    $dailyJournal->patient_id = $patientId;
-                    $dailyJournal->doctor_id = $doctorId;
+                    $dailyJournal->patient_id = $patientId ?? NULL;
+                    $dailyJournal->doctor_id = $doctorId ?? NULL;
                     $dailyJournal->emotion_id = $request->emotion_id;
                     $dailyJournal->journal_date = $request->date;
                     $dailyJournal->message = $request->message;
@@ -83,9 +83,9 @@ class DailyJournalController extends Controller
             $doctor = $user->doctor;
 
             if ($patient) {
-                $dailyJournal = DailyJournal::where('patient_id', $patient->id)->orderBy('journal_date', 'DESC')->get();
+                $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->orderBy('journal_date', 'DESC')->get();
             } else {
-                $dailyJournal = DailyJournal::where('doctor_id', $doctor->id)->orderBy('journal_date', 'DESC')->get();
+                $dailyJournal = DailyJournal::with('emotion')->where('doctor_id', $doctor->id)->orderBy('journal_date', 'DESC')->get();
             }
 
             if ($dailyJournal->isNotEmpty()) {

@@ -20,6 +20,7 @@ class UserDailyJournalResouce extends JsonResource
             'patient_id' => $this->patient_id ?? NULL,
             'doctor_id' => $this->doctor_id ?? NULL,
             'emotion_id' => $this->emotion_id,
+            'emotion_name' => $this->emotion?->name,
             'journal_date' => Carbon::parse($this->journal_date)->format('d-m-Y'),
             'message' => $this->message,
             'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
