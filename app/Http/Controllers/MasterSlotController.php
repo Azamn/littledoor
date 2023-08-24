@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DoctorTimeSlot;
 use App\Models\MasterTimeSlot;
+use App\Models\DoctorSessionCharge;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\DoctorTimeSlotResource;
 use App\Http\Resources\MasterTimeSlotResource;
+use App\Http\Resources\DoctorSessionChargeResource;
 
 class MasterSlotController extends Controller
 {
@@ -39,9 +41,20 @@ class MasterSlotController extends Controller
 
             if ($doctor) {
 
+                $doctorSession = DoctorSessionCharge::where('doctor_id', $doctor->id)->first();
+                if (!is_null($doctorSession)) {
+                    $sessionChargeData = $doctorSession->session_amount;
+                }
+
                 $doctorTimeSlot = DoctorTimeSlot::with('timeSlot')->where('doctor_id', $doctor->id)->get();
                 if ($doctorTimeSlot->isNotEmpty()) {
-                    return response()->json(['status' => true, 'data' => DoctorTimeSlotResource::collection($doctorTimeSlot)]);
+                    return response()->json([
+                        'status' => true, 'data' => [
+                            'session_charge' => $sessionChargeData,
+                            'consultancy_status' => $doctor?->consultancy_status ?? NULL,
+                            'slot_time' => DoctorTimeSlotResource::collection($doctorTimeSlot)
+                        ]
+                    ]);
                 } else {
                     return response()->json(['status' => false, 'message' => 'DoctorTime Slot Data Not Found']);
                 }
@@ -75,13 +88,13 @@ class MasterSlotController extends Controller
 
                     $doctorTimeSlotExists = DoctorTimeSlot::where('doctor_id', $request->doctor_id)->get();
                     if ($doctorTimeSlotExists->isNotEmpty()) {
-                       foreach($doctorTimeSlotExists as $doctorTime){
-                        $doctorTime->delete();
-                       }
+                        foreach ($doctorTimeSlotExists as $doctorTime) {
+                            $doctorTime->delete();
+                        }
                     }
 
                     foreach ($request->time_slot as $timeSlot) {
-                        if (isset($timeSlot['all']) && !is_null($timeSlot['all']) && $timeSlot['all'] ==1 ) {
+                        if (isset($timeSlot['all']) && !is_null($timeSlot['all']) && $timeSlot['all'] == 1) {
                             $slotIds = MasterTimeSlot::where('status', 1)->pluck('id')->toArray();
                         } else {
                             $slotIds = $timeSlot['slot_ids'];
