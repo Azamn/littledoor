@@ -17,4 +17,8 @@ class DoctorTimeSlot extends Model
     public function timeSlot(){
         return $this->belongsTo(MasterTimeSlot::class,'time_slot_id','id');
     }
+
+    public function days(){
+        return $this->belongsTo(MasterDay::class,'master_days_id','id');
+    }
 }

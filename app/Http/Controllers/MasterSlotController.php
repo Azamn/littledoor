@@ -55,9 +55,8 @@ class MasterSlotController extends Controller
     {
 
         $rules = [
-            'available_for_consultancy' => 'required',
             'doctor_id' => 'required|integer',
-            'time_slot.*.day' => 'required|integer',
+            'time_slot.*.day_id' => 'required|integer',
             'time_slot.*.all' => 'sometimes|required',
             'time_slot.*.slot_ids.*' => 'sometimes|required|integer'
         ];
@@ -72,12 +71,32 @@ class MasterSlotController extends Controller
 
             if ($user) {
 
-                if ($request->has('time_slot_ids')) {
-                    foreach ($request->time_slot_ids as $timeSlot) {
-                        $doctorTimeSlot = new DoctorTimeSlot();
-                        $doctorTimeSlot->doctor_id = $request->doctor_id;
-                        $doctorTimeSlot->time_slot_id = $timeSlot;
-                        $doctorTimeSlot->save();
+                if ($request->has('time_slot')) {
+
+                    $doctorTimeSlotExists = DoctorTimeSlot::where('doctor_id', $request->doctor_id)->get();
+                    if ($doctorTimeSlotExists->isNotEmpty()) {
+                       foreach($doctorTimeSlotExists as $doctorTime){
+                        $doctorTime->delete();
+                       }
+                    }
+
+                    foreach ($request->time_slot as $timeSlot) {
+                        if (isset($timeSlot['all']) && !is_null($timeSlot['all']) && $timeSlot['all'] ==1 ) {
+                            $slotIds = MasterTimeSlot::where('status', 1)->pluck('id')->toArray();
+                        } else {
+                            $slotIds = $timeSlot['slot_ids'];
+                        }
+
+                        if (!is_null($slotIds)) {
+
+                            foreach ($slotIds as $slotId) {
+                                $doctorTimeSlot = new DoctorTimeSlot();
+                                $doctorTimeSlot->doctor_id = $request->doctor_id;
+                                $doctorTimeSlot->master_days_id = $timeSlot['day_id'];
+                                $doctorTimeSlot->time_slot_id = $slotId;
+                                $doctorTimeSlot->save();
+                            }
+                        }
                     }
 
                     return response()->json(['status' => true, 'message' => 'Doctor Slot Save Successfully']);

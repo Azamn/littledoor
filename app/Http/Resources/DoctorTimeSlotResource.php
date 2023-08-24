@@ -16,6 +16,8 @@ class DoctorTimeSlotResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'days_id' => $this->master_days_id,
+            'day' => $this->days?->name,
             'slot_id' => $this->time_slot_id,
             'slot_time' => $this->timeSlot?->slot_time ?? NULL,
         ];
