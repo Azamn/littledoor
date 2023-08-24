@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Doctor Time Slot */
     Route::post('/create/slot',[MasterSlotController::class,'createDoctorTimeSlot']);
+    Route::get('/get/doctor/time/slot',[MasterSlotController::class,'getDoctorSlot']);
     Route::delete('/delete/slot/{doctorSlotId}',[MasterSlotController::class,'deleteDoctorSlot']);
 
     /** Doctor Session Charge */
