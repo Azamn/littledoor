@@ -48,16 +48,17 @@ class MasterSlotController extends Controller
 
                 $doctorTimeSlot = DoctorTimeSlot::with('timeSlot')->where('doctor_id', $doctor->id)->get();
                 if ($doctorTimeSlot->isNotEmpty()) {
-                    return response()->json([
-                        'status' => true, 'data' => [
-                            'session_charge' => $sessionChargeData,
-                            'consultancy_status' => $doctor?->consultancy_status ?? NULL,
-                            'slot_time' => DoctorTimeSlotResource::collection($doctorTimeSlot)
-                        ]
-                    ]);
-                } else {
-                    return response()->json(['status' => false, 'message' => 'DoctorTime Slot Data Not Found']);
+
+                    $doctorSlotTime = DoctorTimeSlotResource::collection($doctorTimeSlot) ?? NULL;
                 }
+
+                return response()->json([
+                    'status' => true, 'data' => [
+                        'session_charge' => $sessionChargeData ?? NULL,
+                        'consultancy_status' => $doctor?->consultancy_status ?? NULL,
+                        'slot_time' => $doctorSlotTime ?? NULL
+                    ]
+                ]);
             } else {
                 return response()->json(['status' => false, 'message' => 'Doctor Data Not Found']);
             }
