@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
 use App\Models\MasterPatient;
+use App\Models\DoctorTimeSlot;
+use App\Models\MasterTimeSlot;
 use Illuminate\Support\Carbon;
 use App\Models\MasterSubCategory;
+use App\Models\PatientAppointment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
 use App\Models\PatientQuestionOptionMapping;
+use App\Http\Resources\MasterTimeSlotResource;
 use App\Http\Resources\MasterDoctorDetailResource;
-use App\Models\DoctorTimeSlot;
-use App\Models\PatientAppointment;
 use App\Models\PatientMentalDisorderQuestionMapping;
 use App\Models\SubCategoryQuestionMappingWithOption;
 
@@ -200,11 +202,11 @@ class PatientController extends Controller
                 if ($categoryId) {
                     $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
                         return $query->where('category_id', $categoryId);
-                    }], 'user', 'city','doctorSkillsMapping.skill','doctorAppreciationMapping.media','timeSlot','doctorSession')->where('status', 1)->get();
+                    }], 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')->where('status', 1)->get();
                 }
 
                 if ($masterDoctor->isEmpty()) {
-                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill','doctorAppreciationMapping.media','timeSlot','user', 'city','doctorSession')->where('status', 1)->get();
+                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'user', 'city', 'doctorSession')->where('status', 1)->get();
                 }
                 //return $masterDoctor;
                 return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
@@ -212,11 +214,12 @@ class PatientController extends Controller
         }
     }
 
-    public function getDoctorAvailableSlot(Request $request){
+    public function getDoctorAvailableSlot(Request $request)
+    {
         $rules = [
             'doctor_id' => 'required',
             'date' => 'soemtimes|required|date',
-            'day_id' => 'required_if:date|integer'
+            'day_id' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -225,26 +228,75 @@ class PatientController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
-            if($request->has('doctor_id') && $request->has('date')){
+            if ($request->has('doctor_id') && $request->has('date')) {
 
                 $requestDate = Carbon::parse($request->date)->format('Y-m-d');
 
-                $bookedSlotIds = PatientAppointment::where('doctor_id',$request->doctor_id)->whereDate('appointment_date','=',$requestDate)->pluck('slot_id')->toArray();
-                if(!is_null($bookedSlotIds)){
+                $bookedSlotIds = PatientAppointment::where('doctor_id', $request->doctor_id)->whereDate('appointment_date', '=', $requestDate)->pluck('slot_id')->toArray();
+                if (!is_null($bookedSlotIds)) {
 
-                    $doctorSlot = DoctorTimeSlot::where('master_days_id',$request->day_id)->first();
-                    if($doctorSlot){
-                        $doctorSlotIds = explode(",",$doctorSlot->time_slot_id);
+                    $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
+                    if ($doctorSlot) {
+                        $doctorSlotIds = explode(",", $doctorSlot->time_slot_id);
 
+                        $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
+
+                        $bookedSlotData = $masterTimeSlot->whereIn('id', $bookedSlotIds);
+                        $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
+
+                        return response()->json(['status' => true, 'data' => [
+                            'booked_slot_data' => MasterTimeSlotResource::collection($bookedSlotData) ?? NULL,
+                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
+                        ]]);
                     }
+                } else {
+                    $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
+                    if ($doctorSlot) {
+                        $doctorSlotIds = explode(",", $doctorSlot->time_slot_id);
+                        $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
+                        $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
 
+                        return response()->json(['status' => true, 'data' => [
+                            'booked_slot_data' => NULL,
+                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
+                        ]]);
+                    }
                 }
+            } else {
 
+                $todayDate = Carbon::parse(today())->format('Y-m-d');
 
+                $bookedSlotIds = PatientAppointment::where('doctor_id', $request->doctor_id)->whereDate('appointment_date', '=', $todayDate)->pluck('slot_id')->toArray();
+                if (!is_null($bookedSlotIds)) {
+                    $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
+                    if ($doctorSlot) {
+                        $doctorSlotIds = explode(",", $doctorSlot->time_slot_id);
 
+                        $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
+
+                        $bookedSlotData = $masterTimeSlot->whereIn('id', $bookedSlotIds);
+                        $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
+
+                        return response()->json(['status' => true, 'data' => [
+                            'booked_slot_data' => MasterTimeSlotResource::collection($bookedSlotData) ?? NULL,
+                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
+                        ]]);
+                    }
+                } else {
+
+                    $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
+                    if ($doctorSlot) {
+                        $doctorSlotIds = explode(",", $doctorSlot->time_slot_id);
+                        $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
+                        $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
+
+                        return response()->json(['status' => true, 'data' => [
+                            'booked_slot_data' => NULL,
+                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
+                        ]]);
+                    }
+                }
             }
-
         }
-
     }
 }
