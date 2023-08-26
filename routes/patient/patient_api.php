@@ -25,6 +25,6 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Appointment Route */
     Route::post('/book/appointment',[AppointmentController::class,'bookAppointment']);
-    Route::post('/available/slot/book',[PatientController::class,'getDoctorAvailableSlot']);
+    Route::post('/get/available/slot/book',[PatientController::class,'getDoctorAvailableSlot']);
 
 });

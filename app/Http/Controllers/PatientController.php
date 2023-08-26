@@ -218,7 +218,7 @@ class PatientController extends Controller
     {
         $rules = [
             'doctor_id' => 'required',
-            'date' => 'soemtimes|required|date',
+            'date' => 'sometimes|required|date',
             'day_id' => 'required|integer'
         ];
 
