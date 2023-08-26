@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\MasterDoctor;
 use Illuminate\Http\Request;
 use App\Models\MasterPatient;
+use Illuminate\Support\Carbon;
 use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
 use App\Models\PatientQuestionOptionMapping;
 use App\Http\Resources\MasterDoctorDetailResource;
+use App\Models\DoctorTimeSlot;
+use App\Models\PatientAppointment;
 use App\Models\PatientMentalDisorderQuestionMapping;
 use App\Models\SubCategoryQuestionMappingWithOption;
 
@@ -207,5 +210,41 @@ class PatientController extends Controller
                 return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
             }
         }
+    }
+
+    public function getDoctorAvailableSlot(Request $request){
+        $rules = [
+            'doctor_id' => 'required',
+            'date' => 'soemtimes|required|date',
+            'day_id' => 'required_if:date|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            if($request->has('doctor_id') && $request->has('date')){
+
+                $requestDate = Carbon::parse($request->date)->format('Y-m-d');
+
+                $bookedSlotIds = PatientAppointment::where('doctor_id',$request->doctor_id)->whereDate('appointment_date','=',$requestDate)->pluck('slot_id')->toArray();
+                if(!is_null($bookedSlotIds)){
+
+                    $doctorSlot = DoctorTimeSlot::where('master_days_id',$request->day_id)->first();
+                    if($doctorSlot){
+                        $doctorSlotIds = explode(",",$doctorSlot->time_slot_id);
+
+                    }
+
+                }
+
+
+
+            }
+
+        }
+
     }
 }

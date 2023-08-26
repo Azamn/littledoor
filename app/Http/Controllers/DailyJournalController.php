@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\DailyJournal;
 use Illuminate\Http\Request;
+use Psy\Formatter\Formatter;
 use App\Models\MasterEmotions;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\MasterEmotionsResource;
 use App\Http\Resources\UserDailyJournalResouce;
@@ -82,10 +84,19 @@ class DailyJournalController extends Controller
             $patient = $user->patient;
             $doctor = $user->doctor;
 
-            if ($patient) {
-                $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->orderBy('journal_date', 'DESC')->get();
-            } else {
-                $dailyJournal = DailyJournal::with('emotion')->where('doctor_id', $doctor->id)->orderBy('journal_date', 'DESC')->get();
+            if($request->has('journal_date')){
+                $requestDate =  Carbon::parse($request->journal_date)->format('Y-m-d');
+                if ($patient) {
+                    $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->whereDate('journal_date','=',$requestDate)->orderBy('journal_date', 'DESC')->get();
+                } else {
+                    $dailyJournal = DailyJournal::with('emotion')->where('doctor_id', $doctor->id)->whereDate('journal_date','=',$requestDate)->orderBy('journal_date', 'DESC')->get();
+                }
+            }else{
+                if ($patient) {
+                    $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->orderBy('journal_date', 'DESC')->get();
+                } else {
+                    $dailyJournal = DailyJournal::with('emotion')->where('doctor_id', $doctor->id)->orderBy('journal_date', 'DESC')->get();
+                }
             }
 
             if ($dailyJournal->isNotEmpty()) {
