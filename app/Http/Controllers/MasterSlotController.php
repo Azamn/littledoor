@@ -48,7 +48,6 @@ class MasterSlotController extends Controller
 
                 $doctorTimeSlot = DoctorTimeSlot::with('timeSlot')->where('doctor_id', $doctor->id)->get();
                 if ($doctorTimeSlot->isNotEmpty()) {
-
                     $doctorSlotTime = DoctorTimeSlotResource::collection($doctorTimeSlot) ?? NULL;
                 }
 
@@ -102,14 +101,12 @@ class MasterSlotController extends Controller
                         }
 
                         if (!is_null($slotIds)) {
-
-                            foreach ($slotIds as $slotId) {
-                                $doctorTimeSlot = new DoctorTimeSlot();
-                                $doctorTimeSlot->doctor_id = $request->doctor_id;
-                                $doctorTimeSlot->master_days_id = $timeSlot['day_id'];
-                                $doctorTimeSlot->time_slot_id = $slotId;
-                                $doctorTimeSlot->save();
-                            }
+                            $slotIdsData = implode(",", $slotIds);
+                            $doctorTimeSlot = new DoctorTimeSlot();
+                            $doctorTimeSlot->doctor_id = $request->doctor_id;
+                            $doctorTimeSlot->master_days_id = $timeSlot['day_id'];
+                            $doctorTimeSlot->time_slot_id = $slotIdsData;
+                            $doctorTimeSlot->save();
                         }
                     }
 
