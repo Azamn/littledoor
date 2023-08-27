@@ -10,7 +10,7 @@ class AppointmentController extends Controller
 {
 
     public function bookAppointment(Request $request)
-    {
+{
 
         $rules = [
             'doctor_id' => 'required|integer',

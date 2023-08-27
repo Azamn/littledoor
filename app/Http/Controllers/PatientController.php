@@ -237,17 +237,41 @@ class PatientController extends Controller
 
                     $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
                     if ($doctorSlot) {
+
+                        $slotData = [];
+
                         $doctorSlotIds = explode(",", $doctorSlot->time_slot_id);
 
                         $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
 
                         $bookedSlotData = $masterTimeSlot->whereIn('id', $bookedSlotIds);
+                        if ($bookedSlotData) {
+                            foreach ($bookedSlotData as $bSlotData) {
+                                $data = [
+                                    'id' => $bSlotData->id,
+                                    'slot_time' => $bSlotData->slot_time,
+                                    'is_booked' => 1
+                                ];
+
+                                array_push($slotData, $data);
+                            }
+                        }
+
                         $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
 
-                        return response()->json(['status' => true, 'data' => [
-                            'booked_slot_data' => MasterTimeSlotResource::collection($bookedSlotData) ?? NULL,
-                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
-                        ]]);
+                        if ($availableSlotData) {
+                            foreach ($availableSlotData as $aSlotData) {
+                                $data = [
+                                    'id' => $aSlotData->id,
+                                    'slot_time' => $aSlotData->slot_time,
+                                    'is_booked' => 0
+                                ];
+
+                                array_push($slotData, $data);
+                            }
+                        }
+
+                        return response()->json(['status' => true, 'data' => $slotData]);
                     }
                 } else {
                     $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
@@ -256,10 +280,21 @@ class PatientController extends Controller
                         $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
                         $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
 
-                        return response()->json(['status' => true, 'data' => [
-                            'booked_slot_data' => NULL,
-                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
-                        ]]);
+                        $slotData = [];
+
+                        if ($availableSlotData) {
+                            foreach ($availableSlotData as $aSlotData) {
+                                $data = [
+                                    'id' => $aSlotData->id,
+                                    'slot_time' => $aSlotData->slot_time,
+                                    'is_booked' => 0
+                                ];
+
+                                array_push($slotData, $data);
+                            }
+                        }
+
+                        return response()->json(['status' => true, 'data' => $slotData]);
                     }
                 }
             } else {
@@ -270,17 +305,41 @@ class PatientController extends Controller
                 if (!is_null($bookedSlotIds)) {
                     $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
                     if ($doctorSlot) {
+
+                        $slotData = [];
+
                         $doctorSlotIds = explode(",", $doctorSlot->time_slot_id);
 
                         $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
 
                         $bookedSlotData = $masterTimeSlot->whereIn('id', $bookedSlotIds);
+                        if ($bookedSlotData) {
+                            foreach ($bookedSlotData as $bSlotData) {
+                                $data = [
+                                    'id' => $bSlotData->id,
+                                    'slot_time' => $bSlotData->slot_time,
+                                    'is_booked' => 1
+                                ];
+
+                                array_push($slotData, $data);
+                            }
+                        }
+
                         $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
 
-                        return response()->json(['status' => true, 'data' => [
-                            'booked_slot_data' => MasterTimeSlotResource::collection($bookedSlotData) ?? NULL,
-                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
-                        ]]);
+                        if ($availableSlotData) {
+                            foreach ($availableSlotData as $aSlotData) {
+                                $data = [
+                                    'id' => $aSlotData->id,
+                                    'slot_time' => $aSlotData->slot_time,
+                                    'is_booked' => 0
+                                ];
+
+                                array_push($slotData, $data);
+                            }
+                        }
+
+                        return response()->json(['status' => true, 'data' => $slotData]);
                     }
                 } else {
 
@@ -290,10 +349,21 @@ class PatientController extends Controller
                         $masterTimeSlot = MasterTimeSlot::where('status', 1)->whereIn('id', $doctorSlotIds)->get();
                         $availableSlotData = $masterTimeSlot->whereNotIn('id', $bookedSlotIds);
 
-                        return response()->json(['status' => true, 'data' => [
-                            'booked_slot_data' => NULL,
-                            'available_slot_data' => MasterTimeSlotResource::collection($availableSlotData) ?? NULL,
-                        ]]);
+                        $slotData = [];
+
+                        if ($availableSlotData) {
+                            foreach ($availableSlotData as $aSlotData) {
+                                $data = [
+                                    'id' => $aSlotData->id,
+                                    'slot_time' => $aSlotData->slot_time,
+                                    'is_booked' => 0
+                                ];
+
+                                array_push($slotData, $data);
+                            }
+                        }
+
+                        return response()->json(['status' => true, 'data' => $slotData]);
                     }
                 }
             }
