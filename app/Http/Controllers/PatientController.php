@@ -271,7 +271,9 @@ class PatientController extends Controller
                             }
                         }
 
-                        return response()->json(['status' => true, 'data' => $slotData]);
+                        $sortedArray = collect($slotData)->sortBy('id');
+
+                        return response()->json(['status' => true, 'data' => $sortedArray->values()]);
                     }
                 } else {
                     $doctorSlot = DoctorTimeSlot::where('master_days_id', $request->day_id)->where('doctor_id', $request->doctor_id)->first();
@@ -294,7 +296,9 @@ class PatientController extends Controller
                             }
                         }
 
-                        return response()->json(['status' => true, 'data' => $slotData]);
+                        $sortedArray = collect($slotData)->sortBy('id');
+
+                        return response()->json(['status' => true, 'data' => $sortedArray->values()]);
                     }
                 }
             } else {
@@ -339,7 +343,9 @@ class PatientController extends Controller
                             }
                         }
 
-                        return response()->json(['status' => true, 'data' => $slotData]);
+                        $sortedArray = collect($slotData)->sortBy('id');
+
+                        return response()->json(['status' => true, 'data' => $sortedArray->values()]);
                     }
                 } else {
 
@@ -363,7 +369,9 @@ class PatientController extends Controller
                             }
                         }
 
-                        return response()->json(['status' => true, 'data' => $slotData]);
+                        $sortedArray = collect($slotData)->sortBy('id');
+
+                        return response()->json(['status' => true, 'data' => $sortedArray->values()]);
                     }
                 }
             }
