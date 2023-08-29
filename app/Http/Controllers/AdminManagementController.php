@@ -167,7 +167,7 @@ class AdminManagementController extends Controller
                     ]);
                     $existOtp = $otp;
                 } else {
-                    $existOtp = $existingOtps->otp;
+                    $existOtp = (int)$existingOtps->otp;
                 }
             }
             return response()->json(['status' => true, 'message' => 'Otp Sent Successfully', 'otp' => $existOtp]);
