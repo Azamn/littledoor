@@ -15,9 +15,12 @@ class MasterDoctorDetailResource extends JsonResource
     public function toArray($request)
     {
 
+        $yearOfExperience = 0;
+
         if ($this->doctorWorkMapping) {
             $category = [];
             foreach ($this->doctorWorkMapping as $wmp) {
+                $yearOfExperience += $wmp->year_of_experience;
                 array_push($category, $wmp->category?->name);
             }
         }
@@ -38,7 +41,7 @@ class MasterDoctorDetailResource extends JsonResource
             'image' => $this->user?->media?->isNotEmpty() ? $this->user?->media->last()->getFullUrl() : NULL,
             'city' => $this->city?->city_name,
             'state' => $this->city?->state?->state_name,
-            'total_year_of_experience' => $this->total_no_of_years_experience ?? NULL,
+            'total_year_of_experience' => $yearOfExperience ?? NULL,
             'category_name' => implode(',', $category),
             'languages' => $languages ?? NULL,
             'doctor_session_charge' => $sessionCharge ?? NULL,
