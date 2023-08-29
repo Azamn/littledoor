@@ -64,6 +64,6 @@ class MasterDoctor extends Model implements HasMedia
     }
 
     public function doctorSession(){
-        return $this->belongsTo(DoctorSessionCharge::class,'doctor_id','id');
+        return $this->belongsTo(DoctorSessionCharge::class,'id','doctor_id');
     }
 }
