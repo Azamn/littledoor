@@ -28,7 +28,7 @@ class MasterDoctorDetailResource extends JsonResource
 
         $sessionCharge = NULL;
         if ($this->doctorSession) {
-            $sessionCharge = $this->doctorSession->first()->session_amount;
+            $sessionCharge = $this->doctorSession->session_amount;
         }
 
         return [
