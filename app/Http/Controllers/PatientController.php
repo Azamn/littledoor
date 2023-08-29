@@ -208,7 +208,7 @@ class PatientController extends Controller
                 if ($masterDoctor->isEmpty()) {
                     $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'user', 'city', 'doctorSession')->where('status', 1)->get();
                 }
-                //return $masterDoctor;
+                return $masterDoctor;
                 return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
             }
         }
