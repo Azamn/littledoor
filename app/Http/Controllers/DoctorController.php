@@ -605,7 +605,7 @@ class DoctorController extends Controller
 
         $user = $request->user();
         if ($user) {
-            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media')->where('user_id', $user->id)->first();
+            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media','doctorSession')->where('user_id', $user->id)->first();
             if ($masterDoctor) {
 
                 $addressProofData = NULL;
@@ -633,6 +633,7 @@ class DoctorController extends Controller
                     'address_proof_url' => $addressProofData ?? NULL,
                     'status' => $masterDoctor->status,
                     'form_status' => $formStatus,
+                    'session_charge' => $masterDoctor?->doctorSession?->session_amount ?? NULL,
                     'work_experience' => $masterDoctor?->doctorWorkMapping ? DoctorWorkExperienceResource::collection($masterDoctor?->doctorWorkMapping) : NULL,
                     'education' => $masterDoctor?->doctorEducationMapping ? DoctorEducationResource::collection($masterDoctor?->doctorEducationMapping) : NULL,
                     'skills' => $masterDoctor?->doctorSkillsMapping ? DoctorSkillsResource::collection($masterDoctor?->doctorSkillsMapping) : NULL,
