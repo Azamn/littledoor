@@ -85,47 +85,48 @@ class PatientController extends Controller
 
             if ($user) {
 
-                DB::transaction(function () use ($user, $request) {
 
-                    $PatientQuestionOptionMapping = PatientQuestionOptionMapping::where('patient_id', $request->patient_id)->get();
-                    if ($PatientQuestionOptionMapping->isNotEmpty()) {
-                        foreach ($PatientQuestionOptionMapping as $mapping) {
-                            $mapping->delete();
-                        }
+
+                $PatientQuestionOptionMapping = PatientQuestionOptionMapping::where('patient_id', $request->patient_id)->get();
+                if ($PatientQuestionOptionMapping->isNotEmpty()) {
+                    foreach ($PatientQuestionOptionMapping as $mapping) {
+                        $mapping->delete();
+                    }
+                }
+
+                foreach ($request->questions as $questionMapping) {
+                    $PatientQuestionOptionMapping = new PatientQuestionOptionMapping();
+                    $PatientQuestionOptionMapping->patient_id = $request->patient_id;
+                    $PatientQuestionOptionMapping->category_question_mapping_id = $questionMapping['sub_category_question_mapping_id'];
+                    $PatientQuestionOptionMapping->option_id = $questionMapping['option_id'];
+                    $PatientQuestionOptionMapping->save();
+                }
+
+
+                $patientResponseData = PatientQuestionOptionMapping::where('patient_id', $request->patient_id)->get();
+                if ($patientResponseData->isNotEmpty()) {
+
+                    $uniqueOptionData = $patientResponseData->unique('option_id');
+                    $duplicateOptionData = $patientResponseData->diff($uniqueOptionData);
+                    if (!is_null($duplicateOptionData)) {
+                        $optionData = $duplicateOptionData->first();
+                    } else {
+                        $optionData = $uniqueOptionData->first();
                     }
 
-                    foreach ($request->questions as $questionMapping) {
-                        $PatientQuestionOptionMapping = new PatientQuestionOptionMapping();
-                        $PatientQuestionOptionMapping->patient_id = $request->patient_id;
-                        $PatientQuestionOptionMapping->category_question_mapping_id = $questionMapping['sub_category_question_mapping_id'];
-                        $PatientQuestionOptionMapping->option_id = $questionMapping['option_id'];
-                        $PatientQuestionOptionMapping->save();
-                    }
+                    $subCategoryMappingData = SubCategoryQuestionMapping::where('id', $optionData->category_question_mapping_id)->first();
 
-                    $patientResponseData = PatientQuestionOptionMapping::where('patient_id', $request->patient_id)->get();
-                    if ($patientResponseData->isNotEmpty()) {
+                    $subCategoryData = MasterSubCategory::where('id', $subCategoryMappingData->master_sub_category_id)->first();
 
-                        $uniqueOptionData = $patientResponseData->unique('option_id');
-                        $duplicateOptionData = $patientResponseData->diff($uniqueOptionData);
-                        if (!is_null($duplicateOptionData)) {
-                            $optionData = $duplicateOptionData->first();
-                        } else {
-                            $optionData = $uniqueOptionData->first();
-                        }
+                    $subCategoryId = $subCategoryData?->id;
+                    $categoryId = $subCategoryData?->master_category_id;
 
-                        $subCategoryMappingData = SubCategoryQuestionMapping::where('id', $optionData->category_question_mapping_id)->first();
+                    $pateintData = MasterPatient::where('id', $request->patient_id)->first();
+                    $pateintData->category_id = $categoryId ?? NULL;
+                    $pateintData->sub_category_id = $subCategoryId ?? NULL;
+                    $pateintData->update();
+                }
 
-                        $subCategoryData = MasterSubCategory::where('id', $subCategoryMappingData->master_sub_category_id)->first();
-
-                        $subCategoryId = $subCategoryData?->id;
-                        $categoryId = $subCategoryData?->master_category_id;
-
-                        $pateintData = MasterPatient::where('id', $request->patient_id)->first();
-                        $pateintData->category_id = $categoryId ?? NULL;
-                        $pateintData->sub_category_id = $subCategoryId ?? NULL;
-                        $pateintData->update();
-                    }
-                });
 
                 return response()->json(['status' => true, 'message' => 'Successfully submitted your response']);
             }
