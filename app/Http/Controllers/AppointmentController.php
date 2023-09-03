@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PatientAppointment;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\AppointmentDetailsResource;
 
 class AppointmentController extends Controller
 {
 
     public function bookAppointment(Request $request)
-{
+    {
 
         $rules = [
             'doctor_id' => 'required|integer',
@@ -43,5 +44,25 @@ class AppointmentController extends Controller
                 }
             }
         }
+    }
+
+    public function getAppointmentDetails(Request $request){
+
+        $user = $request->user();
+
+        if($user){
+
+            $patient = $user->patient;
+
+            if($patient){
+
+                $patientAppointment = PatientAppointment::with('slot','doctor')->where('patient_id',$patient->id)->get();
+                if($patientAppointment->isNotEmpty()){
+                    return response()->json(['status' => true, 'data' => AppointmentDetailsResource::collection($patientAppointment)]);
+                }
+            }
+
+        }
+
     }
 }
