@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PostComment;
 use App\Models\PostLike;
 use App\Models\UserPost;
+use App\Models\PostComment;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserPostResource;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -39,21 +40,12 @@ class PostController extends Controller
 
                     $userPost->addMediaFromRequest('image')->toMediaCollection('user-post');
                 }
-
+                $userPost->user_id = $user->id;
                 $userPost->post = $request->post;
                 $userPost->save();
 
-                return response()->json(['status' => true, 'message' => 'Post submitted Successfully']);
+                return response()->json(['status' => true, 'message' => 'Post Submitted Successfully']);
             }
-        }
-    }
-
-    public function getAllPost(Request $request)
-    {
-
-        $user = $request->user();
-
-        if ($user) {
         }
     }
 
@@ -110,6 +102,65 @@ class PostController extends Controller
                 $postComment->save();
 
                 return response()->json(['status' => true, 'message' => 'Your comment added successfully.']);
+            }
+        }
+    }
+
+
+    public function getAllPost(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $allUserPost = UserPost::with('user', 'likes', 'comments.user')->get();
+            if ($allUserPost) {
+                return response()->json(['status' => true, 'data' => UserPostResource::collection($allUserPost)]);
+            }
+        }
+    }
+
+    public function getUserPost(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) {
+
+            $allUserPost = UserPost::with('user', 'likes', 'comments.user')->where('user_id', $user->id)->get();
+            if ($allUserPost) {
+                return response()->json(['status' => true, 'data' => UserPostResource::collection($allUserPost)]);
+            }
+        }
+    }
+
+    public function deletePost(Request $request, $postId)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $userPost = UserPost::where('id', $postId)->first();
+            if ($userPost) {
+
+                $postLikes = PostLike::where('post_id', $userPost->id)->get();
+                if ($postLikes) {
+                    foreach ($postLikes as $likes) {
+                        $likes->delete();
+                    }
+                }
+
+                $postComments = PostComment::where('post_id', $userPost->id)->get();
+                if ($postComments) {
+                    foreach ($postComments as $comments) {
+                        $comments->delete();
+                    }
+                }
+
+                $userPost->delete();
+
+                return response()->json(['status' => true, 'message' => 'Post Data Deleted Successfully']);
             }
         }
     }

@@ -71,6 +71,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/add/post',[PostController::class,'createPost']);
     Route::post('/add/post-like',[PostController::class,'addPostLike']);
     Route::post('/add/post-comment',[PostController::class,'addPostComment']);
+    Route::get('/get/all-post',[PostController::class,'getAllPost']);
+    Route::get('/get/user-post',[PostController::class,'getUserPost']);
+    Route::delete('/delete/post/{postId}',[PostController::class,'deletePost']);
 
 });
 
