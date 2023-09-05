@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterSlotController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryQuestionController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
 Route::post('/register/login',[AdminManagementController::class,'login']);
@@ -65,6 +66,14 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Get Emotions */
     Route::get('get/all/emotions',[DailyJournalController::class,'getAllEmotions']);
+
+    /** POST URL Explorer */
+    Route::post('/add/post',[PostController::class,'createPost']);
+    Route::post('/add/post-like',[PostController::class,'addPostLike']);
+    Route::post('/add/post-comment',[PostController::class,'addPostComment']);
+    Route::get('/get/all-post',[PostController::class,'getAllPost']);
+    Route::get('/get/user-post',[PostController::class,'getUserPost']);
+    Route::delete('/delete/post/{postId}',[PostController::class,'deletePost']);
 
 });
 
