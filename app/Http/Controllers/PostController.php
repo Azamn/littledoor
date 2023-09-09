@@ -68,11 +68,17 @@ class PostController extends Controller
 
             if ($user) {
 
-                $postLike = new PostLike();
-                $postLike->user_id = $user->id;
-                $postLike->post_id = $request->post_id;
-                $postLike->post_like = $request->post_like;
-                $postLike->save();
+                $postLikeExist = PostLike::where('post_id', $request->post_id)->where('user_id', $user->id)->first();
+                if ($postLikeExist) {
+                    $postLikeExist->post_like = $request->post_like;
+                    $postLikeExist->update();
+                } else {
+                    $postLike = new PostLike();
+                    $postLike->user_id = $user->id;
+                    $postLike->post_id = $request->post_id;
+                    $postLike->post_like = $request->post_like;
+                    $postLike->save();
+                }
 
                 return response()->json(['status' => true, 'message' => 'Your Response Added Succesfully.']);
             }
