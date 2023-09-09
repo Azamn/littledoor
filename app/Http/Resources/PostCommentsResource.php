@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostCommentsResource extends JsonResource
@@ -17,7 +18,9 @@ class PostCommentsResource extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->comments,
-            'comment_by' => $this->user?->name ?? NULL
+            'comment_by' => $this->user?->name ?? NULL,
+            'commented_user_profile_url' => $this->user?->media->isNotEmpty() ? $this->user?->media->last()->getFullUrl() : NULL,
+            'commented_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
         ];
     }
 }

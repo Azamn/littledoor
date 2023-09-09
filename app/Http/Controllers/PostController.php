@@ -8,6 +8,7 @@ use App\Models\PostComment;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserPostResource;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\PostCommentsResource;
 
 class PostController extends Controller
 {
@@ -114,9 +115,23 @@ class PostController extends Controller
 
         if ($user) {
 
-            $allUserPost = UserPost::with('user', 'likes', 'comments.user')->get();
+            $perPage = 10;
+            if ($request->has('per_page')) {
+                $perPage = $request->per_page;
+            }
+
+            $allUserPost = UserPost::with('user', 'likes',)->orderBy('created_at', 'desc')
+                ->paginate($perPage);
+
             if ($allUserPost) {
-                return response()->json(['status' => true, 'data' => UserPostResource::collection($allUserPost)]);
+                return response()->json([
+                    'status' => true,
+                    'data' => UserPostResource::collection($allUserPost),
+                    "current_page"  => $allUserPost->currentPage() ? $allUserPost->currentPage() : Null,
+                    "last_page"     => $allUserPost->lastPage() ? $allUserPost->lastPage() : NULL,
+                    "per_page"      => $allUserPost->perPage() ? $allUserPost->perPage() : NULL,
+                    "total"         => $allUserPost->total() ? $allUserPost->total() : NULL,
+                ]);
             }
         }
     }
@@ -127,9 +142,23 @@ class PostController extends Controller
 
         if ($user) {
 
-            $allUserPost = UserPost::with('user', 'likes', 'comments.user')->where('user_id', $user->id)->get();
+            $perPage = 10;
+            if ($request->has('per_page')) {
+                $perPage = $request->per_page;
+            }
+
+            $allUserPost = UserPost::with('user', 'likes',)->orderBy('created_at', 'desc')->where('user_id', $user->id)
+                ->paginate($perPage);
+
             if ($allUserPost) {
-                return response()->json(['status' => true, 'data' => UserPostResource::collection($allUserPost)]);
+                return response()->json([
+                    'status' => true,
+                    'data' => UserPostResource::collection($allUserPost),
+                    "current_page"  => $allUserPost->currentPage() ? $allUserPost->currentPage() : Null,
+                    "last_page"     => $allUserPost->lastPage() ? $allUserPost->lastPage() : NULL,
+                    "per_page"      => $allUserPost->perPage() ? $allUserPost->perPage() : NULL,
+                    "total"         => $allUserPost->total() ? $allUserPost->total() : NULL,
+                ]);
             }
         }
     }
@@ -161,6 +190,44 @@ class PostController extends Controller
                 $userPost->delete();
 
                 return response()->json(['status' => true, 'message' => 'Post Data Deleted Successfully']);
+            }
+        }
+    }
+
+    public function getPostComment(Request $request)
+    {
+        $rules = [
+            'post_id' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+
+                $perPage = 10;
+                if ($request->has('per_page')) {
+                    $perPage = $request->per_page;
+                }
+
+                $postComment = PostComment::where('post_id', $request->post_id)->orderBy('created_at', 'desc')
+                    ->paginate($perPage);
+
+                if ($postComment) {
+                    return response()->json([
+                        'status' => true,
+                        'data' => PostCommentsResource::collection($postComment),
+                        "current_page"  => $postComment->currentPage() ? $postComment->currentPage() : Null,
+                        "last_page"     => $postComment->lastPage() ? $postComment->lastPage() : NULL,
+                        "per_page"      => $postComment->perPage() ? $postComment->perPage() : NULL,
+                        "total"         => $postComment->total() ? $postComment->total() : NULL,
+                    ]);
+                }
             }
         }
     }
