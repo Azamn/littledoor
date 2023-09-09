@@ -76,6 +76,8 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::get('/get/user-post',[PostController::class,'getUserPost']);
     Route::delete('/delete/post/{postId}',[PostController::class,'deletePost']);
     Route::post('/get/post-comments',[PostController::class,'getPostComment']);
+    Route::get('/user/comment-post',[PostController::class,'getUserCommentPost']);
+    Route::get('/user/likes-post',[PostController::class,'getUserLikePost']);
 
 });
 

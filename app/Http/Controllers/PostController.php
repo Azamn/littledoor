@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserPostResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PostCommentsResource;
+use App\Http\Resources\UserPostCommentsResource;
 
 class PostController extends Controller
 {
@@ -239,6 +240,58 @@ class PostController extends Controller
                         "total"         => $postComment->total() ? $postComment->total() : NULL,
                     ]);
                 }
+            }
+        }
+    }
+
+    public function getUserCommentPost(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+
+            $allUserPostComments = UserPost::with(['comments' => function ($query) use ($user) {
+                return $query->where('user_id', $user->id);
+            }])->orderBy('created_at', 'desc')->get();
+
+            if ($allUserPostComments) {
+
+                $filterPost =  $allUserPostComments->filter(function ($item) {
+                    return $item->comments->isNotEmpty();
+                });
+
+                return response()->json([
+                    'status' => true,
+                    'data' => UserPostCommentsResource::collection($filterPost),
+                ]);
+            }
+        }
+    }
+
+    public function getUserLikePost(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+
+            $allUserPostLikes = UserPost::with(['likes' => function ($query) use ($user) {
+                return $query->where('user_id', $user->id)->where('post_like',1);
+            }])->orderBy('created_at', 'desc')->get();
+
+            if ($allUserPostLikes) {
+
+                $filterPost =  $allUserPostLikes->filter(function ($item) {
+                    return $item->likes->isNotEmpty();
+                });
+
+                return response()->json([
+                    'status' => true,
+                    'data' => UserPostResource::collection($filterPost),
+                ]);
             }
         }
     }
