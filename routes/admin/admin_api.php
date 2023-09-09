@@ -64,7 +64,8 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** TIme Slot */
     Route::get('get/all-slot',[MasterSlotController::class,'getTimeSlot']);
 
-    /** Get Emotions */
+    /** Emotions URL */
+    Route::post('/add/emotions',[DailyJournalController::class, 'addEmotions']);
     Route::get('get/all/emotions',[DailyJournalController::class,'getAllEmotions']);
 
     /** POST URL Explorer */
@@ -74,6 +75,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::get('/get/all-post',[PostController::class,'getAllPost']);
     Route::get('/get/user-post',[PostController::class,'getUserPost']);
     Route::delete('/delete/post/{postId}',[PostController::class,'deletePost']);
+    Route::post('/get/post-comments',[PostController::class,'getPostComment']);
 
 });
 
