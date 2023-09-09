@@ -64,7 +64,8 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** TIme Slot */
     Route::get('get/all-slot',[MasterSlotController::class,'getTimeSlot']);
 
-    /** Get Emotions */
+    /** Emotions URL */
+    Route::post('/add/emotions',[DailyJournalController::class, 'addEmotions']);
     Route::get('get/all/emotions',[DailyJournalController::class,'getAllEmotions']);
 
     /** POST URL Explorer */

@@ -17,6 +17,7 @@ class MasterEmotionsResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'image_url' => $this->media->isNotEmpty() ? $this->media->last()->getFullUrl() : NULL,
         ];
     }
 }

@@ -14,6 +14,39 @@ use App\Http\Resources\UserDailyJournalResouce;
 class DailyJournalController extends Controller
 {
 
+    public function addEmotions(Request $request)
+    {
+
+        $rules = [
+            'name' => 'required|string',
+            'image' => 'required|file',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+
+                $masterEmotion = new MasterEmotions();
+                $masterEmotion->name = $request->name;
+                $masterEmotion->status = 1;
+
+                if ($request->has('image')) {
+                    $masterEmotion->addMediaFromRequest('image')->toMediaCollection('emotion');
+                }
+
+                $masterEmotion->save();
+
+                return response()->json(['status' => true, 'message' => 'Emotions Added Successfully']);
+            }
+        }
+    }
+
     public function getAllEmotions(Request $request)
     {
 
