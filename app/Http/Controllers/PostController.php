@@ -70,8 +70,13 @@ class PostController extends Controller
 
                 $postLikeExist = PostLike::where('post_id', $request->post_id)->where('user_id', $user->id)->first();
                 if ($postLikeExist) {
-                    $postLikeExist->post_like = $request->post_like;
-                    $postLikeExist->update();
+                    if ($postLikeExist->post_like == 0 && $request->post_like == 1) {
+                        $postLikeExist->post_like = $request->post_like;
+                        $postLikeExist->update();
+                    } elseif ($postLikeExist->post_like == 1 && $request->post_like == 0) {
+                        $postLikeExist->post_like = $request->post_like;
+                        $postLikeExist->update();
+                    }
                 } else {
                     $postLike = new PostLike();
                     $postLike->user_id = $user->id;
