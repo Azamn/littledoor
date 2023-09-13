@@ -56,7 +56,7 @@ class AppointmentController extends Controller
 
             if($patient){
 
-                $patientAppointment = PatientAppointment::with('slot','doctor')->where('patient_id',$patient->id)->get();
+                $patientAppointment = PatientAppointment::with('slot','doctor','patient')->where('patient_id',$patient->id)->get();
                 if($patientAppointment->isNotEmpty()){
                     return response()->json(['status' => true, 'data' => AppointmentDetailsResource::collection($patientAppointment)]);
                 }

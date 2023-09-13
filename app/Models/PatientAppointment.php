@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\MasterDoctor;
+use App\Models\MasterPatient;
 use App\Models\MasterTimeSlot;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,5 +25,10 @@ class PatientAppointment extends Model
     public function doctor()
     {
         return $this->belongsTo(MasterDoctor::class, 'doctor_id', 'id');
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(MasterPatient::class, 'patient_id', 'id');
     }
 }
