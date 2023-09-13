@@ -25,13 +25,16 @@ class AppointmentDetailsResource extends JsonResource
         $doctorProfile = NULL;
         $doctorName = NULL;
         $category = [];
-        if($this->doctor){
-            if(!is_null($this->doctor?->first_name) && !is_null($this->doctor?->last_name)){
-                $doctorName = $this->doctor?->first_name .' '. $this->doctor?->last_name;
-            }else{
+        if ($this->doctor) {
+            if (!is_null($this->doctor?->first_name) && !is_null($this->doctor?->last_name)) {
+                $doctorName = $this->doctor?->first_name . ' ' . $this->doctor?->last_name;
+            } else {
                 $doctorName = $this->doctor?->first_name;
             }
-            $doctorProfile = $this->doctor?->user?->media->isNotEmpty() ? $this->doctor?->user?->media->media->last()->getFullUrl() : NULL;
+
+            if ($this->doctor?->user) {
+                $doctorProfile = $this->doctor?->user?->media->isNotEmpty() ? $this->doctor?->user?->media->media->last()->getFullUrl() : NULL;
+            }
 
             if (!is_null($this->doctor?->doctorWorkMapping)) {
                 foreach ($this->doctor?->doctorWorkMapping as $wmp) {
@@ -43,13 +46,16 @@ class AppointmentDetailsResource extends JsonResource
         $patientName = NULL;
         $patientProfile = NULL;
 
-        if($this->patient){
-            if(!is_null($this->patient?->first_name) && !is_null($this->patient?->last_name)){
-                $patientName = $this->patient?->first_name .' '. $this->patient?->last_name;
-            }else{
+        if ($this->patient) {
+            if (!is_null($this->patient?->first_name) && !is_null($this->patient?->last_name)) {
+                $patientName = $this->patient?->first_name . ' ' . $this->patient?->last_name;
+            } else {
                 $patientName = $this->patient?->first_name;
             }
-            $patientProfile = $this->patient?->user?->media->isNotEmpty() ? $this->patient?->user?->media->media->last()->getFullUrl() : NULL;
+
+            if($this->patient?->user){
+                $patientProfile = $this->patient?->user?->media->isNotEmpty() ? $this->patient?->user?->media->media->last()->getFullUrl() : NULL;
+            }
         }
 
         return [
@@ -62,7 +68,7 @@ class AppointmentDetailsResource extends JsonResource
             'is_appointment_active' => $isActiveAppointment,
             'slot_id' => $this->slot_id,
             'slot_time' => $this?->slot?->slot_time ?? NULL,
-            'patient_name' => $patientName ,
+            'patient_name' => $patientName,
             'patient_profile' => $patientProfile
         ];
     }
