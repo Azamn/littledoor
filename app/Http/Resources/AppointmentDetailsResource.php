@@ -33,7 +33,7 @@ class AppointmentDetailsResource extends JsonResource
             }
 
             if ($this->doctor?->user) {
-                $doctorProfile = $this->doctor?->user?->media->isNotEmpty() ? $this->doctor?->user?->media->media->last()->getFullUrl() : NULL;
+                $doctorProfile = $this->doctor?->user?->media->isNotEmpty() ? $this->doctor?->user?->media->last()->getFullUrl() : NULL;
             }
 
             if (!is_null($this->doctor?->doctorWorkMapping)) {
@@ -54,7 +54,7 @@ class AppointmentDetailsResource extends JsonResource
             }
 
             if($this->patient?->user){
-                $patientProfile = $this->patient?->user?->media->isNotEmpty() ? $this->patient?->user?->media->media->last()->getFullUrl() : NULL;
+                $patientProfile = $this->patient?->user?->media->isNotEmpty() ? $this->patient?->user?->media->last()->getFullUrl() : NULL;
             }
         }
 
