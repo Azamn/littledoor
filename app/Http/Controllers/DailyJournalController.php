@@ -47,6 +47,37 @@ class DailyJournalController extends Controller
         }
     }
 
+    public function getAllEmotionsThroughAdmin(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $masterEmptionsData = [];
+
+            $masterEmptions = MasterEmotions::where('status', 1)->get();
+            if ($masterEmptions) {
+                foreach ($masterEmptions as $emotion) {
+                    $data = [
+                        'id' => $emotion->id,
+                        'name' => $emotion->name ?? NULL,
+                        'image_url' => $emotion->media->isNotEmpty() ? $emotion->media->last()->getFullUrl() : NULL,
+                        'status' => $emotion->status ?? NULL,
+                    ];
+
+                    array_push($masterEmptionsData, $data);
+                }
+
+                if (!is_null($masterEmptionsData)) {
+                    return view('Admin.Category.category-list', compact('masterEmptionsData'));
+                } else {
+                    return view('Admin.Category.category-list');
+                }
+            }
+        }
+    }
+
     public function getAllEmotions(Request $request)
     {
 
@@ -117,14 +148,14 @@ class DailyJournalController extends Controller
             $patient = $user->patient;
             $doctor = $user->doctor;
 
-            if($request->has('journal_date')){
+            if ($request->has('journal_date')) {
                 $requestDate =  Carbon::parse($request->journal_date)->format('Y-m-d');
                 if ($patient) {
-                    $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->whereDate('journal_date','=',$requestDate)->orderBy('journal_date', 'DESC')->get();
+                    $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->whereDate('journal_date', '=', $requestDate)->orderBy('journal_date', 'DESC')->get();
                 } else {
-                    $dailyJournal = DailyJournal::with('emotion')->where('doctor_id', $doctor->id)->whereDate('journal_date','=',$requestDate)->orderBy('journal_date', 'DESC')->get();
+                    $dailyJournal = DailyJournal::with('emotion')->where('doctor_id', $doctor->id)->whereDate('journal_date', '=', $requestDate)->orderBy('journal_date', 'DESC')->get();
                 }
-            }else{
+            } else {
                 if ($patient) {
                     $dailyJournal = DailyJournal::with('emotion')->where('patient_id', $patient->id)->orderBy('journal_date', 'DESC')->get();
                 } else {
@@ -150,6 +181,16 @@ class DailyJournalController extends Controller
                 $dailyJournal->delete();
                 return response()->json(['status' => true, 'message' => 'Journal Data Deleted Successfully']);
             }
+        }
+    }
+
+    public function deleteEmotions(Request $request)
+    {
+        $masterEmotion = MasterEmotions::where('id', $request->emotion_id)->first();
+
+        if ($masterEmotion) {
+            $masterEmotion->delete();
+            return response()->json(['status' => true, 'message' => 'Emotion Data Deleted Successfully.']);
         }
     }
 }
