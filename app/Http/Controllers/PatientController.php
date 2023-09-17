@@ -110,21 +110,26 @@ class PatientController extends Controller
                     $duplicateOptionData = $patientResponseData->diff($uniqueOptionData);
                     if (!is_null($duplicateOptionData)) {
                         $optionData = $duplicateOptionData->first();
-                    } else {
+                    } elseif(!is_null($uniqueOptionData)) {
                         $optionData = $uniqueOptionData->first();
+                    }else{
+                        $optionData = $patientResponseData->first();
                     }
 
-                    $subCategoryMappingData = SubCategoryQuestionMapping::where('id', $optionData->category_question_mapping_id)->first();
+                    if ($optionData) {
 
-                    $subCategoryData = MasterSubCategory::where('id', $subCategoryMappingData->master_sub_category_id)->first();
+                        $subCategoryMappingData = SubCategoryQuestionMapping::where('id', $optionData->category_question_mapping_id)->first();
 
-                    $subCategoryId = $subCategoryData?->id;
-                    $categoryId = $subCategoryData?->master_category_id;
+                        $subCategoryData = MasterSubCategory::where('id', $subCategoryMappingData->master_sub_category_id)->first();
 
-                    $pateintData = MasterPatient::where('id', $request->patient_id)->first();
-                    $pateintData->category_id = $categoryId ?? NULL;
-                    $pateintData->sub_category_id = $subCategoryId ?? NULL;
-                    $pateintData->update();
+                        $subCategoryId = $subCategoryData?->id;
+                        $categoryId = $subCategoryData?->master_category_id;
+
+                        $pateintData = MasterPatient::where('id', $request->patient_id)->first();
+                        $pateintData->category_id = $categoryId ?? NULL;
+                        $pateintData->sub_category_id = $subCategoryId ?? NULL;
+                        $pateintData->update();
+                    }
                 }
 
 
