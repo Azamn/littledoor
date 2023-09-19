@@ -868,6 +868,7 @@ class DoctorController extends Controller
             $data =  [
                 'id' => $masterDoctor?->id,
                 'first_name' => $masterDoctor?->first_name,
+                'status' => $masterDoctor?->status ?? NULL,
                 'email' => $masterDoctor?->user?->email ?? NULL,
                 'city' => $masterDoctor?->city?->city_name ?? NULL,
                 'dob' => $masterDoctor?->dob,
