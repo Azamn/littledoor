@@ -29,12 +29,33 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="product-page-details">
-                                    @if (!is_null($data['first_name']))
-                                        <h3>{{ $data['first_name'] }}</h3>
-                                    @else
-                                        <h3>Doctor Name</h3>
-                                    @endif
+                                    <div class="" style="display: flex; justify-content: space-between;">
+                                        <div class="">
+                                            @if (!is_null($data['first_name']))
+                                            <h3>{{ $data['first_name'] }}</h3>
+                                        @else
+                                            <h3>Doctor Name</h3>
+                                        @endif
+                                        </div>
+
+                                        <div class="">
+                                            <div class="media-body switch-m">
+                                                <label class="switch">
+                                                    @csrf
+                                                    <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                    <input type="checkbox"
+                                                        onchange="doctor_active_toggle_function({{ $data['id'] }})"
+                                                        @if (@$data['status']) checked="" @endif><span
+                                                        class="switch-state"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   
+                                   
                                 </div>
+
                                 <hr>
                                 <div>
                                     <table class="product-page-width">
@@ -239,35 +260,15 @@
                                                     <table class="product-page-width">
                                                         <tbody>
                                                             <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
+                                                                @if (!is_null($data['skills']))
+                                                                        @foreach (@$data['skills'] as $skill)
+                                                                            <td> <b>Skill &nbsp;&nbsp;&nbsp;:
+                                                                                    &nbsp;&nbsp;&nbsp;</b></td> 
+                                                                            <td>{{$skill['skill_name']}}</td>
+                                                                        @endforeach
+                                                                    @endif
                                                             </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
+                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -538,4 +539,41 @@
         </div>
         <!-- Container-fluid Ends-->
     </div>
+@endsection
+
+@section('js')
+<script>
+ function doctor_active_toggle_function(doctor_id) {
+            var doctor_id = doctor_id;
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{ route('change.doctor-status') }}',
+                method: 'GET',
+                data: {
+                    doctor_id: doctor_id
+                },
+                dataType: 'json',
+                success: function(data) {
+
+                    if (data.status == true) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: data.message,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        location.reload(true);
+                    }
+
+                    // title:'Title',
+                },
+                error: function(data) {},
+            });
+        }
+</script>
 @endsection
