@@ -53,6 +53,7 @@ class AppointmentController extends Controller
         if($user){
 
             $patient = $user->patient;
+            $doctor = $user->doctor;
 
             if($patient){
 
@@ -60,7 +61,13 @@ class AppointmentController extends Controller
                 if($patientAppointment->isNotEmpty()){
                     return response()->json(['status' => true, 'data' => AppointmentDetailsResource::collection($patientAppointment)]);
                 }
+            }elseif($doctor){
+                $doctorAppointment = PatientAppointment::with('slot','doctor','patient')->where('doctor_id',$doctor->id)->get();
+                if($doctorAppointment->isNotEmpty()){
+                    return response()->json(['status' => true, 'data' => AppointmentDetailsResource::collection($doctorAppointment)]);
+                }
             }
+
 
         }
 
