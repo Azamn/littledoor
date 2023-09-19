@@ -153,7 +153,7 @@
                                                                             <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
                                                                                     &nbsp;&nbsp;&nbsp;</b></td>
                                                                             <td><a class="btn btn-primary"
-                                                                                    href="{{ @$certificate }}"> <i
+                                                                                    href="{{ @$certificate }}" target="_blank"> <i
                                                                                         class="icon-eye"></i> View
                                                                                     Certificate </a></td>
                                                                         @endforeach
@@ -222,7 +222,7 @@
                                                                             <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
                                                                                     &nbsp;&nbsp;&nbsp;</b></td>
                                                                             <td><a class="btn btn-primary"
-                                                                                    href="{{ @$certificate }}"> <i
+                                                                                    href="{{ @$certificate }}" target="_blank"> <i
                                                                                         class="icon-eye"></i> View
                                                                                     Certificate </a></td>
                                                                         @endforeach
@@ -422,7 +422,7 @@
                                                                     <td> <b>Appreciation Certificate &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
                                                                     <td><a class="btn btn-primary"
-                                                                        href="{{ @$appreciation['image_url'] }}"> <i
+                                                                        href="{{ @$appreciation['image_url'] }}" target="_blank"> <i
                                                                             class="icon-eye"></i> View
                                                                         Certificate </a></td>
                                                                 @endif
@@ -479,7 +479,7 @@
                                                                         <td> <b>File &nbsp;&nbsp;&nbsp;:
                                                                             &nbsp;&nbsp;&nbsp;</b></td>
                                                                         <td><a class="btn btn-primary"
-                                                                            href="{{ @$other['document'] }}"> <i
+                                                                            href="{{ @$other['document'] }}" target="_blank"> <i
                                                                                 class="icon-eye"></i> View
                                                                             Certificate </a></td>
                                                                     </tr>
