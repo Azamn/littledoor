@@ -116,11 +116,27 @@ Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->nam
 
 
 
-
-
-
-
  Route::get('/admin/doctor-view', function () {
     return view('Admin.Doctor.doctor-view');
  });
 
+ Route::get('/admin/emotion-list', function () {
+    return view('Admin.Emotion.emotion-list');
+ });
+
+ Route::get('/admin/emotion-create', function () {
+    return view('Admin.Emotion.emotion-create');
+ });
+
+ 
+ Route::get('/admin/promotion-list', function () {
+    return view('Admin.Promotion.promotion-list');
+ });
+
+ Route::get('/admin/promotion-create', function () {
+    return view('Admin.Promotion.promotion-create');
+ });
+
+ Route::get('/admin/promotion-view', function () {
+    return view('Admin.Promotion.promotion-view');
+ });
