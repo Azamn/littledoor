@@ -259,17 +259,15 @@
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
-                                                            <tr>
-                                                                @if (!is_null($data['skills']))
-                                                                        @foreach (@$data['skills'] as $skill)
-                                                                            <td> <b>Skill &nbsp;&nbsp;&nbsp;:
-                                                                                    &nbsp;&nbsp;&nbsp;</b></td> 
-                                                                            <td>{{$skill['skill_name']}}</td>
-                                                                            <br>
-                                                                        @endforeach
-                                                                    @endif
-                                                            </tr>
-                                                            
+                                                            @if (!is_null($data['skills']))
+                                                                @foreach (@$data['skills'] as $skill)
+                                                                <tr>
+                                                                    <td> <b>Skill &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td> 
+                                                                    <td>{{$skill['skill_name']}}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -329,6 +327,7 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    <hr>
                                                     @endforeach
 
                                                 </div>
@@ -362,36 +361,13 @@
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
-                                                            <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
+                                                            @if (!is_null($data['languages']))
+                                                                @foreach ($data['languages'] as $language)
+                                                                <tr> 
+                                                                    <td>{{$language}}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -421,40 +397,42 @@
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
                                                 <div>
+                                                    @foreach ($data['appreciation'] as $appreciation)
                                                     <table class="product-page-width">
                                                         <tbody>
                                                             <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
+                                                                <td> <b>Appreciation Name &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['name'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
+                                                                <td> <b>Category&nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['category_achieved'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
+                                                                <td> <b>Issue Date &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['issue_date'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
+                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['description'] }}</td>
                                                             </tr>
+
                                                             <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
+                                                                @if (!is_null( $appreciation['image_url']))
+                                                                    <td> <b>Appreciation Certificate &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
+                                                                    <td><a class="btn btn-primary"
+                                                                        href="{{ @$appreciation['image_url'] }}"> <i
                                                                             class="icon-eye"></i> View
                                                                         Certificate </a></td>
+                                                                @endif
                                                             </tr>
+                                                            
+                                                            
                                                         </tbody>
                                                     </table>
+                                                    <hr>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
@@ -487,36 +465,28 @@
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
-                                                            <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
+                                                            @if (!is_null($data['other']))
+                                                                @foreach (@$data['other'] as $other)
+                                                               
+                                                                    @if (!is_null( $other['document']))
+                                                                    <tr>
+                                                                        <td> <b>Document Name &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                        <td>{{$other['name']}}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td> <b>File &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                        <td><a class="btn btn-primary"
+                                                                            href="{{ @$other['document'] }}"> <i
+                                                                                class="icon-eye"></i> View
+                                                                            Certificate </a></td>
+                                                                    </tr>
+                                                                    @endif
+                                                               
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
