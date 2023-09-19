@@ -251,7 +251,7 @@
                                         <h2 class="accordion-header" id="headingOne1">
                                             <button class="accordion-button collapsed accordion-light-primary txt-primary"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#left-collapseOne2"
-                                                aria-expanded="true" aria-controls="left-collapseOne">Expertise</button>
+                                                aria-expanded="true" aria-controls="left-collapseOne">Skills</button>
                                         </h2>
                                         <div class="accordion-collapse collapse" id="left-collapseOne2"
                                             aria-labelledby="headingOne1" data-bs-parent="#accordionExample">
@@ -265,6 +265,7 @@
                                                                             <td> <b>Skill &nbsp;&nbsp;&nbsp;:
                                                                                     &nbsp;&nbsp;&nbsp;</b></td> 
                                                                             <td>{{$skill['skill_name']}}</td>
+                                                                            <br>
                                                                         @endforeach
                                                                     @endif
                                                             </tr>
@@ -298,40 +299,38 @@
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample1">
                                             <div class="accordion-body">
                                                 <div>
+
+                                                    @foreach ($data['address'] as $address)
                                                     <table class="product-page-width">
                                                         <tbody>
                                                             <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
+                                                                <td> <b>Address Type &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['address_type'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
+                                                                <td> <b>Address Line 1 &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['address_line_1'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
+                                                                <td> <b>Address Line 2 &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['address_line_2'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
+                                                                <td> <b>Pincode &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['pincode'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
+                                                                <td> <b>City &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['city_name'] }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> <b>State &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['state_name'] }}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    @endforeach
+
                                                 </div>
                                             </div>
                                         </div>
