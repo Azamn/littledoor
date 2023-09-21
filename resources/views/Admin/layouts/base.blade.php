@@ -48,6 +48,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/vendors/bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/bootstrap.css')}}">
     <!-- App css-->
+    <link rel="stylesheet" type="text/css"  href="{{asset('Admin/css/vendors/date-picker.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('Admin/css/style.css')}}">
     <link id="color" rel="stylesheet" href="{{asset('Admin/css/color-1.css')}}" media="screen">
     <!-- Responsive css-->
@@ -109,6 +110,9 @@
     <script src="{{asset('Admin/js/owlcarousel/owl.carousel.js')}}"></script>
     <script src="{{asset('Admin/js/dashboard/dashboard_2.js')}}"></script>
 
+    <script src="{{asset('Admin/js/datepicker/date-picker/datepicker.js')}}"></script>
+    <script src="{{asset('Admin/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+    <script src="{{asset('Admin/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
     <script src="{{asset('Admin/js/height-equal.js')}}"></script>
 
     <!-- Theme js-->

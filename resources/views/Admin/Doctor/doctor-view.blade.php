@@ -29,12 +29,33 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="product-page-details">
-                                    @if (!is_null($data['first_name']))
-                                        <h3>{{ $data['first_name'] }}</h3>
-                                    @else
-                                        <h3>Doctor Name</h3>
-                                    @endif
+                                    <div class="" style="display: flex; justify-content: space-between;">
+                                        <div class="">
+                                            @if (!is_null($data['first_name']))
+                                            <h3>{{ $data['first_name'] }}</h3>
+                                        @else
+                                            <h3>Doctor Name</h3>
+                                        @endif
+                                        </div>
+
+                                        <div class="">
+                                            <div class="media-body switch-m">
+                                                <label class="switch">
+                                                    @csrf
+                                                    <meta name="csrf-token" content="{{ csrf_token() }}" />
+                                                    <input type="checkbox"
+                                                        onchange="doctor_active_toggle_function({{ $data['id'] }})"
+                                                        @if (@$data['status']) checked="" @endif><span
+                                                        class="switch-state"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                   
+                                   
                                 </div>
+
                                 <hr>
                                 <div>
                                     <table class="product-page-width">
@@ -132,7 +153,7 @@
                                                                             <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
                                                                                     &nbsp;&nbsp;&nbsp;</b></td>
                                                                             <td><a class="btn btn-primary"
-                                                                                    href="{{ @$certificate }}"> <i
+                                                                                    href="{{ @$certificate }}" target="_blank"> <i
                                                                                         class="icon-eye"></i> View
                                                                                     Certificate </a></td>
                                                                         @endforeach
@@ -201,7 +222,7 @@
                                                                             <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
                                                                                     &nbsp;&nbsp;&nbsp;</b></td>
                                                                             <td><a class="btn btn-primary"
-                                                                                    href="{{ @$certificate }}"> <i
+                                                                                    href="{{ @$certificate }}" target="_blank"> <i
                                                                                         class="icon-eye"></i> View
                                                                                     Certificate </a></td>
                                                                         @endforeach
@@ -230,7 +251,7 @@
                                         <h2 class="accordion-header" id="headingOne1">
                                             <button class="accordion-button collapsed accordion-light-primary txt-primary"
                                                 type="button" data-bs-toggle="collapse" data-bs-target="#left-collapseOne2"
-                                                aria-expanded="true" aria-controls="left-collapseOne">Expertise</button>
+                                                aria-expanded="true" aria-controls="left-collapseOne">Skills</button>
                                         </h2>
                                         <div class="accordion-collapse collapse" id="left-collapseOne2"
                                             aria-labelledby="headingOne1" data-bs-parent="#accordionExample">
@@ -238,36 +259,15 @@
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
-                                                            <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
+                                                            @if (!is_null($data['skills']))
+                                                                @foreach (@$data['skills'] as $skill)
+                                                                <tr>
+                                                                    <td> <b>Skill &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td> 
+                                                                    <td>{{$skill['skill_name']}}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -297,40 +297,39 @@
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample1">
                                             <div class="accordion-body">
                                                 <div>
+
+                                                    @foreach ($data['address'] as $address)
                                                     <table class="product-page-width">
                                                         <tbody>
                                                             <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
+                                                                <td> <b>Address Type &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['address_type'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
+                                                                <td> <b>Address Line 1 &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['address_line_1'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
+                                                                <td> <b>Address Line 2 &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['address_line_2'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
+                                                                <td> <b>Pincode &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['pincode'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
+                                                                <td> <b>City &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['city_name'] }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> <b>State &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $address['state_name'] }}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    <hr>
+                                                    @endforeach
+
                                                 </div>
                                             </div>
                                         </div>
@@ -362,36 +361,13 @@
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
-                                                            <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
+                                                            @if (!is_null($data['languages']))
+                                                                @foreach ($data['languages'] as $language)
+                                                                <tr> 
+                                                                    <td>{{$language}}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -421,40 +397,42 @@
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
                                                 <div>
+                                                    @foreach ($data['appreciation'] as $appreciation)
                                                     <table class="product-page-width">
                                                         <tbody>
                                                             <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
+                                                                <td> <b>Appreciation Name &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['name'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
+                                                                <td> <b>Category&nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['category_achieved'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
+                                                                <td> <b>Issue Date &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['issue_date'] }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
+                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:</b></td>
+                                                                <td>{{ $appreciation['description'] }}</td>
                                                             </tr>
+
                                                             <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
+                                                                @if (!is_null( $appreciation['image_url']))
+                                                                    <td> <b>Appreciation Certificate &nbsp;&nbsp;&nbsp;:
                                                                         &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
+                                                                    <td><a class="btn btn-primary"
+                                                                        href="{{ @$appreciation['image_url'] }}" target="_blank"> <i
                                                                             class="icon-eye"></i> View
                                                                         Certificate </a></td>
+                                                                @endif
                                                             </tr>
+                                                            
+                                                            
                                                         </tbody>
                                                     </table>
+                                                    <hr>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
@@ -487,36 +465,28 @@
                                                 <div>
                                                     <table class="product-page-width">
                                                         <tbody>
-                                                            <tr>
-                                                                <td> <b>Expertise &nbsp;&nbsp;&nbsp;:</b></td>
-                                                                <td>Pixelstrap</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Area of Speciality &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td> asdasd , asdasd ,asdassd </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Year of Experience &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>12</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Description &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td>It is a long established fact that a reader will be
-                                                                    distracted by the
-                                                                    readable content of a page when looking at its layout.
-                                                                    The point of
-                                                                    using Lorem Ipsum is that.</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td> <b>Certificates &nbsp;&nbsp;&nbsp;:
-                                                                        &nbsp;&nbsp;&nbsp;</b></td>
-                                                                <td><a class="btn btn-primary" href=""> <i
-                                                                            class="icon-eye"></i> View
-                                                                        Certificate </a></td>
-                                                            </tr>
+                                                            @if (!is_null($data['other']))
+                                                                @foreach (@$data['other'] as $other)
+                                                               
+                                                                    @if (!is_null( $other['document']))
+                                                                    <tr>
+                                                                        <td> <b>Document Name &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                        <td>{{$other['name']}}</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td> <b>File &nbsp;&nbsp;&nbsp;:
+                                                                            &nbsp;&nbsp;&nbsp;</b></td>
+                                                                        <td><a class="btn btn-primary"
+                                                                            href="{{ @$other['document'] }}" target="_blank"> <i
+                                                                                class="icon-eye"></i> View
+                                                                            Certificate </a></td>
+                                                                    </tr>
+                                                                    @endif
+                                                               
+                                                                @endforeach
+                                                            @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -538,4 +508,41 @@
         </div>
         <!-- Container-fluid Ends-->
     </div>
+@endsection
+
+@section('js')
+<script>
+ function doctor_active_toggle_function(doctor_id) {
+            var doctor_id = doctor_id;
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{ route('change.doctor-status') }}',
+                method: 'GET',
+                data: {
+                    doctor_id: doctor_id
+                },
+                dataType: 'json',
+                success: function(data) {
+
+                    if (data.status == true) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: data.message,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                        location.reload(true);
+                    }
+
+                    // title:'Title',
+                },
+                error: function(data) {},
+            });
+        }
+</script>
 @endsection

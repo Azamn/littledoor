@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorBankController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MasterSlotController;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,10 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Doctor consultancy update */
     Route::post('update/availability/consultancy',[DoctorController::class,'updateAvailableConsultancy']);
+
+    /** Doctor Bank  */
+    Route::post('create/update/bank-details',[DoctorBankController::class, 'createUpdateBankDetails']);
+    Route::get('/get/bank-details',[DoctorBankController::class, 'getBankDetails']);
+    Route::delete('/delete/bank-details/{bankDetailsId}',[DoctorBankController::class, 'deleteBankDetails']);
 
 });

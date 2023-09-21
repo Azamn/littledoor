@@ -46,30 +46,28 @@ class AppointmentController extends Controller
         }
     }
 
-    public function getAppointmentDetails(Request $request){
+    public function getAppointmentDetails(Request $request)
+    {
 
         $user = $request->user();
 
-        if($user){
+        if ($user) {
 
             $patient = $user->patient;
             $doctor = $user->doctor;
 
-            if($patient){
+            if ($patient) {
 
-                $patientAppointment = PatientAppointment::with('slot','doctor','patient')->where('patient_id',$patient->id)->get();
-                if($patientAppointment->isNotEmpty()){
+                $patientAppointment = PatientAppointment::with('slot', 'doctor', 'patient')->where('patient_id', $patient->id)->get();
+                if ($patientAppointment->isNotEmpty()) {
                     return response()->json(['status' => true, 'data' => AppointmentDetailsResource::collection($patientAppointment)]);
                 }
-            }elseif($doctor){
-                $doctorAppointment = PatientAppointment::with('slot','doctor','patient')->where('doctor_id',$doctor->id)->get();
-                if($doctorAppointment->isNotEmpty()){
+            } elseif ($doctor) {
+                $doctorAppointment = PatientAppointment::with('slot', 'doctor', 'patient')->where('doctor_id', $doctor->id)->get();
+                if ($doctorAppointment->isNotEmpty()) {
                     return response()->json(['status' => true, 'data' => AppointmentDetailsResource::collection($doctorAppointment)]);
                 }
             }
-
-
         }
-
     }
 }

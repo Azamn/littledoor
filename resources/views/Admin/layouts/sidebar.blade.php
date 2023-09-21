@@ -41,8 +41,6 @@
                         </ul>
                     </li>
 
-
-
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
                             <i class="fa fa-file-text-o fa-lg m-r-10"></i><span>Question Relationship</span></a>
                         <ul class="sidebar-submenu">
@@ -62,6 +60,15 @@
                         </ul>
                     </li>
 
+                    <li class="sidebar-list">
+                        <a class="nav-link  " href="/admin/emotion-list">
+                            <i class="fa fa-smile-o fa-lg m-r-10"></i><span>Emotions</span></a>
+                    </li>
+
+                    <li class="sidebar-list">
+                        <a class="nav-link  " href="/admin/promotion-list">
+                            <i class="fa fa-send-o fa-lg m-r-10"></i><span>Promotion</span></a>
+                    </li>
 
                     <li class="sidebar-list">
                         <a class="nav-link" href="{{ route('logout') }}"><i data-feather="log-out"></i>
