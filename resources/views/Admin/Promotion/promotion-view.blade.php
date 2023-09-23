@@ -10,7 +10,7 @@
                     <div class="col-6">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/admin/dashboard"><i data-feather="home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="">Category</a></li>
+                            <li class="breadcrumb-item"><a href="">Promotion</a></li>
                         </ol>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
 
     <script>
         var isVisible = true;
-        function toggle_always() 
+        function toggle_always()
         {
             var dateForm = document.getElementById("date-form");
             if (isVisible) {

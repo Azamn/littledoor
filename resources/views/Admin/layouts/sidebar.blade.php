@@ -66,7 +66,7 @@
                     </li>
 
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/promotion-list">
+                        <a class="nav-link  " href="{{ route('get.all-promotions') }}">
                             <i class="fa fa-send-o fa-lg m-r-10"></i><span>Promotion</span></a>
                     </li>
 

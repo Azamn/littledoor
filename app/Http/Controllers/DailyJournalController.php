@@ -19,7 +19,7 @@ class DailyJournalController extends Controller
 
         $rules = [
             'name' => 'required|string',
-            'image' => 'required|file',
+            'image' => 'required|file|mimes:jpg,png,jpeg'
         ];
 
         $validator = Validator::make($request->all(), $rules);

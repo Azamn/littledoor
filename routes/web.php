@@ -15,6 +15,7 @@ use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
 /*
@@ -102,7 +103,14 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/get-all/emotions', [DailyJournalController::class, 'getAllEmotionsThroughAdmin'])->name('get.all-emotions');
         Route::delete('/delete/emotions', [DailyJournalController::class, 'deleteEmotions'])->name('delete.emotions');
         Route::get('/change/emotion-status', [DailyJournalController::class, 'changeEmotionStatus'])->name('change.emotion-status');
+
+        /** Promotion Route */
+        Route::post('create/promotion',[PromotionController::class,'createPromotion'])->name('create.promotion');
+        Route::get('/get-all/promotions',[PromotionController::class, 'getAllPromotionsThroughAdmin'])->name('get.all-promotions');
+        Route::delete('/delete/promotion', [PromotionController::class, 'deletePromotion'])->name('delete.promotion');
+        Route::get('/change/promotion-status', [PromotionController::class, 'changePromotionStatus'])->name('change.promotion-status');
     });
+
 });
 
 

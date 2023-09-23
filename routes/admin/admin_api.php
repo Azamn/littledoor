@@ -17,6 +17,7 @@ use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryQuestionController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
 Route::post('/register/login',[AdminManagementController::class,'login']);
@@ -78,6 +79,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/get/post-comments',[PostController::class,'getPostComment']);
     Route::get('/user/comment-post',[PostController::class,'getUserCommentPost']);
     Route::get('/user/likes-post',[PostController::class,'getUserLikePost']);
+
+    /** Promotions */
+    Route::get('/get/promotions',[PromotionController::class,'getPromotions']);
 
 });
 
