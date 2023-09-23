@@ -90,16 +90,18 @@ Route::middleware(AdminAccess::class)->group(function () {
 
 
         /** Doctor Route */
-        Route::get('/get/doctor-list',[DoctorController::class,'getDoctorList'])->name('get.all-doctors');
-        Route::get('/change/doctor-status',[DoctorController::class, 'changeDoctorStatus'])->name('change.doctor-status');
-        Route::get('/get/doctor/details/view/{doctorId}',[DoctorController::class,'getDoctorDetailsView']);
+        Route::get('/get/doctor-list', [DoctorController::class, 'getDoctorList'])->name('get.all-doctors');
+        Route::get('/change/doctor-status', [DoctorController::class, 'changeDoctorStatus'])->name('change.doctor-status');
+        Route::get('/get/doctor/details/view/{doctorId}', [DoctorController::class, 'getDoctorDetailsView']);
 
         /** Patient Route */
-        Route::get('/get/patient-list',[PatientController::class,'getAllPatient'])->name('get.all-patient');
+        Route::get('/get/patient-list', [PatientController::class, 'getAllPatient'])->name('get.all-patient');
 
         /** Emotions Route */
-        Route::post('create/emotions',[DailyJournalController::class, 'addEmotions'])->name('create.emotions');
-
+        Route::post('create/emotions', [DailyJournalController::class, 'addEmotions'])->name('create.emotions');
+        Route::get('/get-all/emotions', [DailyJournalController::class, 'getAllEmotionsThroughAdmin'])->name('get.all-emotions');
+        Route::delete('/delete/emotions', [DailyJournalController::class, 'deleteEmotions'])->name('delete.emotions');
+        Route::get('/change/emotion-status', [DailyJournalController::class, 'changeEmotionStatus'])->name('change.emotion-status');
     });
 });
 
@@ -120,27 +122,27 @@ Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->nam
 
 
 
- Route::get('/admin/doctor-view', function () {
+Route::get('/admin/doctor-view', function () {
     return view('Admin.Doctor.doctor-view');
- });
+});
 
- Route::get('/admin/emotion-list', function () {
+Route::get('/admin/emotion-list', function () {
     return view('Admin.Emotion.emotion-list');
- });
+});
 
- Route::get('/admin/emotion-create', function () {
+Route::get('/admin/emotion-create', function () {
     return view('Admin.Emotion.emotion-create');
- });
+});
 
 
- Route::get('/admin/promotion-list', function () {
+Route::get('/admin/promotion-list', function () {
     return view('Admin.Promotion.promotion-list');
- });
+});
 
- Route::get('/admin/promotion-create', function () {
+Route::get('/admin/promotion-create', function () {
     return view('Admin.Promotion.promotion-create');
- });
+});
 
- Route::get('/admin/promotion-view', function () {
+Route::get('/admin/promotion-view', function () {
     return view('Admin.Promotion.promotion-view');
- });
+});

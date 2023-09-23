@@ -61,7 +61,7 @@
                     </li>
 
                     <li class="sidebar-list">
-                        <a class="nav-link  " href="/admin/emotion-list">
+                        <a class="nav-link  " href="{{ route('get.all-emotions') }}">
                             <i class="fa fa-smile-o fa-lg m-r-10"></i><span>Emotions</span></a>
                     </li>
 

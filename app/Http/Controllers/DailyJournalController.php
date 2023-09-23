@@ -56,7 +56,7 @@ class DailyJournalController extends Controller
 
             $masterEmptionsData = [];
 
-            $masterEmptions = MasterEmotions::where('status', 1)->get();
+            $masterEmptions = MasterEmotions::get();
             if ($masterEmptions) {
                 foreach ($masterEmptions as $emotion) {
                     $data = [
@@ -70,9 +70,7 @@ class DailyJournalController extends Controller
                 }
 
                 if (!is_null($masterEmptionsData)) {
-                    return view('Admin.Category.category-list', compact('masterEmptionsData'));
-                } else {
-                    return view('Admin.Category.category-list');
+                    return view('Admin.Emotion.emotion-list', compact('masterEmptionsData'));
                 }
             }
         }
@@ -191,6 +189,16 @@ class DailyJournalController extends Controller
         if ($masterEmotion) {
             $masterEmotion->delete();
             return response()->json(['status' => true, 'message' => 'Emotion Data Deleted Successfully.']);
+        }
+    }
+
+    public function changeEmotionStatus(Request $request)
+    {
+        $masterEmotion = MasterEmotions::where('id', $request->emotion_id)->first();
+        if ($masterEmotion) {
+            $masterEmotion->status = !$masterEmotion->status;
+            $masterEmotion->save();
+            return response()->json(['status' => true, 'message' => 'Status Updated Successfully.']);
         }
     }
 }
