@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Models\SubCategoryQuestionMapping;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\DailyJournalController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MasterOptionsController;
 use App\Http\Controllers\MasterCategoryController;
@@ -96,6 +97,9 @@ Route::middleware(AdminAccess::class)->group(function () {
         /** Patient Route */
         Route::get('/get/patient-list',[PatientController::class,'getAllPatient'])->name('get.all-patient');
 
+        /** Emotions Route */
+        Route::post('create/emotions',[DailyJournalController::class, 'addEmotions'])->name('create.emotions');
+
     });
 });
 
@@ -128,7 +132,7 @@ Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->nam
     return view('Admin.Emotion.emotion-create');
  });
 
- 
+
  Route::get('/admin/promotion-list', function () {
     return view('Admin.Promotion.promotion-list');
  });
