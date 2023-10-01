@@ -609,7 +609,7 @@ class DoctorController extends Controller
             if ($masterDoctor) {
 
                 $addressProofData = NULL;
-                $langages = NULL;
+                $languages = NULL;
 
                 if ($masterDoctor->media->isNotEmpty()) {
                     $addressProofData = $masterDoctor->media->where('collection_name', 'doctor-address-proof')->last()->getFullUrl();
