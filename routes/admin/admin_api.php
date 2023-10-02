@@ -11,6 +11,7 @@ use App\Http\Controllers\MasterOptionsController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\AdminManagementController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DailyJournalController;
 use App\Http\Controllers\MasterSlotController;
 use App\Http\Controllers\MasterSubCategoryController;
@@ -82,6 +83,10 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Promotions */
     Route::get('/get/promotions',[PromotionController::class,'getPromotions']);
+
+    /** Chat Routes */
+    Route::post('/get/chat/messages',[ChatController::class,'index']);
+    Route::post('/sent/messages',[ChatController::class,'store']);
 
 });
 

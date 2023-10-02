@@ -10,21 +10,25 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class MessageCreated
+class MessageSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $user;
+
     public $message;
+    public $senderId;
+    public $receiverId;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user, $message)
+    public function __construct($message,$senderId,$receiverId)
     {
-        $this->user = $user;
         $this->message = $message;
+        $this->senderId = $senderId;
+        $this->receiverId = $receiverId;
     }
 
     /**
@@ -34,6 +38,7 @@ class MessageCreated
      */
     public function broadcastOn()
     {
-        return new MessageChannel($this->user, $this->message);
+        return new PrivateChannel('messenger.'.$this->senderId.'.'.$this->receiverId);
+
     }
 }
