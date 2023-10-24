@@ -88,6 +88,10 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/get/chat/messages',[ChatController::class,'index']);
     Route::post('/sent/messages',[ChatController::class,'store']);
 
+    Route::post('/create/chat',[ChatController::class,'createChat']);
+    Route::get('/get/chat',[ChatController::class,'getChat']);
+
+
 });
 
 Route::get('/get/cities',[MasterCityController::class,'getCity']);
