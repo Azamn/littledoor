@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Message;
 use App\Events\MessageSent;
 use App\Http\Resources\MessagesResource;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -142,6 +143,81 @@ class ChatController extends Controller
 
                 event(new MessageSent($message, $senderId, $request->receiver_id));
             }
+        }
+    }
+
+    public function createChat(Request $request)
+    {
+
+        $rules = [
+            'sender_id' => 'required|integer',
+            'receiver_id' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+
+                $chatExist = Chat::where('sender_id', $request->sender_id)->where('receiver_id', $request->receiver_id)->first();
+                if (!$chatExist) {
+
+                    $chat = new Chat();
+                    $chat->sender_id = $request->sender_id;
+                    $chat->receiver_id = $request->receiver_id;
+                    $chat->save();
+
+                    return response()->json(['status' => true, 'message' => 'Chat Started']);
+                }
+            }
+        }
+    }
+
+    public function getChat(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+            $senderId = $user->id;
+
+            $chats = Chat::where(function ($query) use ($senderId) {
+                $query->where('sender_id', $senderId)
+                    ->orWhere('receiver_id', $senderId);
+            })
+                ->groupBy('sender_id', 'receiver_id')
+                ->select('sender_id', 'receiver_id')
+                ->orderBy('id', 'desc')
+                ->get();
+
+
+            $recentUsersWithMessage = [];
+            $usedUserIds = [];
+            foreach ($chats as $chat) {
+                $userId = $chat->sender_id == $senderId ? $chat->receiver_id : $chat->sender_id;
+                if (!in_array($userId, $usedUserIds)) {
+                    $recentUsersWithMessage[] = [
+                        'user_id' => $userId,
+                        'created_at' => Carbon::parse($chat->created_at)->toDateTimeString()
+                    ];
+                    $usedUserIds[] = $userId;
+                }
+            }
+
+            foreach ($recentUsersWithMessage as $key => $userMessage) {
+
+                $user = User::with('media')->where('id', $userMessage['user_id'])->first();
+
+                $recentUsersWithMessage[$key]['name'] = $user->name ?? NULL;
+                $recentUsersWithMessage[$key]['image_url'] = $user?->media?->isNotEmpty() ? $user?->media?->last()->getFullUrl() : NULL;
+            }
+
+            return response()->json(['status' => true, 'data' => $recentUsersWithMessage]);
         }
     }
 }
