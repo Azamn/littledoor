@@ -6,6 +6,7 @@ use App\Models\PostLike;
 use App\Models\UserPost;
 use App\Models\PostComment;
 use Illuminate\Http\Request;
+use App\Models\UserNotification;
 use App\Http\Resources\UserPostResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PostCommentsResource;
@@ -86,6 +87,20 @@ class PostController extends Controller
                     $postLike->save();
                 }
 
+                /** Notification */
+                $userPost = UserPost::where('id',$request->post_id)->first();
+
+                $notificationType = 'Post Like';
+                $message = $user->name .' has like your post.';
+
+                $userNotification = new UserNotification();
+                $userNotification->user_id = $userPost?->user_id ?? $user->id;
+                $userNotification->notification_type = $notificationType;
+                $userNotification->message = $message;
+                $userNotification->save();
+
+                /** Notification logic done */
+
                 return response()->json(['status' => true, 'message' => 'Your Response Added Succesfully.']);
             }
         }
@@ -113,6 +128,20 @@ class PostController extends Controller
                 $postComment->post_id = $request->post_id;
                 $postComment->comments = $request->comments;
                 $postComment->save();
+
+                 /** Notification */
+                 $userPost = UserPost::where('id',$request->post_id)->first();
+
+                 $notificationType = 'Post Comment';
+                 $message = $user->name .' has commented on your post.';
+
+                 $userNotification = new UserNotification();
+                 $userNotification->user_id = $userPost?->user_id ?? $user->id;
+                 $userNotification->notification_type = $notificationType;
+                 $userNotification->message = $message;
+                 $userNotification->save();
+
+                 /** Notification logic done */
 
                 return response()->json(['status' => true, 'message' => 'Your comment added successfully.']);
             }

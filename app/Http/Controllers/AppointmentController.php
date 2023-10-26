@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MasterTimeSlot;
+use Illuminate\Support\Carbon;
 use App\Models\PatientAppointment;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\AppointmentDetailsResource;
+use App\Models\UserNotification;
 
 class AppointmentController extends Controller
 {
@@ -39,6 +42,21 @@ class AppointmentController extends Controller
                     $appointment->appointment_date = $request->appointment_date;
                     $appointment->slot_id = $request->slot_id;
                     $appointment->save();
+
+
+                    $notificationType = 'Appointment Book';
+                    $slotTime = NULL;
+                    $slot = MasterTimeSlot::where('id',$request->slot_id)->first();
+                    if($slot){
+                        $slotTime = $slot->slot_time;
+                    }
+                    $message = 'The doctor`s Appointment has been booked on the date of '. Carbon::parse($request->appointment_date)->format('d-m-Y') . 'And your time slot is '. $slotTime;
+
+                    $userNotification = new UserNotification();
+                    $userNotification->user_id = $user->id;
+                    $userNotification->notification_type = $notificationType;
+                    $userNotification->message = $message;
+                    $userNotification->save();
 
                     return response()->json(['status' => true, 'message' => 'Appointment Book Successfully.']);
                 }
