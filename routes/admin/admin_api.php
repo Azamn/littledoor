@@ -20,6 +20,7 @@ use App\Http\Controllers\MentalDisorderCategoryQuestionController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
+use App\Http\Controllers\UserNotificationController;
 
 Route::post('/register/login',[AdminManagementController::class,'login']);
 
@@ -90,6 +91,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     Route::post('/create/chat',[ChatController::class,'createChat']);
     Route::get('/get/chat',[ChatController::class,'getChat']);
+
+    /**Notification */
+    Route::get('/get/user-notification',[UserNotificationController::class,'getUserNotification']);
 
 
 });
