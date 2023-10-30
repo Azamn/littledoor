@@ -150,8 +150,8 @@ class ChatController extends Controller
     {
 
         $rules = [
-            'sender_id' => 'required|integer',
-            'receiver_id' => 'required|integer',
+            'patient_id' => 'required|integer',
+            'doctor_id' => 'required|integer',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -164,12 +164,12 @@ class ChatController extends Controller
 
             if ($user) {
 
-                $chatExist = Chat::where('sender_id', $request->sender_id)->where('receiver_id', $request->receiver_id)->first();
+                $chatExist = Chat::where('sender_id', $request->patient_id)->where('receiver_id', $request->doctor_id)->first();
                 if (!$chatExist) {
 
                     $chat = new Chat();
-                    $chat->sender_id = $request->sender_id;
-                    $chat->receiver_id = $request->receiver_id;
+                    $chat->sender_id = $request->patient_id;
+                    $chat->receiver_id = $request->doctor_id;
                     $chat->save();
 
                     return response()->json(['status' => true, 'message' => 'Chat Started']);

@@ -30,6 +30,7 @@ use App\Http\Resources\TransactionDataResource;
 use App\Http\Resources\DoctorAppeciationResource;
 use App\Http\Resources\DoctorSessionChargeResource;
 use App\Http\Resources\DoctorWorkExperienceResource;
+use App\Http\Resources\DoctorTransactionDataResource;
 use App\Http\Resources\SuccessfullTransactionDataResource;
 
 class DoctorController extends Controller
@@ -1069,6 +1070,25 @@ class DoctorController extends Controller
             }
         } else {
             return response()->json(['status' => false, 'message' => 'Unauthorized User']);
+        }
+    }
+
+    public function getDoctorTransaction(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $doctor = $user->doctor;
+
+            if ($doctor) {
+
+                $transcationData = RazorPayTransactionLog::with('patient')->where('doctor_id', $doctor->id)->orderBy('id', 'desc')->get();
+                if ($transcationData) {
+                    return response()->json(['status' => true, 'data' => DoctorTransactionDataResource::collection($transcationData)]);
+                }
+            }
         }
     }
 }
