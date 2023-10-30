@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /**Notification */
     Route::get('/get/user-notification', [UserNotificationController::class, 'getUserNotification']);
+    Route::post('/read/notification',[UserNotificationController::class,'updateIsRead']);
 
     /** Route :: Payment Route  */
     Route::post('create-payment/order', [RazorPayController::class, 'createPaymentOrder']);
