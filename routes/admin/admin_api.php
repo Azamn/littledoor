@@ -13,6 +13,7 @@ use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\AdminManagementController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DailyJournalController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MasterSlotController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryController;
@@ -99,6 +100,13 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     /** Route :: Payment Route  */
     Route::post('create-payment/order', [RazorPayController::class, 'createPaymentOrder']);
     Route::post('verify-order/payment', [RazorPayController::class, 'verifyOrderPayment']);
+
+    //Logout
+    Route::post('/logout',[AdminManagementController::class,'logout'])->name('user.logout');
+
+    /** Payment Request  */
+    Route::post('/request/amout-payment',[DoctorController::class,'paymentrequest']);
+    Route::get('/get/revenue',[DoctorController::class,'getDoctorRevenue']);
 });
 
 Route::get('/get/cities', [MasterCityController::class, 'getCity']);

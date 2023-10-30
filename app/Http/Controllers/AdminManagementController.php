@@ -366,4 +366,18 @@ class AdminManagementController extends Controller
             return response()->json(['status' => false, 'message' => 'Unauthorized User']);
         }
     }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        if ($user) {
+            $newApiToken = Str::random(60);
+            $user->api_token = $newApiToken;
+            $user->remember_token = NULL;
+            $user->update();
+            return response()->json(['status' => true, 'message' => 'Logged Out Successfully !']);
+        } else {
+            return response()->json(['status' => false, 'message' => 'Unauthorized User']);
+        }
+    }
 }
