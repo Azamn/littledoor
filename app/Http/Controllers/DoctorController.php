@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\DoctorAdressMapping;
 use App\Models\DoctorSessionCharge;
 use App\Models\DoctorSkillsMapping;
+use App\Models\DoctorPaymentRequest;
 use App\Models\DoctorEducationMapping;
+use App\Models\RazorPayTransactionLog;
 use App\Models\DoctorSubCategoryMapping;
 use App\Models\DoctorAppreciationMapping;
 use Illuminate\Support\Facades\Validator;
@@ -24,9 +26,11 @@ use App\Http\Resources\DoctorSkillsResource;
 use App\Http\Resources\DoctorAddressResource;
 use App\Http\Resources\DoctorOtherDocResource;
 use App\Http\Resources\DoctorEducationResource;
+use App\Http\Resources\TransactionDataResource;
 use App\Http\Resources\DoctorAppeciationResource;
 use App\Http\Resources\DoctorSessionChargeResource;
 use App\Http\Resources\DoctorWorkExperienceResource;
+use App\Http\Resources\SuccessfullTransactionDataResource;
 
 class DoctorController extends Controller
 {
@@ -605,7 +609,7 @@ class DoctorController extends Controller
 
         $user = $request->user();
         if ($user) {
-            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media','doctorSession')->where('user_id', $user->id)->first();
+            $masterDoctor = MasterDoctor::with('media', 'doctorWorkMapping.media', 'doctorEducationMapping.media', 'doctorSkillsMapping.skill', 'doctorAdressMapping', 'doctorAppreciationMapping.media', 'otherDocMapping.media', 'doctorSession')->where('user_id', $user->id)->first();
             if ($masterDoctor) {
 
                 $addressProofData = NULL;
@@ -965,6 +969,106 @@ class DoctorController extends Controller
 
                 return response()->json(['status' => true, 'message' => 'Doctor Availability Consultancy updated successfully.']);
             }
+        }
+    }
+
+    public function paymentrequest(Request $request)
+    {
+
+        $rules = [
+            'request_amount' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+                $doctor = $user->doctor;
+
+                if ($doctor) {
+
+                    $totalRequestedAmount = 0;
+
+                    $transcationData = RazorPayTransactionLog::where('doctor_id', $doctor->id)->where('status', 'Success')->get();
+                    if ($transcationData) {
+                        $totalTransactionAmout = $transcationData->sum('amount');
+
+                        $doctorPaymentRequest = DoctorPaymentRequest::where('doctor_id', $doctor->id)->get();
+                        if ($doctorPaymentRequest) {
+                            $totalRequestedAmount = $doctorPaymentRequest->sum('request_amount');
+                        }
+
+                        if ($totalRequestedAmount) {
+                            $finalTransactionAmount = $totalTransactionAmout - $totalRequestedAmount;
+                        } else {
+                            $finalTransactionAmount = $totalTransactionAmout;
+                        }
+
+                        if ($request->request_amount <= $finalTransactionAmount) {
+                            $doctorPaymentRequest = new DoctorPaymentRequest();
+                            $doctorPaymentRequest->doctor_id = $doctor->id;
+                            $doctorPaymentRequest->request_amount = $request->request_amount;
+                            $doctorPaymentRequest->save();
+
+                            return response()->json(['status' => false, 'message' => 'Request sent successfully.']);
+                        } else {
+                            return response()->json(['status' => false, 'message' => 'You don`t have enough amount to request.']);
+                        }
+                    } else {
+                        return response()->json(['status' => false, 'message' => 'You don`t have any transaction to request.']);
+                    }
+                }
+            } else {
+                return response()->json(['status' => false, 'message' => 'Unauthorized User']);
+            }
+        }
+    }
+
+    public function getDoctorRevenue(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $doctor = $user->doctor;
+
+            if ($doctor) {
+
+                $transcationData = RazorPayTransactionLog::where('doctor_id', $doctor->id)->where('status', 'Success')->get();
+                if ($transcationData) {
+
+                    $pendingRequestAmountData = NULL;
+                    $successfullTransactionData = NULL;
+                    $totalTransactionAmout = 0;
+                    $totalPendingAmount = 0;
+                    $totalRequestedAmount = 0;
+
+                    $doctorPaymentRequest = DoctorPaymentRequest::where('doctor_id', $doctor->id)->get();
+                    if ($doctorPaymentRequest) {
+                        $pendingRequestAmountData = $doctorPaymentRequest->where('status', 0);
+                        $successfullTransactionData = $doctorPaymentRequest->where('status', 1);
+                        $totalRequestedAmount = $doctorPaymentRequest->sum('request_amount');
+                    }
+
+                    $totalTransactionAmout = $transcationData->sum('amount');
+                    $totalPendingAmount = $totalTransactionAmout - $totalRequestedAmount;
+
+                    return response()->json(['status' => true, 'data' => [
+                        'total_trasaction_amount' => $totalTransactionAmout,
+                        'total_pending_amount' => $totalPendingAmount,
+                        'successfull_transaction_data' => $successfullTransactionData ?  TransactionDataResource::collection($successfullTransactionData) : NULL,
+                        'pending_request_amount_data' => $pendingRequestAmountData ? TransactionDataResource::collection($pendingRequestAmountData) : NULL
+                    ]]);
+                }
+            }
+        } else {
+            return response()->json(['status' => false, 'message' => 'Unauthorized User']);
         }
     }
 }

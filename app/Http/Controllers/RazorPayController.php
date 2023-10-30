@@ -42,7 +42,7 @@ class RazorPayController extends Controller
             $paymentTransaction = new RazorPayTransactionLog();
             $paymentTransaction->patient_id = $request->patient_id;
             $paymentTransaction->doctor_id = $request->doctor_id;
-            $paymentTransaction->amount = $request->amount/100;
+            $paymentTransaction->amount = $request->amount;
             $paymentTransaction->request_body = json_encode($requestArray);
 
             $response = Http::withHeaders($headers)->post($createOrderUrl, $requestArray);
