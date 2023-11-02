@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserNotificationResource extends JsonResource
@@ -17,8 +18,9 @@ class UserNotificationResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'notification_type' => $this->notification_type,
-            'message' => $this->message
+            'title' => $this->notification_type,
+            'message' => $this->message,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }
 }
