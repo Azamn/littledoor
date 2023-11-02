@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
 use App\Models\User;
 use App\Models\Message;
 use App\Events\MessageSent;
-use App\Http\Resources\MessagesResource;
-use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\MessagesResource;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\ChatDetailResource;
 
 class ChatController extends Controller
 {
@@ -164,15 +165,27 @@ class ChatController extends Controller
 
             if ($user) {
 
-                $chatExist = Chat::where('sender_id', $request->patient_id)->where('receiver_id', $request->doctor_id)->first();
-                if (!$chatExist) {
+                $patient = $user->patient;
+                if ($patient) {
 
-                    $chat = new Chat();
-                    $chat->sender_id = $request->patient_id;
-                    $chat->receiver_id = $request->doctor_id;
-                    $chat->save();
+                    $chatExist = Chat::where('sender_id', $request->patient_id)->where('receiver_id', $request->doctor_id)->first();
+                    if (!$chatExist) {
 
-                    return response()->json(['status' => true, 'message' => 'Chat Started']);
+                        $chat = new Chat();
+                        $chat->sender_id = $request->patient_id;
+                        $chat->receiver_id = $request->doctor_id;
+                        $chat->save();
+
+                        $chats = Chat::with('patient.user', 'doctor.user')->where('sender_id', $patient->id)->orderBy('id', 'desc')->get();
+                        if ($chats) {
+                            return response()->json(['status' => true, 'data' => ChatDetailResource::collection($chats)]);
+                        }
+                    } else {
+                        $chats = Chat::with('patient.user', 'doctor.user')->where('sender_id', $patient->id)->orderBy('id', 'desc')->get();
+                        if ($chats) {
+                            return response()->json(['status' => true, 'data' => ChatDetailResource::collection($chats)]);
+                        }
+                    }
                 }
             }
         }
@@ -184,40 +197,21 @@ class ChatController extends Controller
         $user = $request->user();
 
         if ($user) {
-            $senderId = $user->id;
+            $patient = $user->patient;
+            $doctor = $user->doctor;
 
-            $chats = Chat::where(function ($query) use ($senderId) {
-                $query->where('sender_id', $senderId)
-                    ->orWhere('receiver_id', $senderId);
-            })
-                ->groupBy('sender_id', 'receiver_id')
-                ->select('sender_id', 'receiver_id')
-                ->orderBy('id', 'desc')
-                ->get();
+            if ($patient) {
 
-
-            $recentUsersWithMessage = [];
-            $usedUserIds = [];
-            foreach ($chats as $chat) {
-                $userId = $chat->sender_id == $senderId ? $chat->receiver_id : $chat->sender_id;
-                if (!in_array($userId, $usedUserIds)) {
-                    $recentUsersWithMessage[] = [
-                        'user_id' => $userId,
-                        'created_at' => Carbon::parse($chat->created_at)->toDateTimeString()
-                    ];
-                    $usedUserIds[] = $userId;
+                $chats = Chat::with('patient.user', 'doctor.user')->where('sender_id', $patient->id)->orderBy('id', 'desc')->get();
+                if ($chats) {
+                    return response()->json(['status' => true, 'data' => ChatDetailResource::collection($chats)]);
+                }
+            } elseif ($doctor) {
+                $chats = Chat::with('patient.user', 'doctor.user')->where('receiver_id', $doctor->id)->orderBy('id', 'desc')->get();
+                if ($chats) {
+                    return response()->json(['status' => true, 'data' => ChatDetailResource::collection($chats)]);
                 }
             }
-
-            foreach ($recentUsersWithMessage as $key => $userMessage) {
-
-                $user = User::with('media')->where('id', $userMessage['user_id'])->first();
-
-                $recentUsersWithMessage[$key]['name'] = $user->name ?? NULL;
-                $recentUsersWithMessage[$key]['image_url'] = $user?->media?->isNotEmpty() ? $user?->media?->last()->getFullUrl() : NULL;
-            }
-
-            return response()->json(['status' => true, 'data' => $recentUsersWithMessage]);
         }
     }
 }
