@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -41,8 +44,27 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
+        $this->renderable(function (RouteNotFoundException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['status' => false, 'message' => 'Unauthorized'], 404);
+            }
+        });
+
+        $this->renderable(function (ThrottleRequestsException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['status' => false, 'message' => 'Too many attempts, please wait for some time before trying again'], 429);
+            }
+        });
+
+        $this->renderable(function (AuthenticationException  $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
+            }
+        });
+
+
         $this->reportable(function (Throwable $e) {
             //
         });
