@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DoctorTransactionDataResource extends JsonResource
@@ -56,7 +57,7 @@ class DoctorTransactionDataResource extends JsonResource
             'doctor_id' => $this->doctor_id,
             'doctor_name' => $doctorFullName ?? NULL,
             'doctor_image' => $doctorIamge ?? NULL,
-
+            'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
 
         ];
     }
