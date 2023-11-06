@@ -33,4 +33,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::get('/get/bank-details',[DoctorBankController::class, 'getBankDetails']);
     Route::delete('/delete/bank-details/{bankDetailsId}',[DoctorBankController::class, 'deleteBankDetails']);
 
+    /** Doctor Appointment Stats */
+    Route::get('/get/appointment/stats',[DoctorController::class,'getDoctorAppointmentStats']);
+
 });
