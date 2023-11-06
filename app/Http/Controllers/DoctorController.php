@@ -1091,4 +1091,52 @@ class DoctorController extends Controller
             }
         }
     }
+
+    public function getDoctorAppointmentStats(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user) {
+
+            $doctor = $user->doctor;
+
+            if ($doctor) {
+
+                $to = today()->toDateTimeString();
+                $fromDayWise = Carbon::parse($to)->subDays(7)->toDateTimeString();
+
+                $fromWeekWise = Carbon::parse($to)->subDays(15)->toDateTimeString();
+
+                $fromYear = '2023-10-01';
+
+                $dayWise = DB::table('patient_appointments as pa')
+                    ->selectRaw("COUNT(*) as appointment_count")
+                    ->selectRaw("CASE WHEN pa.appointment_date IS NOT NULL AND DATE(appointment_date)>=DATE('2023-10-01') THEN DATE_FORMAT(pa.appointment_date, '%W-%d') ELSE DATE_FORMAT(pa.appointment_date, '%W-%d') END AS day")
+
+                    ->whereBetween(DB::raw('DATE(pa.appointment_date)'), [$fromDayWise, $to])
+                    ->groupBy('day')->orderBy('day', 'ASC')->get();
+
+                $weekWise = DB::table('patient_appointments as pa')
+                    ->selectRaw("COUNT(*) as appointment_count")
+                    ->selectRaw("CASE WHEN pa.appointment_date IS NOT NULL AND DATE(appointment_date)>=DATE('2023-10-01') THEN DATE_FORMAT(pa.appointment_date, '%W-%d') ELSE DATE_FORMAT(pa.appointment_date, '%W-%d') END AS week")
+
+                    ->whereBetween(DB::raw('DATE(pa.appointment_date)'), [$fromWeekWise, $to])
+                    ->groupBy('week')->orderBy('week', 'ASC')->get();
+
+                $monthWise = DB::table('patient_appointments as pa')
+                    ->selectRaw("COUNT(*) as appointment_count")
+                    ->selectRaw("CASE WHEN pa.appointment_date IS NOT NULL AND DATE(appointment_date)>=DATE('2023-10-01') THEN DATE_FORMAT(pa.appointment_date, '%M-%Y') ELSE DATE_FORMAT(pa.appointment_date, '%M-%y') END AS month")
+
+                    ->whereBetween(DB::raw('DATE(pa.appointment_date)'), [$fromYear, $to])
+                    ->groupBy('month')->orderBy('month', 'ASC')->get();
+
+                    return response()->json(['status' => true, 'data' =>[
+                        'last_seven_day_wise' => $dayWise->values() ?? NULL,
+                        'last_fifteen_day_wise' => $weekWise->values() ?? NULL,
+                        'month_wise' => $monthWise->values() ?? NULL,
+                    ]]);
+            }
+        }
+    }
 }
