@@ -106,7 +106,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/logout',[AdminManagementController::class,'logout'])->name('user.logout');
 
     /** Payment Request  */
-    Route::get('/all/doctor/transaction',[DoctorController::class,'getDoctorTransaction']);
+    Route::get('/all/user/transaction',[DoctorController::class,'getUserTransaction']);
     Route::post('/request/amout-payment',[DoctorController::class,'paymentrequest']);
     Route::get('/get/revenue',[DoctorController::class,'getDoctorRevenue']);
 });

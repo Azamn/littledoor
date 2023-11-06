@@ -1073,7 +1073,7 @@ class DoctorController extends Controller
         }
     }
 
-    public function getDoctorTransaction(Request $request)
+    public function getUserTransaction(Request $request)
     {
 
         $user = $request->user();
@@ -1081,12 +1081,21 @@ class DoctorController extends Controller
         if ($user) {
 
             $doctor = $user->doctor;
+            $patient = $user->patient;
 
-            if ($doctor) {
+            if ($doctor || $patient) {
+                if ($doctor) {
+                    $transcationData = RazorPayTransactionLog::with('patient','doctor')->where('doctor_id', $doctor->id)->orderBy('id', 'desc')->get();
+                    if ($transcationData) {
+                        return response()->json(['status' => true, 'data' => DoctorTransactionDataResource::collection($transcationData)]);
+                    }
+                }
 
-                $transcationData = RazorPayTransactionLog::with('patient')->where('doctor_id', $doctor->id)->orderBy('id', 'desc')->get();
-                if ($transcationData) {
-                    return response()->json(['status' => true, 'data' => DoctorTransactionDataResource::collection($transcationData)]);
+                if ($patient) {
+                    $transcationData = RazorPayTransactionLog::with('patient','doctor')->where('patient_id', $patient->id)->orderBy('id', 'desc')->get();
+                    if ($transcationData) {
+                        return response()->json(['status' => true, 'data' => DoctorTransactionDataResource::collection($transcationData)]);
+                    }
                 }
             }
         }
@@ -1131,11 +1140,11 @@ class DoctorController extends Controller
                     ->whereBetween(DB::raw('DATE(pa.appointment_date)'), [$fromYear, $to])
                     ->groupBy('month')->orderBy('month', 'ASC')->get();
 
-                    return response()->json(['status' => true, 'data' =>[
-                        'last_seven_day_wise' => $dayWise->values() ?? NULL,
-                        'last_fifteen_day_wise' => $weekWise->values() ?? NULL,
-                        'month_wise' => $monthWise->values() ?? NULL,
-                    ]]);
+                return response()->json(['status' => true, 'data' => [
+                    'last_seven_day_wise' => $dayWise->values() ?? NULL,
+                    'last_fifteen_day_wise' => $weekWise->values() ?? NULL,
+                    'month_wise' => $monthWise->values() ?? NULL,
+                ]]);
             }
         }
     }
