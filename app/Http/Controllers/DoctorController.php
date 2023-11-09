@@ -1016,9 +1016,9 @@ class DoctorController extends Controller
                             $doctorPaymentRequest->request_amount = $request->request_amount;
                             $doctorPaymentRequest->save();
 
-                            return response()->json(['status' => false, 'message' => 'Request sent successfully.']);
+                            return response()->json(['status' => true, 'message' => 'Your withdrawal for amount ' . $request->amount . ' has been successfully registered. the amount will be credit in your account within 7 days .']);
                         } else {
-                            return response()->json(['status' => false, 'message' => 'You don`t have enough amount to request.']);
+                            return response()->json(['status' => false, 'message' => 'You don`t have sufficient balance in your wallet. Please check your balance.']);
                         }
                     } else {
                         return response()->json(['status' => false, 'message' => 'You don`t have any transaction to request.']);
