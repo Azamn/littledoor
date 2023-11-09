@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RazorPayTransactionLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use App\Models\RazorPayTransactionLog;
 use Illuminate\Support\Facades\Validator;
 
 class RazorPayController extends Controller
@@ -76,8 +77,9 @@ class RazorPayController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
-
+            Log::info(['request' => $request->all()]);
             $paymentDataLog = RazorPayTransactionLog::where('id', $request->payment_id)->where('transaction_number', $request->order_id)->first();
+            Log::info(['paymentDataLog' => $paymentDataLog]);
 
             if ($request->has('razorpay_signature')) {
                 if ($paymentDataLog) {
