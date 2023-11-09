@@ -65,22 +65,21 @@ class RazorPayController extends Controller
     public function verifyOrderPayment(Request $request)
     {
         $rules = [
-            'payment_id' => 'required|exists:payment_transaction_logs,id',
+            'payment_id' => 'required|exists:razor_pay_transaction_logs,id',
             'order_id' => 'required',
             'razorpay_payment_id' => 'sometimes|required',
             'razorpay_order_id' => 'sometimes|required',
             'razorpay_signature' => 'sometimes|required',
         ];
 
-        Log::info(['request' => $request->all()]);
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
-            Log::info(['request' => $request->all()]);
-            return $paymentDataLog = RazorPayTransactionLog::where('id', $request->payment_id)->where('transaction_number', $request->order_id)->first();
-            Log::info(['paymentDataLog' => $paymentDataLog]);
+
+            $paymentDataLog = RazorPayTransactionLog::where('id', $request->payment_id)->where('transaction_number', $request->order_id)->first();
 
             if ($request->has('razorpay_signature')) {
                 if ($paymentDataLog) {
