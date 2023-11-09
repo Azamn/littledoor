@@ -36,7 +36,7 @@ class RazorPayController extends Controller
 
             $requestArray = [
                 'receipt' => 'order' . random_int(1, 1000),
-                'amount'  => $request->amount,
+                'amount'  => $request->amount * 100,
                 'currency' => 'INR',
             ];
 
