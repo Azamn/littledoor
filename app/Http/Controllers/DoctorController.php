@@ -1012,6 +1012,7 @@ class DoctorController extends Controller
 
                         if ($request->request_amount <= $finalTransactionAmount) {
                             $doctorPaymentRequest = new DoctorPaymentRequest();
+                            $doctorPaymentRequest->request_transaction_number = generateUniqueUserId();
                             $doctorPaymentRequest->doctor_id = $doctor->id;
                             $doctorPaymentRequest->request_amount = $request->request_amount;
                             $doctorPaymentRequest->save();

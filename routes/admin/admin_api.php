@@ -109,6 +109,10 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::get('/all/user/transaction',[DoctorController::class,'getUserTransaction']);
     Route::post('/request/amout-payment',[DoctorController::class,'paymentrequest']);
     Route::get('/get/revenue',[DoctorController::class,'getDoctorRevenue']);
+
+    /** portal service */
+    Route::post('/create/portal/service-charges',[AdminManagementController::class,'createPortalService']);
+
 });
 
 Route::get('/get/cities', [MasterCityController::class, 'getCity']);
