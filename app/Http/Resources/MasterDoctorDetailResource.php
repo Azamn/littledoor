@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PortalSericeCharges;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class MasterDoctorDetailResource extends JsonResource
@@ -29,10 +30,23 @@ class MasterDoctorDetailResource extends JsonResource
             $languages = explode(",", $this->languages_known);
         }
 
-        $sessionCharge = NULL;
+
+        $sessionCharge = 0;
         if ($this->doctorSession) {
             $sessionCharge = $this->doctorSession->session_amount;
         }
+
+        $tax = 0;
+        $platformCharges = 0;
+        $toalAmount = 0;
+
+        $portalService = PortalSericeCharges::first();
+        if($portalService){
+            $tax = $portalService->tax;
+            $platformCharges = $portalService->platform_fee;
+            $toalAmount = $sessionCharge + $tax + $platformCharges;
+        }
+
 
         return [
             'id' => $this->id,
@@ -45,6 +59,7 @@ class MasterDoctorDetailResource extends JsonResource
             'category_name' => implode(',', $category),
             'languages' => $languages ?? NULL,
             'doctor_session_charge' => $sessionCharge ?? NULL,
+            'total_amount' => $toalAmount ?? 0,
             'skills' => $this->doctorSkillsMapping ? DoctorSkillsResource::collection($this->doctorSkillsMapping) : NULL,
             'appreciation' => $this->doctorAppreciationMapping ? DoctorAppeciationResource::collection($this->doctorAppreciationMapping) : NULL,
             'time_slot' => $this->timeSlot ? DoctorTimeSlotResource::collection($this->timeSlot) : NULL

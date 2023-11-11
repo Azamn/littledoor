@@ -22,6 +22,7 @@ use App\Http\Resources\MasterSkillsResource;
 use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
+use App\Models\PortalSericeCharges;
 
 class AdminManagementController extends Controller
 {
@@ -379,5 +380,29 @@ class AdminManagementController extends Controller
         } else {
             return response()->json(['status' => false, 'message' => 'Unauthorized User']);
         }
+    }
+
+    public function createPortalService(Request $request){
+
+        $rules = [
+            'tax' => 'sometimes|required',
+            'platform_fee' => 'sometimes|required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $portalService = new PortalSericeCharges();
+            $portalService->tax = $request->tax;
+            $portalService->platform_fee = $request->platform_fee;
+            $portalService->save();
+
+            return response()->json(['status' => true, 'message' => 'Portal service charges added.']);
+
+        }
+
     }
 }

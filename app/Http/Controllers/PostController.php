@@ -161,7 +161,7 @@ class PostController extends Controller
                 $perPage = $request->per_page;
             }
 
-            $allUserPost = UserPost::with('user', 'likes',)->orderBy('created_at', 'desc')
+            $allUserPost = UserPost::with('user', 'likes','comments')->orderBy('created_at', 'desc')
                 ->paginate($perPage);
 
             if ($allUserPost) {
@@ -188,7 +188,7 @@ class PostController extends Controller
                 $perPage = $request->per_page;
             }
 
-            $allUserPost = UserPost::with('user', 'likes',)->orderBy('created_at', 'desc')->where('user_id', $user->id)
+            $allUserPost = UserPost::with('user', 'likes','comments')->orderBy('created_at', 'desc')->where('user_id', $user->id)
                 ->paginate($perPage);
 
             if ($allUserPost) {

@@ -20,7 +20,7 @@ class ChatDetailResource extends JsonResource
             'patient_id' => $this->sender_id,
             'doctor_id' => $this->receiver_id,
             'patient_name' => $this->patient?->user?->name ?? NULL,
-            'patient_image_url' => $this->patinet?->user?->media?->isNotEmpty() ? $this->patinet?->user?->media?->last()->getFullUrl() : NULL,
+            'patient_image_url' => $this->patient?->user?->media?->isNotEmpty() ? $this->patient?->user?->media?->last()->getFullUrl() : NULL,
             'doctor_name' => $this->doctor?->user->name ?? NULL,
             'doctor_image_url' => $this->doctor?->user?->media?->isNotEmpty() ? $this->doctor?->user?->media?->last()->getFullUrl() : NULL,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),

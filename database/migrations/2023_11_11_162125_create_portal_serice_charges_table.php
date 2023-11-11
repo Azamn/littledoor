@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('doctor_payment_requests', function (Blueprint $table) {
-            $table->string('request_transaction_number')->after('id')->nullable();
+        Schema::create('portal_serice_charges', function (Blueprint $table) {
+            $table->id();
+            $table->string('tax')->default(0);
+            $table->string('platform_fee')->default(0);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('doctor_payment_requests', function (Blueprint $table) {
-            $table->dropColumn('request_transaction_number');
-        });
+        Schema::dropIfExists('portal_serice_charges');
     }
 };

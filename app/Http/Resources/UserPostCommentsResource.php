@@ -19,6 +19,7 @@ class UserPostCommentsResource extends JsonResource
 
         $likesCount = NULL;
         $isUserLike = 0;
+        $postCount = NULL;
 
         if(!is_null($this->likes)){
             $likesCount = $this->likes->where('post_like',1)->count();
@@ -29,6 +30,10 @@ class UserPostCommentsResource extends JsonResource
             }
         }
 
+        if(!is_null($this->comments)){
+            $postCount = $this->comments->count();
+        }
+
         return [
             'id' => $this->id,
             'post' => $this->post,
@@ -37,6 +42,7 @@ class UserPostCommentsResource extends JsonResource
             'user_profile_url' => $this->user?->media->isNotEmpty() ? $this->user?->media->last()->getFullUrl() : NULL,
             'is_user_like' => $isUserLike,
             'post_likes' => $likesCount,
+            'post_comments_count' => $postCount,
             'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
             'post_comments' => !is_null($this->comments) ? PostCommentsResource::collection($this->comments) : NULL,
 
