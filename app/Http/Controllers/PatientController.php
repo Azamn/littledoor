@@ -110,9 +110,9 @@ class PatientController extends Controller
                     $duplicateOptionData = $patientResponseData->diff($uniqueOptionData);
                     if (!is_null($duplicateOptionData)) {
                         $optionData = $duplicateOptionData->first();
-                    } elseif(!is_null($uniqueOptionData)) {
+                    } elseif (!is_null($uniqueOptionData)) {
                         $optionData = $uniqueOptionData->first();
-                    }else{
+                    } else {
                         $optionData = $patientResponseData->first();
                     }
 
@@ -193,29 +193,70 @@ class PatientController extends Controller
     public function getDoctor(Request $request)
     {
 
-        $user = $request->user();
+        $rules = [
+            'search_doctor' => 'sometimes|required|string',
+            'sub_category' => 'sometimes|required',
+            'city_name' => 'sometimes|required',
+        ];
 
-        if ($user) {
+        $validator = Validator::make($request->all(), $rules);
 
-            $patient = $user->patient;
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
 
-            if ($patient) {
+            $user = $request->user();
 
-                $categoryId = $patient->category_id;
+            if ($user) {
 
-                $masterDoctor = collect();
+                $patient = $user->patient;
 
-                if ($categoryId) {
-                    $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
-                        return $query->where('category_id', $categoryId);
-                    }], 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')->where('status', 1)->get();
+                if ($patient) {
+                    $masterDoctor = collect();
+
+                    if ($request->has('search_doctor')) {
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->whereLike('first_name', $request->search_doctor)
+                            ->where('status', 1)->get();
+                    } elseif ($request->has('sub_category')) {
+
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($subCategory) {
+                                return $query->where('category_id', $subCategory->master_category_id);
+                            }], 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('sub_category') && $request->has('city_name')) {
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($subCategory) {
+                                return $query->where('category_id', $subCategory->master_category_id);
+                            }, 'city' => function ($query) use ($request) {
+                                return $query->whereLike('city_name', $request->city_name);
+                            }], 'user', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+
+                                ->where('status', 1)->get();
+                        }
+                    } else {
+                        $categoryId = $patient->category_id;
+
+                        if ($categoryId) {
+                            $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($categoryId) {
+                                return $query->where('category_id', $categoryId);
+                            }], 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')->where('status', 1)->get();
+                        }
+
+                        if ($masterDoctor->isEmpty()) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'user', 'city', 'doctorSession')->where('status', 1)->get();
+                        }
+                    }
+
+
+                    // return $masterDoctor;
+                    return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
                 }
-
-                if ($masterDoctor->isEmpty()) {
-                    $masterDoctor = MasterDoctor::with('doctorWorkMapping.category', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'user', 'city', 'doctorSession')->where('status', 1)->get();
-                }
-                // return $masterDoctor;
-                return response()->json(['status' => true, 'data' => MasterDoctorDetailResource::collection($masterDoctor)]);
             }
         }
     }
