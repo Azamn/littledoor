@@ -59,6 +59,8 @@ class MasterDoctorDetailResource extends JsonResource
             'category_name' => implode(',', $category),
             'languages' => $languages ?? NULL,
             'doctor_session_charge' => $sessionCharge ?? NULL,
+            'tax' => $tax ?? 0,
+            'platform_charge' => $platformCharges ?? 0,
             'total_amount' => $toalAmount ?? 0,
             'skills' => $this->doctorSkillsMapping ? DoctorSkillsResource::collection($this->doctorSkillsMapping) : NULL,
             'appreciation' => $this->doctorAppreciationMapping ? DoctorAppeciationResource::collection($this->doctorAppreciationMapping) : NULL,
