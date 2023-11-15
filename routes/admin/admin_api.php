@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::get('/get/languages', [AdminManagementController::class, 'getLanguages']);
 
     /** GET Doctor list in pateint */
-    Route::get('/get/doctor/list', [PatientController::class, 'getDoctor']);
+    Route::post('/get/doctor/list', [PatientController::class, 'getDoctor']);
 
     /** TIme Slot */
     Route::get('get/all-slot', [MasterSlotController::class, 'getTimeSlot']);
