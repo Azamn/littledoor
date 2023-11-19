@@ -195,6 +195,7 @@ class PatientController extends Controller
 
         $rules = [
             'search_doctor' => 'sometimes|required|string',
+            'category' => 'sometimes|required',
             'sub_category' => 'sometimes|required',
             'city_name' => 'sometimes|required',
         ];
@@ -216,7 +217,7 @@ class PatientController extends Controller
 
                     if ($request->has('search_doctor')) {
                         $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                            ->whereLike('first_name', $request->search_doctor)
+                            ->where('first_name', 'like', " % $request->name % ")
                             ->where('status', 1)->get();
                     } elseif ($request->has('sub_category')) {
 
@@ -234,7 +235,7 @@ class PatientController extends Controller
                             $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($subCategory) {
                                 return $query->where('category_id', $subCategory->master_category_id);
                             }, 'city' => function ($query) use ($request) {
-                                return $query->whereLike('city_name', $request->city_name);
+                                return $query->where('city_name', 'like', " % $request->city_name % ");
                             }], 'user', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
 
                                 ->where('status', 1)->get();
