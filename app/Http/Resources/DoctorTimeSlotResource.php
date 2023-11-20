@@ -21,14 +21,16 @@ class DoctorTimeSlotResource extends JsonResource
         $slotIds = explode(",", $this->time_slot_id);
         if ($slotIds) {
 
+            $timeSlot = MasterTimeSlot::where('status',1)->get();
+
             foreach ($slotIds as $slotId) {
 
-                $timeSlot = MasterTimeSlot::where('id', $slotId)->first();
+                $timeSlotData = $timeSlot->where('id',$slotId)->first();
 
-                if ($timeSlot) {
+                if ($timeSlotData) {
                     $data = [
-                        'slot_id' => $timeSlot->id,
-                        'slot_time' => $timeSlot->slot_time,
+                        'slot_id' => $timeSlotData->id,
+                        'slot_time' => $timeSlotData->slot_time,
                     ];
                     array_push($slotsData, $data);
                 }
