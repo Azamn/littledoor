@@ -231,6 +231,17 @@ class PatientController extends Controller
                                 })
                                 ->where('status', 1)->get();
                         }
+                    } elseif ($request->has('category_name') && $request->has('search_doctor')) {
+
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('first_name', 'like', '%' . $request->search_doctor . '%')
+                                ->where('status', 1)->get();
+                        }
                     } elseif ($request->has('sub_category')) {
 
                         $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
