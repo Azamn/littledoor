@@ -16,6 +16,7 @@ use App\Models\SubCategoryQuestionMapping;
 use App\Models\PatientQuestionOptionMapping;
 use App\Http\Resources\MasterTimeSlotResource;
 use App\Http\Resources\MasterDoctorDetailResource;
+use App\Models\MasterCategory;
 use App\Models\PatientMentalDisorderQuestionMapping;
 use App\Models\SubCategoryQuestionMappingWithOption;
 
@@ -220,10 +221,13 @@ class PatientController extends Controller
                             ->where('status', 1)
                             ->where('first_name', 'like', '%' . $request->search_doctor . '%')
                             ->get();
-                    } elseif ($request->has('category_name')) { {
+                    } elseif ($request->has('category_name')) {
+
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
                             $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($request) {
-                                    return $query->where('category_id', $request->category_name);
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
                                 })
                                 ->where('status', 1)->get();
                         }
