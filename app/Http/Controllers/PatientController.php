@@ -218,7 +218,7 @@ class PatientController extends Controller
                     if ($request->has('search_doctor')) {
                         $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
                         ->where('status', 1)
-                        ->where('first_name', 'like', '%'.$request->name. '%')
+                        ->where('first_name', 'like', '%'.$request->search_doctor. '%')
                         ->get();
                     } elseif ($request->has('sub_category')) {
 
