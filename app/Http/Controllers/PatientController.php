@@ -221,10 +221,10 @@ class PatientController extends Controller
                             ->where('first_name', 'like', '%' . $request->search_doctor . '%')
                             ->get();
                     } elseif ($request->has('category_name')) { {
-                            $masterDoctor = MasterDoctor::with(['doctorWorkMapping' => function ($query) use ($request) {
-                                return $query->where('category_id', $request->category_name);
-                            }], 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($request) {
+                                    return $query->where('category_id', $request->category_name);
+                                })
                                 ->where('status', 1)->get();
                         }
                     } elseif ($request->has('sub_category')) {
