@@ -18,9 +18,5 @@ function generateUniqueUserId()
             $uniqueRequestId = $uniquePaymentRequestId . random_int(1, 10000, $requiredLength);
         }
     }
-    $isProperUniqueID = DoctorPaymentRequest::where('request_transaction_number', $uniqueRequestId)->exists();
-    if (!$isProperUniqueID) {
-        generateUniqueUserId();
-    }
     return $uniqueRequestId;
 }
