@@ -4,6 +4,7 @@ use App\Models\DoctorPaymentRequest;
 
 function generateUniqueUserId()
 {
+    $uniqueRequestId = NULL;
     $currentYear = date('y');
     $currentMonth = date('m');
     $currentDate = date('d');
