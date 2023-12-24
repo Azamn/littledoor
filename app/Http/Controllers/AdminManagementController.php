@@ -187,35 +187,34 @@ class AdminManagementController extends Controller
             $userExist = User::where('mobile_no', $mobileNumber)->first();
             if ($userExist) {
                 $userId = $userExist->id;
-                $existingOtps = UserOtp::where('user_id', $userId)->first();
-                $existingOtps->delete();  // this is will uncomment when sms kit available
-                if (is_null($existingOtps)) {
-                    UserOtp::create([
-                        'user_id' => $userId,
-                        'otp' => $otp,
-                        'valid_till' => $validTill,
-                    ]);
+                $existingOtps = UserOtp::where('user_id', $userId)->get();
+                $existingOtps->each->delete();
 
-                    $finalUrl = $url . 'authorization=' . $autorization . '&route=' . $route . '&variables_values=' . $otp . '&flash=' . $flash . '&numbers=' . $mobileNumber;
-                    $otpSMSLog = new OTPSmsLog();
-                    $otpSMSLog->user_id = $userId;
-                    $otpSMSLog->request_body = $finalUrl;
-                    $otpSMSLog->save();
+                UserOtp::create([
+                    'user_id' => $userId,
+                    'otp' => $otp,
+                    'valid_till' => $validTill,
+                ]);
 
-                    $response =  Http::get($finalUrl);
-                    $otpSMSLog->response = $response;
-                    $otpSMSLog->update();
+                $finalUrl = $url . 'authorization=' . $autorization . '&route=' . $route . '&variables_values=' . $otp . '&flash=' . $flash . '&numbers=' . $mobileNumber;
+                $otpSMSLog = new OTPSmsLog();
+                $otpSMSLog->user_id = $userId;
+                $otpSMSLog->request_body = $finalUrl;
+                $otpSMSLog->save();
 
-                    $finalResponse = $response->json();
-                    if ($finalResponse) {
-                        if ($finalResponse['return'] == true) {
-                            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully']);
-                        } else {
-                            return response()->json(['status' => true, 'message' => 'Otp Sent Failed']);
-                        }
+                $response =  Http::get($finalUrl);
+                $otpSMSLog->response = $response;
+                $otpSMSLog->update();
+
+                $finalResponse = $response->json();
+                if ($finalResponse) {
+                    if ($finalResponse['return'] == true) {
+                        return response()->json(['status' => true, 'message' => 'Otp Sent Successfully']);
                     } else {
-                        return response()->json(['status' => true, 'message' => 'something went wrong']);
+                        return response()->json(['status' => true, 'message' => 'Otp Sent Failed']);
                     }
+                } else {
+                    return response()->json(['status' => true, 'message' => 'something went wrong']);
                 }
             }
         } else {
