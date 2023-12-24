@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
 use App\Models\UserOtp;
 use App\Models\MasterSkill;
@@ -15,6 +16,8 @@ use App\Models\MasterQuestion;
 use Illuminate\Support\Carbon;
 use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\DB;
+use App\Models\PortalSericeCharges;
+use Illuminate\Support\Facades\Http;
 use App\Http\Resources\LanguagesResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
@@ -22,7 +25,7 @@ use App\Http\Resources\MasterSkillsResource;
 use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
-use App\Models\PortalSericeCharges;
+use App\Models\OTPSmsLog;
 
 class AdminManagementController extends Controller
 {
@@ -80,21 +83,29 @@ class AdminManagementController extends Controller
 
                     $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
                     if ($userOtp) {
-                        return response()->json([
-                            'status' => true,
-                            'message' => 'Successfully Logged In!',
-                            'api_token' => $user->api_token,
-                            'is_patient' => 1,
-                            'user_details' => [
-                                'patient_id' => $patientId,
-                                'name' => $user->name,
-                                'email' => $user->email,
-                                'gender' => $gender,
-                                'dob' => $dob,
-                                'city_id' => $city,
+                        $validTill = Carbon::parse($userOtp->valid_till);
+                        $currentTime = now();
+                        if ($currentTime >= $validTill) {
+                            return response()->json(['status' => false, 'message' => 'OTP Expired']);
+                        } else {
 
-                            ],
-                        ]);
+
+                            return response()->json([
+                                'status' => true,
+                                'message' => 'Successfully Logged In!',
+                                'api_token' => $user->api_token,
+                                'is_patient' => 1,
+                                'user_details' => [
+                                    'patient_id' => $patientId,
+                                    'name' => $user->name,
+                                    'email' => $user->email,
+                                    'gender' => $gender,
+                                    'dob' => $dob,
+                                    'city_id' => $city,
+
+                                ],
+                            ]);
+                        }
                     } else {
                         return response()->json(['status' => false, 'message' => 'Otp Not Matched']);
                     }
@@ -112,32 +123,46 @@ class AdminManagementController extends Controller
 
                     $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
                     if ($userOtp) {
-                        return response()->json([
-                            'status' => true,
-                            'message' => 'Successfully Logged In!',
-                            'api_token' => $user->api_token,
-                            'is_doctor' => 1,
-                            'user_details' => [
-                                'doctor_id' => $doctorId,
-                                'name' => $user->name,
-                                'email' => $user->email,
-                                'gender' => $gender,
-                                'dob' => $dob,
-                                'city_id' => $city,
+                        $validTill = Carbon::parse($userOtp->valid_till);
+                        $currentTime = now();
+                        if ($currentTime >= $validTill) {
+                            return response()->json(['status' => false, 'message' => 'OTP Expired']);
+                        } else {
 
-                            ],
-                        ]);
+                            return response()->json([
+                                'status' => true,
+                                'message' => 'Successfully Logged In!',
+                                'api_token' => $user->api_token,
+                                'is_doctor' => 1,
+                                'user_details' => [
+                                    'doctor_id' => $doctorId,
+                                    'name' => $user->name,
+                                    'email' => $user->email,
+                                    'gender' => $gender,
+                                    'dob' => $dob,
+                                    'city_id' => $city,
+
+                                ],
+                            ]);
+                        }
                     } else {
                         return response()->json(['status' => false, 'message' => 'Otp Not Matched']);
                     }
                 } else {
                     $userOtp = UserOtp::where('user_id', $user->id)->where('otp', $request->otp)->first();
                     if ($userOtp) {
-                        return response()->json([
-                            'status' => true,
-                            'message' => 'Successfully Logged In!',
-                            'api_token' => $user->api_token,
-                        ]);
+                        $validTill = Carbon::parse($userOtp->valid_till);
+                        $currentTime = now();
+                        if ($currentTime >= $validTill) {
+                            return response()->json(['status' => false, 'message' => 'OTP Expired']);
+                        } else {
+
+                            return response()->json([
+                                'status' => true,
+                                'message' => 'Successfully Logged In!',
+                                'api_token' => $user->api_token,
+                            ]);
+                        }
                     } else {
                         return response()->json(['status' => false, 'User Not Found.']);
                     }
@@ -150,8 +175,12 @@ class AdminManagementController extends Controller
 
     public function sendLoginOtp($mobileNumber)
     {
+        $url = 'https://www.fast2sms.com/dev/bulkV2?';
+        $autorization = env('SMS_AUTHORIZATION');
+        $route = 'otp';
+        $flash = 0;
 
-        $otp = rand(100000, 999999);
+        $otp = rand(10000, 99999);
         $validTill = now()->addMinutes(15);
 
         if ($mobileNumber) {
@@ -159,19 +188,36 @@ class AdminManagementController extends Controller
             if ($userExist) {
                 $userId = $userExist->id;
                 $existingOtps = UserOtp::where('user_id', $userId)->first();
-                // $existingOtps->each->delete();  // this is will uncomment when sms kit available
+                $existingOtps->each->delete();  // this is will uncomment when sms kit available
                 if (is_null($existingOtps)) {
                     UserOtp::create([
                         'user_id' => $userId,
                         'otp' => $otp,
-                        // 'valid_till' => $validTill,
+                        'valid_till' => $validTill,
                     ]);
-                    $existOtp = $otp;
-                } else {
-                    $existOtp = (int)$existingOtps->otp;
+
+                    $finalUrl = $url . 'authorization=' . $autorization . '&route=' . $route . '&variables_values=' . $otp . '&flash=' . $flash . '&numbers=' . $mobileNumber;
+                    $otpSMSLog = new OTPSmsLog();
+                    $otpSMSLog->user_id = $userId;
+                    $otpSMSLog->request_body = $finalUrl;
+                    $otpSMSLog->save();
+
+                    $response =  Http::get($finalUrl);
+                    $otpSMSLog->response = $response;
+                    $otpSMSLog->update();
+
+                    $finalResponse = $response->json();
+                    if ($finalResponse) {
+                        if ($finalResponse['return'] == true) {
+                            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully']);
+                        } else {
+                            return response()->json(['status' => true, 'message' => 'Otp Sent Failed']);
+                        }
+                    } else {
+                        return response()->json(['status' => true, 'message' => 'something went wrong']);
+                    }
                 }
             }
-            return response()->json(['status' => true, 'message' => 'Otp Sent Successfully', 'otp' => $existOtp]);
         } else {
             return response()->json(['status' => false, 'message' => 'Otp Not Sent']);
         }
@@ -285,9 +331,9 @@ class AdminManagementController extends Controller
                 }
             }
 
-            if($user->media){
-              $imageUrl =  $user->media->isNotEmpty() ? $user->media->last()->getFullUrl() : NULL;
-            }else{
+            if ($user->media) {
+                $imageUrl =  $user->media->isNotEmpty() ? $user->media->last()->getFullUrl() : NULL;
+            } else {
                 $imageUrl = NULL;
             }
 
@@ -382,7 +428,8 @@ class AdminManagementController extends Controller
         }
     }
 
-    public function createPortalService(Request $request){
+    public function createPortalService(Request $request)
+    {
 
         $rules = [
             'tax' => 'sometimes|required',
@@ -401,8 +448,29 @@ class AdminManagementController extends Controller
             $portalService->save();
 
             return response()->json(['status' => true, 'message' => 'Portal service charges added.']);
-
         }
+    }
 
+    public function testSms(Request $request)
+    {
+
+        $url = 'https://www.fast2sms.com/dev/bulkV2?';
+        $autorization = 'FJ0PwHm1GYatjpdUx5OEqhCKkBlRL9rSMZyiIvgc3bVNsT268fOv5YHdGgey08VQLlXrCfP2cnIEztWs';
+        $route = 'otp';
+        $otp = '12345';
+        $flash = 0;
+        $mobileNo = 8286101918;
+
+
+        $finalUrl = $url . 'authorization=' . $autorization . '&route=' . $route . '&variables_values=' . $otp . '&flash=' . $flash . '&numbers=' . $mobileNo;
+        // return $finalUrl;
+
+        $response =  Http::get($finalUrl);
+        $finalResponse = $response->json();
+        if ($finalResponse) {
+            if ($finalResponse['return'] == true) {
+                return 'sent';
+            }
+        }
     }
 }
