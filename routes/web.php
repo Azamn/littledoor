@@ -15,6 +15,7 @@ use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
@@ -109,6 +110,15 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/get-all/promotions',[PromotionController::class, 'getAllPromotionsThroughAdmin'])->name('get.all-promotions');
         Route::delete('/delete/promotion', [PromotionController::class, 'deletePromotion'])->name('delete.promotion');
         Route::get('/change/promotion-status', [PromotionController::class, 'changePromotionStatus'])->name('change.promotion-status');
+
+        /** Privacy policy */
+        Route::post('/create/privacy-policy',[PrivacyPolicyController::class,'create'])->name('create.privacy-policy');
+        Route::get('/get-all/privacy-policy',[PrivacyPolicyController::class,'getAllAdmin'])->name('get.privacy-policy');
+        Route::get('/edit/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'edit'])->name('edit.privacy-policy');
+        Route::post('/update/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'update'])->name('update.privacy-policy');
+        Route::post('/delete/privacy-policy',[PrivacyPolicyController::class,'delete'])->name('delete.privacy-policy');
+        Route::get('/change/privacy-policy', [PrivacyPolicyController::class, 'changePrivacyPolicyStatus'])->name('change.privacy-policy-status');
+
     });
 
 });
