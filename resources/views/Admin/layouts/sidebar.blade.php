@@ -71,6 +71,11 @@
                     </li>
 
                     <li class="sidebar-list">
+                        <a class="nav-link  " href="{{ route('get.privacy-policy') }}">
+                            <i class="fa fa-send-o fa-lg m-r-10"></i><span>Privacy Policy</span></a>
+                    </li>
+
+                    <li class="sidebar-list">
                         <a class="nav-link" href="{{ route('logout') }}"><i data-feather="log-out"></i>
                             <span>Logout</span></>
                     </li>
