@@ -112,6 +112,9 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/change/promotion-status', [PromotionController::class, 'changePromotionStatus'])->name('change.promotion-status');
 
         /** Privacy policy */
+        Route::get('/privacy-policy', function () {
+            return view('Admin.PrivacyPolicy.privacy-policy-create');
+        });
         Route::post('/create/privacy-policy',[PrivacyPolicyController::class,'create'])->name('create.privacy-policy');
         Route::get('/get-all/privacy-policy',[PrivacyPolicyController::class,'getAllAdmin'])->name('get.privacy-policy');
         Route::get('/edit/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'edit'])->name('edit.privacy-policy');
