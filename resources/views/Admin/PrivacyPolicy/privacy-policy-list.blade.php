@@ -23,7 +23,7 @@
                     <div class="card-header">
                         <h3>Privacy Policy </h3>
                         <div class="mt-4">
-                            <a class="btn btn-primary" href="/admin/category">Add Privacy Policy</a>
+                            <a class="btn btn-primary" href="/admin/create/privacy-policy">Add Privacy Policy</a>
                         </div>
                     </div>
                     <div class="card-body">
