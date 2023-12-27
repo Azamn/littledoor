@@ -119,7 +119,7 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/get-all/privacy-policy',[PrivacyPolicyController::class,'getAllAdmin'])->name('get.privacy-policy');
         Route::get('/edit/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'edit'])->name('edit.privacy-policy');
         Route::post('/update/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'update'])->name('update.privacy-policy');
-        Route::post('/delete/privacy-policy',[PrivacyPolicyController::class,'delete'])->name('delete.privacy-policy');
+        Route::delete('/delete/privacy-policy',[PrivacyPolicyController::class,'delete'])->name('delete.privacy-policy');
         Route::get('/change/privacy-policy', [PrivacyPolicyController::class, 'changePrivacyPolicyStatus'])->name('change.privacy-policy-status');
 
     });
