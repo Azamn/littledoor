@@ -92,7 +92,7 @@ class PrivacyPolicyController extends Controller
                 'privacy_policy' => $privacyPolicy->privacy_policy ?? NULL,
             ];
 
-            return view('Admin.Priv', compact('privacyPolicyData'));
+            return view('Admin.PrivacyPolicy.privacy-policy-edit', compact('privacyPolicyData'));
         }
     }
 
