@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Privacypolicy;
 use Illuminate\Http\Request;
+use App\Models\Privacypolicy;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\PrivacyPolicyResources;
 
 class PrivacyPolicyController extends Controller
 {
+
+    public function getAll(Request $request){
+        $privacyPolicies = Privacypolicy::where('status',1)->get();
+        if($privacyPolicies){
+            return response()->json(['status' => true, 'data' => PrivacyPolicyResources::collection($privacyPolicies)]);
+        }
+    }
 
     public function getAllAdmin(Request $request)
     {

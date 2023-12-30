@@ -19,6 +19,7 @@ use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryController;
 use App\Http\Controllers\MentalDisorderCategoryQuestionController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\RazorPayController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
@@ -112,6 +113,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** portal service */
     Route::post('/create/portal/service-charges',[AdminManagementController::class,'createPortalService']);
+
+    /** Privacy Policy */
+    Route::post('/get/privacy/policy',[PrivacyPolicyController::class,'getAll']);
 
 });
 
