@@ -115,7 +115,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     Route::post('/create/portal/service-charges',[AdminManagementController::class,'createPortalService']);
 
     /** Privacy Policy */
-    Route::post('/get/privacy/policy',[PrivacyPolicyController::class,'getAll']);
+    Route::get('/get/privacy/policy',[PrivacyPolicyController::class,'getAll']);
 
 });
 
