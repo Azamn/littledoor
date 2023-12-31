@@ -605,7 +605,7 @@
             <div class="header-logo-wrapper">
                 <div class="logo-wrapper" style="margin-left: 80px"><img class="img-fluid"
                         src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
-                        width="7%"></div>
+                        width="8%"></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
                     </i></div>
             </div>
