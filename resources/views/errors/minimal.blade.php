@@ -605,42 +605,11 @@
             <div class="header-logo-wrapper">
                 <div class="logo-wrapper"><img class="img-fluid"
                         src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
-                        width="50%"></div>
+                        width="100%"></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
                     </i></div>
             </div>
-            {{-- <div class="left-header col horizontal-wrapper pl-0">
-                <ul class="horizontal-menu">
-                    <li class="mega-menu">
-                        {{--                            <div class="mega-menu-container nav-submenu"> --}}
-            {{--                                <div class="container-fluid"> --}}
-            {{--                                </div> --}}
-            {{--                            </div> --}}
-            </li>
-            </ul>
-            {{-- </div> --}}
-            {{-- <div class="nav-right col-8 text-right pull-right right-header p-0">
-                <ul class="nav-menus">
 
-                    <li>
-                        <div class="mode"><i style="color:white" class="fa fa-moon-o"></i></div>
-                    </li>
-
-
-                    <li class="maximize"><a class="text-light" href="#!"
-                            onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
-
-                    <li class="profile-nav onhover-dropdown text-light pe-0 py-0">
-                        <div class="media profile-media">
-                            <i data-feather="user"></i>
-                            <div class="media-body"><span>Emay Walter</span>
-                            </div>
-                        </div>
-
-                    </li>
-
-                </ul>
-            </div> --}}
             <script id="result-template" type="text/x-handlebars-template">
                 <div class="ProfileCard u-cf">
         <div class="ProfileCard-avatar">
