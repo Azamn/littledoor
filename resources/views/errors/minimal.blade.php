@@ -23,7 +23,7 @@
                 <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
                     @if(!is_null(@$privacyPolicyData))
                         @foreach ($privacyPolicyData as $policy)
-                            <p>${{ $policy['privacy_policy'] }}</p>
+                            <p>{{ $policy['privacy_policy'] }}</p>
                         @endforeach
                     @endif
                 </div>
