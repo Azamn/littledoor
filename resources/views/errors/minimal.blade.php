@@ -603,7 +603,7 @@
         <div class="header-wrapper bg-primmrary row m-0">
 
             <div class="header-logo-wrapper">
-                <div class="logo-wrapper" style="margin-left: 80px"><img class="relative flex items-top justify-center min-h-screen"
+                <div class="logo-wrapper" style="margin-left: 80px"><img class="relative flex items-top min-h-screen"
                         src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
                         width="8%"></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
