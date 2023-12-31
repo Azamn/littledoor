@@ -80,7 +80,7 @@
 
     p {
         margin-left: 70px;
-        margin-right: 70px;
+        margin-right: 60px;
     }
 
     a {
