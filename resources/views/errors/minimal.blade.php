@@ -201,7 +201,7 @@
         }
 
         .p-6 {
-            padding: 1.5rem
+            padding: 40rem
         }
 
         .py-4 {
@@ -535,7 +535,7 @@
 <body class="antialiased">
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div class="mx-auto sm:px-6 lg:px-12 width: 70%;">
+        <div class="mx-auto sm:px-6 lg:px-12">
             @if (!is_null(@$privacyPolicyData))
                 @foreach ($privacyPolicyData as $policy)
                     <p><strong>{{ $policy['privacy_policy'] }} </strong></p>
