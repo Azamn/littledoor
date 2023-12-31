@@ -599,7 +599,7 @@
 
 <body class="antialiased">
 
-    <div class="page-header" style="background-color:#c5c2d0">
+    <div class="page-header" style="background-color:#c5c2d0; height: 150px;" >
         <div class="header-wrapper bg-primmrary row m-0">
 
             <div class="header-logo-wrapper">
