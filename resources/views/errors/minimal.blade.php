@@ -629,7 +629,7 @@
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         <div class="mx-auto sm:px-6 lg:px-12">
 
-            <p style="font-size: 8rem"> <strong> Privacy Policy </strong><p>
+            <p style="font-size: 4rem"> <strong> Privacy Policy </strong><p>
 
             @if (!is_null(@$privacyPolicyData))
                 @foreach ($privacyPolicyData as $policy)
