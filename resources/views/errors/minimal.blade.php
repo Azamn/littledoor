@@ -19,7 +19,6 @@
         }
 
         p{
-            line-height: 0.5rem;
             margin: 100px;
         }
 
