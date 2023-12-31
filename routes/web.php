@@ -136,7 +136,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.passowrd');
 Route::get('/change-password', [AuthController::class, 'getChangePassword'])->name('get.change.passowrd');
 
-Route::get('/policy/privacy',[PrivacyPolicyController::class,'getPrivacyPolicy']);
+Route::get('/privacy/policy',[PrivacyPolicyController::class,'getPrivacyPolicy']);
 
 
 Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
