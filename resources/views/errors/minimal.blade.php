@@ -603,7 +603,7 @@
         <div class="header-wrapper bg-primmrary row m-0">
 
             <div class="header-logo-wrapper">
-                <div class="logo-wrapper" style="margin-left: 70px"><img class="img-fluid"
+                <div class="logo-wrapper" style="margin-left: 80px"><img class="img-fluid"
                         src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
                         width="7%"></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
@@ -628,6 +628,9 @@
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         <div class="mx-auto sm:px-6 lg:px-12">
+
+            <H3>Policy Privacy : </H3>
+
             @if (!is_null(@$privacyPolicyData))
                 @foreach ($privacyPolicyData as $policy)
                     <p><strong>{{ $policy['privacy_policy'] }} </strong></p>
