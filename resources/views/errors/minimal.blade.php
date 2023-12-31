@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -602,8 +603,9 @@
         <div class="header-wrapper bg-primmrary row m-0">
 
             <div class="header-logo-wrapper">
-                <div class="logo-wrapper"><a href="index.html"><img class="img-fluid"
-                            src="{{ asset('Admin/images/littledoor/logo.png') }}" alt=""></a></div>
+                <div class="logo-wrapper"><img class="img-fluid"
+                        src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
+                        width="50%"></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
                     </i></div>
             </div>
@@ -611,11 +613,11 @@
                 <ul class="horizontal-menu">
                     <li class="mega-menu">
                         {{--                            <div class="mega-menu-container nav-submenu"> --}}
-                        {{--                                <div class="container-fluid"> --}}
-                        {{--                                </div> --}}
-                        {{--                            </div> --}}
-                    </li>
-                </ul>
+            {{--                                <div class="container-fluid"> --}}
+            {{--                                </div> --}}
+            {{--                            </div> --}}
+            </li>
+            </ul>
             {{-- </div> --}}
             {{-- <div class="nav-right col-8 text-right pull-right right-header p-0">
                 <ul class="nav-menus">
