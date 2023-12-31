@@ -1,3 +1,4 @@
+@include('Admin.layouts.navbar')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +12,8 @@
         /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
         html {
             line-height: 1.15;
-            -webkit-text-size-adjust: 100%
+            -webkit-text-size-adjust: 100%;
+            background-color: white;
         }
 
         body {
@@ -19,8 +21,8 @@
         }
 
         p{
-            margin-left: 100px;
-            margin-right: 100px;
+            margin-left: 70px;
+            margin-right: 70px;
         }
 
         a {
