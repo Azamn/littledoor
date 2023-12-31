@@ -599,11 +599,11 @@
 
 <body class="antialiased">
 
-    <div class="page-header" style="background-color:#c5c2d0; height: 130px; margin-left: 50px" >
+    <div class="page-header" style="background-color:#c5c2d0; height: 130px;" >
         <div class="header-wrapper bg-primmrary row m-0">
 
             <div class="header-logo-wrapper">
-                <div class="logo-wrapper"><img class="img-fluid"
+                <div class="logo-wrapper" style="margin-left: 60px"><img class="img-fluid"
                         src="{{ asset('Admin/images/littledoor/littleDoorLogo.png') }}" alt=""
                         width="7%"></div>
                 <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="grid" id="sidebar-toggle">
