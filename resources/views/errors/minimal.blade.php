@@ -19,7 +19,9 @@
         }
 
         p{
-            margin: 100px;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-top: 100px;
         }
 
         a {
