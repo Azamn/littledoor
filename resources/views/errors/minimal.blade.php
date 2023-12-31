@@ -18,6 +18,10 @@
             margin: 0
         }
 
+        p{
+            padding: 40px;
+        }
+
         a {
             background-color: transparent
         }
@@ -201,7 +205,7 @@
         }
 
         .p-6 {
-            padding: 40rem
+            padding: 1.5rem
         }
 
         .py-4 {
