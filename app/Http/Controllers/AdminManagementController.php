@@ -188,6 +188,7 @@ class AdminManagementController extends Controller
             if ($userExist) {
 
                 if ($userExist->mobile_no == '8425918611') {
+                    $userId = $userExist->id;
                     $otp = '119007';
                 } else {
                     $userId = $userExist->id;
