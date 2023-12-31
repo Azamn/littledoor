@@ -19,7 +19,7 @@
         }
 
         p{
-            padding: 40px;
+            margin: 40px;
         }
 
         a {
