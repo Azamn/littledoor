@@ -535,10 +535,10 @@
 <body class="antialiased">
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div class="max-w mx-auto sm:px-6 lg:px-12">
+        <div class="margin:20px mx-auto sm:px-6 lg:px-12">
             @if (!is_null(@$privacyPolicyData))
                 @foreach ($privacyPolicyData as $policy)
-                    <p>{{ $policy['privacy_policy'] }}</p> <br>
+                    <p><strong>{{ $policy['privacy_policy'] }} </strong></p> <br>
                 @endforeach
             @endif
         </div>
