@@ -19,7 +19,7 @@
         }
 
         p{
-            line-height: 1;
+            line-height: 0.5rem;
             margin: 100px;
         }
 
