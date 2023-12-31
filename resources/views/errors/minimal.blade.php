@@ -535,7 +535,7 @@
 <body class="antialiased">
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-xl mx-auto sm:px-6 lg:px-12">
             @if (!is_null(@$privacyPolicyData))
                 @foreach ($privacyPolicyData as $policy)
                     <p>{{ $policy['privacy_policy'] }}</p> <br>
