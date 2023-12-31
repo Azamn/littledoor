@@ -17,6 +17,28 @@ class PrivacyPolicyController extends Controller
         }
     }
 
+    public function getPrivacyPolicy(Request $request){
+        $privacyPolicyData = [];
+        $privacyPolicies = Privacypolicy::where('status',1)->get();
+        if ($privacyPolicies) {
+
+            foreach ($privacyPolicies as $pPolicy) {
+                $data = [
+                    'id' => $pPolicy->id,
+                    'privacy_policy' => $pPolicy->privacy_policy ?? NULL,
+                ];
+
+                array_push($privacyPolicyData, $data);
+            }
+
+            if (!is_null($privacyPolicyData)) {
+                return view('errors.minimal', compact('privacyPolicyData'));
+            } else {
+                return view('errors.minimal');
+            }
+        }
+    }
+
     public function getAllAdmin(Request $request)
     {
         $privacyPolicyData = [];
