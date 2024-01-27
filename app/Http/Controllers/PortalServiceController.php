@@ -75,7 +75,7 @@ class PortalServiceController extends Controller
                 'platform_fee' => $portalServiceCharges?->platform_fee ?? NULL,
             ];
 
-            return view('Admin.PrivacyPolicy.privacy-policy-edit', compact('portalServiceChargeData'));
+            return view('Admin.PortalService.portal-service-edit', compact('portalServiceChargeData'));
         }
     }
 

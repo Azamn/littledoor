@@ -23,7 +23,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Portal Service</h5>
+                            <h5>Portal Service Charges</h5>
                         </div>
                         <form class="widget-contact-form" id="portalServiceAdd" action="{{ route('create.portal-service') }}"
                             method="POST" enctype="multipart/form-data" novalidate="">

@@ -72,7 +72,7 @@
 
                     <li class="sidebar-list">
                         <a class="nav-link  " href="{{ route('get.portal-service') }}">
-                            <i class="fa fa-send-o fa-lg m-r-10"></i><span>Portal Service Charge</span></a>
+                            <i class="fa fa-send-o fa-lg m-r-10"></i><span>Portal Service Charges</span></a>
                     </li>
 
                     <li class="sidebar-list">
