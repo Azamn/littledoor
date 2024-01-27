@@ -15,6 +15,7 @@ use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PortalServiceController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
@@ -121,6 +122,16 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::post('/update/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'update'])->name('update.privacy-policy');
         Route::delete('/delete/privacy-policy',[PrivacyPolicyController::class,'delete'])->name('delete.privacy-policy');
         Route::get('/change/privacy-policy', [PrivacyPolicyController::class, 'changePrivacyPolicyStatus'])->name('change.privacy-policy-status');
+        
+        /** portal service */
+
+        Route::get('/portal-service-charges-create', function () {
+            return view('Admin.PortalService.portal-service-create');
+        });
+
+        Route::post('/create/portal/service/charges',[PortalServiceController::class,'createPortalService'])->name('create.portal-service');
+        Route::get('/get-all/portal/service/charges',[PortalServiceController::class,'getAllAdmin'])->name('get.portal-service');
+
 
     });
 
