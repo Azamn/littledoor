@@ -26,9 +26,9 @@ class PortalServiceController extends Controller
             }
 
             if (!is_null($portalServiceChargeData)) {
-                return view('Admin.PrivacyPolicy.privacy-policy-list', compact('portalServiceChargeData'));
+                return view('Admin.PortalService.portal-service-list', compact('portalServiceChargeData'));
             } else {
-                return view('Admin.PrivacyPolicy.privacy-policy-list');
+                return view('Admin.PortalService.portal-service-list');
             }
         }
     }
