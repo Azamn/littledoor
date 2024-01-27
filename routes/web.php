@@ -6,18 +6,19 @@ use App\Models\MasterSubCategory;
 use App\Http\Middleware\AdminAccess;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Models\SubCategoryQuestionMapping;
-use App\Http\Controllers\ContactUsController;
-use App\Http\Controllers\DailyJournalController;
 use App\Http\Controllers\DoctorController;
+use App\Models\SubCategoryQuestionMapping;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\DailyJournalController;
 use App\Http\Controllers\MasterOptionsController;
+use App\Http\Controllers\PortalServiceController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterQuestionController;
 use App\Http\Controllers\MasterSubCategoryController;
-use App\Http\Controllers\PatientController;
-use App\Http\Controllers\PortalServiceController;
-use App\Http\Controllers\PrivacyPolicyController;
-use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\SubCategoryQuestionOptionMappingController;
 
 /*
@@ -135,6 +136,8 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::post('/update/portal/service/charges/{portalServiceChargeId}', [PortalServiceController::class, 'update'])->name('update.portal-service');
         Route::delete('/delete/portal/service/charges',[PortalServiceController::class,'delete'])->name('delete.portal-service');
 
+        /** Transaction Details */
+        Route::get('/all-transactions/details',[TransactionDetailController::class,'getAllTransaction'])->name('get.all-transactions-details');
 
     });
 

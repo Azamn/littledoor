@@ -60,6 +60,26 @@
                         </ul>
                     </li>
 
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                        <i class="fa fa-list-ul fa-lg m-r-10"></i><span>Transaction Details</span></a>
+                    <ul class="sidebar-submenu">
+                        <li class="sidebar-list">
+                            <a class="nav-link  " href="{{ route('get.all-transactions-details') }}">
+                                <i class="fa fa-cube fa-lg m-r-10"></i><span>All Transactions</span></a>
+                        </li>
+                        <li class="sidebar-list">
+                            <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
+                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Request Transaction</span></a>
+                        </li>
+
+                        <li class="sidebar-list">
+                            <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
+                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Successfull Transaction</span></a>
+                        </li>
+
+                    </ul>
+                </li>
+
                     <li class="sidebar-list">
                         <a class="nav-link  " href="{{ route('get.all-emotions') }}">
                             <i class="fa fa-smile-o fa-lg m-r-10"></i><span>Emotions</span></a>
