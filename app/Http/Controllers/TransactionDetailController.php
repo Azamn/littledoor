@@ -78,7 +78,7 @@ class TransactionDetailController extends Controller
                 $data = [
                     'id' => $requestPayment->id,
                     'doctor_name' => $doctorFullName ?? NULL,
-                    'request_amount' => $requestPayment->request->amount,
+                    'request_amount' => $requestPayment->request_amount,
                     'created_at' => Carbon::parse($requestPayment->created_at)->format('d-m-Y H:i:s'),
                 ];
 
