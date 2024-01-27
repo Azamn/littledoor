@@ -17,6 +17,7 @@
                 </div>
             </div>
         </div>
+      
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
@@ -27,18 +28,17 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Doctor Name</th>
                                         <th scope="col">Request Amount</th>
-                                        <th scope="col">Transaction Date & Time</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col">Request Date & Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (!is_null(@$doctorPaymentRequestData))
-                                        @foreach ($doctorPaymentRequestData as $key => $paymentRequest)
+                                        @foreach ($doctorPaymentRequestData as $key => $transaction)
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>
-                                                <td>{{ $paymentRequest['doctor_name'] }}</td>
-                                                <td>{{ $paymentRequest['request_amount'] }}</td>
-                                                <td>{{ $paymentRequest['created_at'] }}</td>
+                                                <td>{{ $transaction['doctor_name'] }}</td>
+                                                <td>{{ $transaction['request_amount'] }}</td>
+                                                <td>{{ $transaction['created_at'] }}</td>
                                             </tr>
                                         @endforeach
                                     @else
