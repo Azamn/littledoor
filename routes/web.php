@@ -131,7 +131,7 @@ Route::middleware(AdminAccess::class)->group(function () {
 
         Route::post('/create/portal/service/charges',[PortalServiceController::class,'createPortalService'])->name('create.portal-service');
         Route::get('/get-all/portal/service/charges',[PortalServiceController::class,'getAllAdmin'])->name('get.portal-service');
-        Route::get('/edit/portal-service/charges/{portalServiceChargeId}', [PortalServiceController::class, 'edit'])->name('edit.portal-service');
+        Route::get('/edit/portal/service/charges/{portalServiceChargeId}', [PortalServiceController::class, 'edit'])->name('edit.portal-service');
         Route::post('/update/portal/service/charges/{portalServiceChargeId}', [PortalServiceController::class, 'update'])->name('update.portal-service');
         Route::delete('/delete/portal/service/charges',[PortalServiceController::class,'delete'])->name('delete.portal-service');
 

@@ -46,7 +46,7 @@
                                                 <td>{{ $portalService['platform_fee'] }}</td>
                                                
                                                 <td>
-                                                    <a href="{{'/admin/portal-service/charges/'.$portalService['id']}}">
+                                                    <a href="{{'/admin/edit/portal/service/charges/'.$portalService['id']}}">
                                                         <button class="btn btn-pill btn-primary"
                                                             data-id="{{ $portalService['id'] }}">Edit</button>
                                                     </a>
