@@ -16,6 +16,25 @@ class TransactionDetailController extends Controller
             $transactionDetails = [];
             foreach ($transcationData as $transaction) {
 
+                $patientFullName = NULL;
+                $doctorFullName = NULL;
+        
+                if($transaction->patient){
+                    if(!is_null($transaction->patient?->first_name) && !is_null($transaction->patient?->last_name)){
+                        $patientFullName = $transaction->patient?->first_name .' '. $transaction->patient?->last_name;
+                    }else{
+                        $patientFullName =  $transaction->patient?->first_name;
+                    }
+                }
+        
+                if($transaction->doctor){
+                    if(!is_null($transaction->doctor?->first_name) && !is_null($transaction->doctor?->last_name)){
+                        $doctorFullName = $transaction->doctor?->first_name .' '. $transaction->doctor?->last_name;
+                    }else{
+                        $doctorFullName =  $transaction->doctor?->first_name;
+                    }
+                }
+
                 $data = [
                     'id' => $transaction->id,
                     'patient_name' => $patientFullName ?? NULL,
