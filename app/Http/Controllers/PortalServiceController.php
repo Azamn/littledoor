@@ -49,7 +49,7 @@ class PortalServiceController extends Controller
 
             $portalServiceCharges = PortalSericeCharges::get();
             if($portalServiceCharges){
-                $portalServiceCharges->each->delet();
+                $portalServiceCharges->each->delete();
             }
 
             $portalService = new PortalSericeCharges();
