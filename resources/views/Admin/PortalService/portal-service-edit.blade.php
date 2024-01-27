@@ -23,10 +23,11 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Portal Service</h5>
+                            <h5>Edit Portal Service Charges</h5>
                         </div>
-                        <form class="widget-contact-form" id="portalServiceAdd" action="{{ route('create.portal-service') }}"
-                            method="POST" enctype="multipart/form-data" novalidate="">
+                        <form class="widget-contact-form" id="portalServiceUpdate"
+                            action={{ '/admin/portal/service/charges/' . $portalServiceChargeData['id'] }} method="POST"
+                            enctype="multipart/form-data" novalidate="">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
                             <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -35,30 +36,32 @@
                                     <div class="col">
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Tax Amount</label>
-                                            <div class="col-sm-9">
-                                                <textarea type="text" name="tax" id="description" class="form-control" placeholder="Enter Tax Amount"
-                                                    required></textarea>
-                                                <span class="text-danger error-text name_error"></span>
-                                            </div>
+                                            <label class="col-sm-3 col-form-label">Privacy Policy</label>
+                                            @if (!is_null(@$portalServiceChargeData['tax']))
+                                                <div class="col-sm-9">
+                                                    <textarea type="text" name="tax" id="privacy_policy" class="form-control" required>{{ $portalServiceChargeData['tax'] }}</textarea>
+                                                    <span class="text-danger error-text name_error"></span>
+                                                </div>
+                                            @endif
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Platform Fee</label>
-                                            <div class="col-sm-9">
-                                                <textarea type="text" name="platform_fee" id="description" class="form-control" placeholder="Enter Platform Fee"
-                                                    required></textarea>
-                                                <span class="text-danger error-text name_error"></span>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="col-sm-9 offset-sm-3">
-                                            <button class="btn btn-primary" type="submit">Save</button>
-                                            <button class="btn btn-light" type="submit">Cancel</button>
+                                            <label class="col-sm-3 col-form-label">Privacy Policy</label>
+                                            @if (!is_null(@$portalServiceChargeData['platform_fee']))
+                                                <div class="col-sm-9">
+                                                    <textarea type="text" name="platform_fee" id="privacy_policy" class="form-control" required>{{ $portalServiceChargeData['platform_fee'] }}</textarea>
+                                                    <span class="text-danger error-text name_error"></span>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <button class="btn btn-primary" type="submit">update</button>
+                                        <button class="btn btn-light" type="submit">Cancel</button>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -78,11 +81,11 @@
 
 <script>
     $(document).ready(function() {
-        $('#portalServiceAdd').on('submit', function(e) {
+        $('#portalServiceUpdate').on('submit', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var form = this;
-            var token = $('meta[name="csrf-token"]').attr('content');
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -112,7 +115,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-
+                        location.reload();
                     }
                 }
             });

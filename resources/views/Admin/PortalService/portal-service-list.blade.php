@@ -45,8 +45,8 @@
                                                 <td>{{ $portalService['tax'] }}</td>
                                                 <td>{{ $portalService['platform_fee'] }}</td>
                                                
-                                                {{-- <td>
-                                                    <a href="{{'/admin/edit/privacy-policy/'.$portalService['id']}}">
+                                                <td>
+                                                    <a href="{{'/admin/portal-service/charges/'.$portalService['id']}}">
                                                         <button class="btn btn-pill btn-primary"
                                                             data-id="{{ $portalService['id'] }}">Edit</button>
                                                     </a>
@@ -57,7 +57,7 @@
                                                             type="submit"
                                                             data-id="{{ $portalService['id'] }}">Delete</button>
                                                     </a>
-                                                </td> --}}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -102,8 +102,8 @@
     $(document).on('click', '#deleteBtn', function() {
 
         var form = this;
-        var privacy_policy_id = $(form).attr('data-id');
-        var url = '{{ route('delete.privacy-policy') }}';
+        var portal_service_charges_id = $(form).attr('data-id');
+        var url = '{{ route('delete.portal-service') }}';
 
         Swal.fire({
             title: 'Are you sure?',
@@ -123,7 +123,7 @@
                     url: url,
                     method: 'DELETE',
                     data: {
-                        privacy_policy_id: privacy_policy_id
+                        portal_service_charges_id: portal_service_charges_id
                     },
                     dataType: 'json',
 
@@ -145,38 +145,6 @@
         });
     });
 
-    // change status
-    function private_policy_active_toggle_function(privacy_policy_id) {
-        var privacy_policy_id = privacy_policy_id;
-
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: '{{ route('change.privacy-policy-status') }}',
-            method: 'GET',
-            data: {
-                privacy_policy_id: privacy_policy_id
-            },
-            dataType: 'json',
-            success: function(data) {
-
-                if (data.status == true) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: data.message,
-                        showConfirmButton: false,
-                        timer: 3000
-                    });
-
-                    location.reload(true);
-                }
-
-                // title:'Title',
-            },
-            error: function(data) {},
-        });
-    }
+ 
 </script>
 {{-- @endsection --}}

@@ -61,4 +61,67 @@ class PortalServiceController extends Controller
         }
     }
 
+    public function edit(Request $request, $portalServiceChargeId)
+    {
+
+        $portalServiceCharges = PortalSericeCharges::where('id', $portalServiceChargeId)->first();
+        if ($portalServiceCharges) {
+
+            $portalServiceChargeData = [];
+
+            $portalServiceChargeData = [
+                'id' => $portalServiceCharges?->id,
+                'tax' => $portalServiceCharges?->tax ?? NULL,
+                'platform_fee' => $portalServiceCharges?->platform_fee ?? NULL,
+            ];
+
+            return view('Admin.PrivacyPolicy.privacy-policy-edit', compact('portalServiceChargeData'));
+        }
+    }
+
+    public function update(Request $request, $portalServiceChargeId)
+    {
+
+        $rules = [
+            'tax' => 'sometimes|required',
+            'platform_fee' => 'sometimes|required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $portalServiceCharges = PortalSericeCharges::where('id', $portalServiceChargeId)->first();
+            if ($portalServiceCharges) {
+
+                if ($request->has('tax')) {
+                    $portalServiceCharges->tax = $request->tax;
+                }
+
+                if ($request->has('platform_fee')) {
+                    $portalServiceCharges->platform_fee = $request->platform_fee;
+                }
+
+                $portalServiceCharges->update();
+
+                return response()->json(['status' => true, 'message' => 'Portal Service Charges Updated Successfully']);
+            } else {
+                return response()->json(['status' => true, 'message' => 'Portal Service Charges  Not Found.']);
+            }
+        }
+    }
+
+    public function delete(Request $request)
+    {
+
+        $portalServiceCharges = PortalSericeCharges::where('id', $request->portal_service_charges_id)->first();
+
+        if ($portalServiceCharges) {
+            $portalServiceCharges->delete();
+            return response()->json(['status' => true, 'message' => 'Portal Service Charges Data Deleted Successfully.']);
+        }
+    }
+
 }
