@@ -68,13 +68,13 @@
                                 <i class="fa fa-cube fa-lg m-r-10"></i><span>All Transactions</span></a>
                         </li>
                         <li class="sidebar-list">
-                            <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
-                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Request Transaction</span></a>
+                            <a class="nav-link  " href="{{ route('get.doctor-payment-request') }}">
+                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Doctor Payment Request</span></a>
                         </li>
 
                         <li class="sidebar-list">
                             <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
-                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Successfull Transaction</span></a>
+                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Doctor Payment Completed</span></a>
                         </li>
 
                     </ul>

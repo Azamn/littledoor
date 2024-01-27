@@ -138,6 +138,7 @@ Route::middleware(AdminAccess::class)->group(function () {
 
         /** Transaction Details */
         Route::get('/all-transactions/details',[TransactionDetailController::class,'getAllTransaction'])->name('get.all-transactions-details');
+        Route::get('/get/doctor/payment/request',[TransactionDetailController::class,'doctorRequestPayment'])->name('get.doctor-payment-request');
 
     });
 

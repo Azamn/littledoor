@@ -11,4 +11,8 @@ class DoctorPaymentRequest extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function doctor(){
+        return $this->belongsTo(MasterDoctor::class,'doctor_id','id');
+    }
 }
