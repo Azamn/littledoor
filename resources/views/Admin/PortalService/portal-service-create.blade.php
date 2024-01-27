@@ -68,10 +68,17 @@
     </div>
 @endsection
 
-<script src="{{ asset('Admin/js/form-validation-custom.js') }}"></script>
+@section('js')
+
+
+{{-- <script src="{{ asset('Admin/js/form-validation-custom.js') }}"></script>
 <script src="{{ asset('Admin/js/jquery.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css"> --}}
+
+<script src="{{ asset('Assets/Admin/js/form-validation-custom.js') }}"></script>
+<script src="{{ asset('Asset/website/js/functions.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script>
@@ -119,3 +126,4 @@
     });
 
 </script>
+@endsection
