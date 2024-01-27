@@ -26,7 +26,7 @@
                             <h5>Edit Portal Service Charges</h5>
                         </div>
                         <form class="widget-contact-form" id="portalServiceUpdate"
-                            action={{ '/admin/portal/service/charges/' . $portalServiceChargeData['id'] }} method="POST"
+                            action={{ '/admin/update/portal/service/charges/' . $portalServiceChargeData['id'] }} method="POST"
                             enctype="multipart/form-data" novalidate="">
                             {{-- <form method="post" action="" class="form theme-form needs-validation" novalidate="" enctype="multipart/form-data" > --}}
                             @csrf
