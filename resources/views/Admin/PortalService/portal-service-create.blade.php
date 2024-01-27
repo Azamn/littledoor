@@ -76,7 +76,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#portalServiceAdd').on('submit', fulistnction(e) {
+        $('#portalServiceAdd').on('submit', function(e) {
             e.preventDefault();
             e.stopPropagation();
             var form = this;
