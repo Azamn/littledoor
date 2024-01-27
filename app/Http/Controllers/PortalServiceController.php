@@ -47,6 +47,11 @@ class PortalServiceController extends Controller
             return response()->json(['status' => false, 'errors' => $validator->errors()]);
         } else {
 
+            $portalServiceCharges = PortalSericeCharges::get();
+            if($portalServiceCharges){
+                $portalServiceCharges->each->delet();
+            }
+
             $portalService = new PortalSericeCharges();
             $portalService->tax = $request->tax;
             $portalService->platform_fee = $request->platform_fee;
