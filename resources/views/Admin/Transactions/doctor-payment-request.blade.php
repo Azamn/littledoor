@@ -17,7 +17,6 @@
                 </div>
             </div>
         </div>
-        <! Container-fluid starts>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
