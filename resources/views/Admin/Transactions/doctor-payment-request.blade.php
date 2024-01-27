@@ -33,12 +33,12 @@
                                 </thead>
                                 <tbody>
                                     @if (!is_null(@$doctorPaymentRequestData))
-                                        @foreach ($doctorPaymentRequestData as $key => $transaction)
+                                        @foreach ($doctorPaymentRequestData as $key => $paymentRequest)
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>
-                                                <td>{{ $transaction['doctor_name'] }}</td>
-                                                <td>{{ $transaction['request_amount'] }}</td>
-                                                <td>{{ $transaction['created_at'] }}</td>
+                                                <td>{{ $paymentRequest['doctor_name'] }}</td>
+                                                <td>{{ $paymentRequest['request_amount'] }}</td>
+                                                <td>{{ $paymentRequest['created_at'] }}</td>
                                             </tr>
                                         @endforeach
                                     @else
