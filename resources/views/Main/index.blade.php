@@ -351,6 +351,7 @@
 
     <div id="backtotop"><i class="fa fa-2x fa-long-arrow-up"></i></div>
 
+
     <script src="{{ URL::asset('Main/js/jquery.min.js') }}"></script>
     <script src="{{ URL::asset('Main/js/jquery-migrate-3.0.0.min.js') }}"></script>
     <script src="{{ URL::asset('Main/js/circliful.min.js') }}"></script>
@@ -363,6 +364,20 @@
     <script src="{{ URL::asset('Main/js/counterup.min.js') }}"></script>
     <script src="{{ URL::asset('Main/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ URL::asset('Main/js/main.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.js"
+    integrity="sha512-docBEeq28CCaXCXN7cINkyQs0pRszdQsVBFWUd+pLNlEk3LDlSDDtN7i1H+nTB8tshJPQHS0yu0GW9YGFd/CRg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/css/bootstrap.min.css"
+     integrity="sha512-UVQYZVYu7WhHEaO2xGEmc4/3F8ctnXt4jwfGl2MCIHKc95RMgYS8yfNJ3j6wUe0UGiTK0S3vcmh3Ml9h278x5w=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 </body>
 
 </html>
