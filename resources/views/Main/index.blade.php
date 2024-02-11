@@ -117,7 +117,7 @@
             </div>
         </div>
         <div class="bnr-shape-img-3 wow fadeInDown" data-wow-duration="2.5s">
-            <img class="img-fluid" src="{{ URL::asset('Main/images/bnr-shape-3.png')}}" alt="img">
+            <img class="img-fluid" src="{{ asset('Main/images/bnr-shape-3.png')}}" alt="img">
         </div>
     </section>
     <section class="counter-bg">
@@ -149,21 +149,21 @@
         <div class="row">
             <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-duration="1s">
                 <div class="service-item-2">
-                    <img src="{{ URL::asset('Main/images/icon-1.png')}}" alt="obj">
+                    <img src="{{ asset('Main/images/icon-1.png')}}" alt="obj">
                     <h5>Accessible </h5>
                     <p>Accessible therapy anytime, anywhere with affordable pricing to fit your budget. </p>
                 </div>
             </div>
             <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-duration="1.5s">
                 <div class="service-item-2">
-                   <img src="{{ URL::asset('Main/images/icon-3.png')}}" alt="obj">
+                   <img src="{{ asset('Main/images/icon-3.png')}}" alt="obj">
                     <h5>Trusted</h5>
                     <p>Experienced licensed therapists to support you and provide continuous support.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-duration="2.5s">
                 <div class="service-item-2">
-                   <img src="{{ URL::asset('Main/images/icon-2.png')}}" alt="obj">
+                   <img src="{{ asset('Main/images/icon-2.png')}}" alt="obj">
                     <h5>User-friendly</h5>
                     <p>User-friendly interface for easy navigation with safe and confidential online secruity.</p>
                 </div>
@@ -182,7 +182,7 @@
                 </div>
                 <p>We believe that everyone deserves access to quality mental health care. We understand that life can be challenging, and that it's not always easy to find the support you need to overcome those challenges. That's why we've created an online therapy platform that's accessible, affordable, and effective.</p>
 
-<p>Our team of licensed therapists are passionate about helping people live happier, healthier lives. We offer a range of evidence-based therapies, including cognitive-behavioral therapy, psychodynamic therapy, and mindfulness-based therapy, to help you address a variety of mental health concerns.</p>
+                <p>Our team of licensed therapists are passionate about helping people live happier, healthier lives. We offer a range of evidence-based therapies, including cognitive-behavioral therapy, psychodynamic therapy, and mindfulness-based therapy, to help you address a variety of mental health concerns.</p>
                 <ul>
                     <li>Accessible therapy anytime, anywhere.</li>
                     <li>Experienced licensed therapists to support you.</li>
@@ -194,20 +194,20 @@
                 </div>
             </div>
             <div class="col-xl-5 col-lg-6 offset-xl-1 col-sm-12 text-center photo-anim wow fadeInRight" data-wow-duration="2.5s">
-                <img class="circle-img-animate" src="{{ URL::asset('Main/images/circle-1.png')}}" alt="img">
+                <img class="circle-img-animate" src="{{ asset('Main/images/circle-1.png')}}" alt="img">
                 <ul class="animate-obj">
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-star.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-shadow.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-star.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-shadow-2.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-star.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-shadow.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-star.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-shadow-2.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
                 </ul>
             </div>
         </div>
@@ -233,18 +233,18 @@
             <div class="col-lg-6 col-sm-12 text-center wow fadeInLeft" data-wow-duration="2.5s">
                 <img class="circle-img-animate img-fluid" src="{{ URL::asset('Main/images/circle-2.png')}}" alt="img">
                 <ul class="animate-obj">
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-star.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-shadow.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-star.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-squire-shadow-2.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
-                    <li><img src="{{ URL::asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-star.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-shadow.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-star.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-2.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-squire-shadow-2.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-tringle-shadow.png')}}" alt="obj"></li>
+                    <li><img src="{{ asset('Main/images/obj-triangle.png')}}" alt="obj"></li>
                 </ul>
             </div>
             <div class="col-xl-5 col-lg-6 offset-xl-1 wow fadeInRight" data-wow-duration="2.5s">
@@ -252,7 +252,7 @@
                 <div class="section-title">
                     <span>about the founder</span>
                     <h1>Meet the   <span>visionary</span> behind LittleDoor</h1>
-                    <img src="{{ URL::asset('Main/images/dot-bluecolor.png')}}" alt="img">
+                    <img src="{{ asset('Main/images/dot-bluecolor.png')}}" alt="img">
                 </div>
                 <p>Meet Muzammil, the founder of Little Door, a mental health services start-up application that aims to provide a personalized experience to its clients. Muzammil is a completely blind entrepreneur who has completed his Masters in computer applications from the prestigious college VJTI in  Mumbai. He is also a certified ethical hacker and a stand-up comedian, with a passion for using technology to improve people's lives.
 				<p>Muzammil's personal experience with anxiety and depression, coupled with the prevalence of misleading guidance and  lack of mental health awareness in the Indian society inspired him to create a unique start-up idea focused on mental health services. Little Door is the result of Muzammil's drive to offer a new, more personalized approach to mental health services, leveraging technology to make a positive impact on people's lives.
@@ -272,7 +272,7 @@
                     <div class="section-title text-center white">
                         <span>Feedback</span>
                         <h1>What Patients says</h1>
-                        <img src="{{ URL::asset('Main/images/dot-white.png')}}" alt="img">
+                        <img src="{{ asset('Main/images/dot-white.png')}}" alt="img">
                     </div>
                     <div class="space" style="height: 60px"></div>
                 </div>
@@ -327,7 +327,7 @@
             </div>
             <div class="col-lg-6 d-sm-none d-lg-block d-xs-none wow fadeInRight" data-wow-duration="2.5s">
                 <div class="space" style="height: 70px"></div>
-                <img class="img-fluid" src="{{ URL::asset('Main/images/contact-vector-2.png')}}" alt="Contact">
+                <img class="img-fluid" src="{{ asset('Main/images/contact-vector-2.png')}}" alt="Contact">
             </div>
         </div>
     </div>
@@ -336,7 +336,7 @@
 
     <footer class="site-footer">
         <div class="col-sm-12 text-center">
-            <img src="{{ URL::asset('Main/images/logo-alt.png')}}" alt="logo">
+            <img src="{{ asset('Main/images/logo-alt.png')}}" alt="logo">
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="#">Home</a></li>
                 <li class="list-inline-item"><a href="#">About Us</a></li>
@@ -364,18 +364,6 @@
     <script src="{{ URL::asset('Main/js/counterup.min.js') }}"></script>
     <script src="{{ URL::asset('Main/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ URL::asset('Main/js/main.js') }}"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.js"
-    integrity="sha512-docBEeq28CCaXCXN7cINkyQs0pRszdQsVBFWUd+pLNlEk3LDlSDDtN7i1H+nTB8tshJPQHS0yu0GW9YGFd/CRg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/css/bootstrap.min.css"
-     integrity="sha512-UVQYZVYu7WhHEaO2xGEmc4/3F8ctnXt4jwfGl2MCIHKc95RMgYS8yfNJ3j6wUe0UGiTK0S3vcmh3Ml9h278x5w=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 </body>
