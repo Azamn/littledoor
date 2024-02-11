@@ -68,7 +68,7 @@
 		</section>
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="{{ url('/') }}">
                 <img src="{{ asset('Main/images/logo.png') }}" alt="logo"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -351,18 +351,18 @@
 
     <div id="backtotop"><i class="fa fa-2x fa-long-arrow-up"></i></div>
 
-    <script src="{{ URL::asset('Main/js/jquery.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/jquery-migrate-3.0.0.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/circliful.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/bootstrap.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/isotope.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/slick.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/tilt.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/wow.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/waypoints.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/counterup.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{ URL::asset('Main/js/main.js')}}"></script>
+    <script src="{{ URL::asset('Main/js/jquery.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/jquery-migrate-3.0.0.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/circliful.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/bootstrap.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/isotope.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/slick.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/tilt.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/wow.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/waypoints.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/counterup.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ URL::asset('Main/js/main.js') }}"></script>
 </body>
 
 </html>
