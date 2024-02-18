@@ -61,7 +61,7 @@
                     </li>
 
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
-                        <i class="fa fa-list-ul fa-lg m-r-10"></i><span>Transaction Details</span></a>
+                        <i class="fa fa-inr fa-lg m-r-10"></i><span>Transaction Details</span></a>
                     <ul class="sidebar-submenu">
                         <li class="sidebar-list">
                             <a class="nav-link  " href="{{ route('get.all-transactions-details') }}">
@@ -69,12 +69,12 @@
                         </li>
                         <li class="sidebar-list">
                             <a class="nav-link  " href="{{ route('get.doctor-payment-request') }}">
-                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Doctor Payment Request</span></a>
+                                <i class="fa  fa-history fa-lg m-r-10"></i><span>Doctor Payment Request</span></a>
                         </li>
 
                         <li class="sidebar-list">
                             <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
-                                <i class="fa  fa-cubes fa-lg m-r-10"></i><span>Doctor Payment Completed</span></a>
+                                <i class="fa  fa-check-square-o fa-lg m-r-10"></i><span>Doctor Payment Completed</span></a>
                         </li>
 
                     </ul>
