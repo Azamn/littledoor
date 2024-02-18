@@ -44,9 +44,9 @@
                                                 <td>{{ $transaction['amount'] }}</td>
                                                 <td>{{ $transaction['transaction_number'] }}</td>
                                                 <td>
-                                                @if($transaction['status'] == 'success' )
+                                                @if($transaction['status'] == 'Success' )
                                                     <span class= "badge badge-light-success">{{ $transaction['status'] }} </span>
-                                                @elseif($transaction['status'] == 'failed' )
+                                                @elseif($transaction['status'] == 'Failed' )
                                                     <span class= "badge badge-light-secondary">{{ $transaction['status'] }} </span>
                                                 @else
                                                     <span class= "badge badge-light-warning">{{ $transaction['status'] }} </span>
