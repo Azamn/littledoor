@@ -39,8 +39,9 @@
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
                                     @foreach ($doctorData as $key => $doctor)
-                                        <tbody>
+                                    
                                             <tr>
                                                 <th scope="row">{{ $key+1 }}</th>
                                                 <td>{{ $doctor['name'] }}</td>
@@ -64,9 +65,9 @@
                                                     <a class="btn btn-primary m-2" href="{{ '/admin/get/doctor/details/view/'.$doctor['id'] }}" data-id="" >View Details</a>
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                       
                                     @endforeach
-
+                                    </tbody>
                                 </table>
                             </div>
                         @endif

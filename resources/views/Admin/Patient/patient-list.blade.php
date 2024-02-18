@@ -39,8 +39,9 @@
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
+                                    <tbody>
                                     @foreach ($patientData as $key => $patient)
-                                        <tbody>
+                                       
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>
                                                 <td>{{ $patient['name'] }}</td>
@@ -60,9 +61,9 @@
                                                         type="submit">View Details</button>
                                                 </td>
                                             </tr>
-                                        </tbody>
+                                        
                                     @endforeach
-    
+                                    </tbody>
                                 </table>
                             </div>
                         @else

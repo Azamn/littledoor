@@ -43,29 +43,20 @@
                                                 <td>{{ $transaction['doctor_name'] }}</td>
                                                 <td>{{ $transaction['amount'] }}</td>
                                                 <td>{{ $transaction['transaction_number'] }}</td>
-                                                <td>{{ $transaction['status'] }}</td>
+                                                <td>
+                                                @if($transaction['status'] == 'success' )
+                                                    <span class= "badge badge-light-success">{{ $transaction['status'] }} </span>
+                                                @elseif($transaction['status'] == 'failed' )
+                                                    <span class= "badge badge-light-secondary">{{ $transaction['status'] }} </span>
+                                                @else
+                                                    <span class= "badge badge-light-warning">{{ $transaction['status'] }} </span>
+                                                @endif
+                                                </td>   
                                                 <td>{{ $transaction['created_at'] }}</td>
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>sdv</td>
-                                            <td><img src="{{ asset('Admin/images/littledoor/logo.png') }}" height="100px"
-                                                    alt=""></td>
-                                            <td>
-                                                <div class="media-body  switch-m">
-                                                    <label class="switch">
-                                                        <input type="checkbox"><span class="switch-state"></span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                                <button class="btn btn-danger m-2" data-id="" id="deleteBtn"
-                                                    type="submit">Delete</button>
-                                            </td>
-                                        </tr>
+                                            
                                     @endif
                                 </tbody>
                             </table>

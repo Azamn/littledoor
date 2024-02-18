@@ -92,12 +92,12 @@
 
                     <li class="sidebar-list">
                         <a class="nav-link  " href="{{ route('get.portal-service') }}">
-                            <i class="fa fa-send-o fa-lg m-r-10"></i><span>Portal Service Charges</span></a>
+                            <i class="fa fa-money fa-lg m-r-10"></i><span>Portal Service Charges</span></a>
                     </li>
 
                     <li class="sidebar-list">
                         <a class="nav-link  " href="{{ route('get.privacy-policy') }}">
-                            <i class="fa fa-send-o fa-lg m-r-10"></i><span>Privacy Policy</span></a>
+                            <i class="fa fa-file-o fa-lg m-r-10"></i><span>Privacy Policy</span></a>
                     </li>
 
                     <li class="sidebar-list">
