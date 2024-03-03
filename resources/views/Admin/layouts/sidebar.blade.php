@@ -73,7 +73,7 @@
                         </li>
 
                         <li class="sidebar-list">
-                            <a class="nav-link  " href="{{ route('get.all-sub-categories') }}">
+                            <a class="nav-link  " href="{{ route('get.doctor-payment-done') }}">
                                 <i class="fa  fa-check-square-o fa-lg m-r-10"></i><span>Doctor Payment Completed</span></a>
                         </li>
 

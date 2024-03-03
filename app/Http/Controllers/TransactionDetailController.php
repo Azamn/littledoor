@@ -92,4 +92,39 @@ class TransactionDetailController extends Controller
             }
         }
     }
+
+    public function requestPaymentDone(Request $request){
+        $doctorPaymentRequest = DoctorPaymentRequest::with('doctor')->where('status', 1)->orderBy('id', 'desc')->get();
+        if ($doctorPaymentRequest) {
+
+            $doctorPaymentRequestData = [];
+
+            foreach ($doctorPaymentRequest as $requestPayment) {
+
+                if ($requestPayment->doctor) {
+                    if (!is_null($requestPayment->doctor?->first_name) && !is_null($requestPayment->doctor?->last_name)) {
+                        $doctorFullName = $requestPayment->doctor?->first_name . ' ' . $requestPayment->doctor?->last_name;
+                    } else {
+                        $doctorFullName =  $requestPayment->doctor?->first_name;
+                    }
+                }
+
+                $data = [
+                    'id' => $requestPayment->id,
+                    'doctor_name' => $doctorFullName ?? NULL,
+                    'request_amount' => $requestPayment->request_amount,
+                    'transaction_number' => $requestPayment->transaction_number,
+                    'updated_at' => Carbon::parse($requestPayment->updated_at)->format('d-m-Y H:i:s'),
+                ];
+
+                array_push($doctorPaymentRequestData, $data);
+            }
+
+            if (!is_null($doctorPaymentRequestData)) {
+                return view('Admin.Transactions.doctor-payment-done', compact('doctorPaymentRequestData'));
+            } else {
+                return view('Admin.Transactions.doctor-payment-done');
+            }
+        }
+    }
 }
