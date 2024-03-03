@@ -36,7 +36,7 @@
                                             <th scope="col">Mobile Number</th>
                                             <th scope="col">City </th>
                                             {{-- <th scope="col">Status </th> --}}
-                                            <th scope="col">Action</th>
+                                            {{-- <th scope="col">Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,11 +55,11 @@
                                                         </label>
                                                     </div>
                                                 </td> --}}
-                                                <td>
+                                                {{-- <td> --}}
                                                     {{-- <a class="btn btn-primary m-2" data-id="{{ $facilities['id'] }}" id="editBtn">Edit</a> --}}
-                                                    <button class="btn btn-primary m-2" data-id="" id="deleteBtn"
+                                                    {{-- <button class="btn btn-primary m-2" data-id="" id="deleteBtn"
                                                         type="submit">View Details</button>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         
                                     @endforeach
