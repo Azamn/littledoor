@@ -18,6 +18,7 @@ class RazorPayController extends Controller
             'patient_id' => 'required|integer',
             'doctor_id' => 'required|integer',
             'amount' => 'required|integer',
+            'total_amount' => 'required|integer',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -37,6 +38,7 @@ class RazorPayController extends Controller
             $requestArray = [
                 'receipt' => 'order' . random_int(1, 1000),
                 'amount'  => $request->amount * 100,
+                'total_amount' => $request->total_amount * 100,
                 'currency' => 'INR',
             ];
 
