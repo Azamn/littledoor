@@ -55,6 +55,18 @@ class AdminUserSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
+        DB::table('users')->insert([
+            'master_user_type_id' => 1,
+            'name' => 'LittleDoor',
+            'email' => 'info@littledoor.com',
+            'mobile_no' => 8928074874,
+            'api_token' => Str::random(60),
+            'email_verified_at' => now(),
+            'password' => Hash::make('Info@#123'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
 
 
     }
