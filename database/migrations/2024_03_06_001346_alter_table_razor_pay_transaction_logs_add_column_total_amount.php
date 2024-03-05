@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('razor_pay_transaction_logs', function (Blueprint $table) {
-            $table->unsignedBigInteger('total_amount')->after('amount')->defeult(0);
+            $table->unsignedBigInteger('tax_amount')->after('amount')->defeult(0);
         });
     }
 

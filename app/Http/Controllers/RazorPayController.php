@@ -18,6 +18,7 @@ class RazorPayController extends Controller
             'patient_id' => 'required|integer',
             'doctor_id' => 'required|integer',
             'amount' => 'required|integer',
+            'tax_amount' => 'required|integer',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -44,6 +45,7 @@ class RazorPayController extends Controller
             $paymentTransaction->patient_id = $request->patient_id;
             $paymentTransaction->doctor_id = $request->doctor_id;
             $paymentTransaction->amount = $request->amount;
+            $paymentTransaction->tax_amount = $request->tax_amount;
             $paymentTransaction->request_body = json_encode($requestArray);
             $paymentTransaction->transaction_number = "updaed after successful response";
             $paymentTransaction->save();
