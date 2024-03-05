@@ -46,18 +46,29 @@ class RazorPayController extends Controller
             $paymentTransaction->patient_id = $request->patient_id;
             $paymentTransaction->doctor_id = $request->doctor_id;
             $paymentTransaction->amount = $request->amount;
+            $paymentTransaction->total_amount = $request->total_amount;
             $paymentTransaction->request_body = json_encode($requestArray);
+            $paymentTransaction->save();
+
+            $paymentTransactionId = $paymentTransaction->id;
 
             $response = Http::withHeaders($headers)->post($createOrderUrl, $requestArray);
 
-            if ($response->successful()) {
+            if ($response) {
+                $paymentTransaction = RazorPayTransactionLog::where('id', $paymentTransactionId)->first();
                 $responseData =  json_decode($response->body(), true);
                 $paymentTransaction->response_body_1 = json_encode($responseData);
-                $paymentTransaction->transaction_number = $responseData['id'];
-                $paymentTransaction->status = 'Processing';
-                $paymentTransaction->save();
+                $paymentTransaction->update();
 
-                return response()->json(['status' => true, 'data' => $response->json(), 'paymentId' => $paymentTransaction->id]);
+                if ($response->successful()) {
+                    $responseData =  json_decode($response->body(), true);
+                    $paymentTransaction->response_body_1 = json_encode($responseData);
+                    $paymentTransaction->transaction_number = $responseData['id'];
+                    $paymentTransaction->status = 'Processing';
+                    $paymentTransaction->save();
+
+                    return response()->json(['status' => true, 'data' => $response->json(), 'paymentId' => $paymentTransaction->id]);
+                }
             } else {
                 return response()->json(['status' => false, 'message' => 'Unable to create Order']);
             }
