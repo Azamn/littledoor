@@ -47,7 +47,7 @@ class RazorPayController extends Controller
             $paymentTransaction->amount = $request->amount;
             $paymentTransaction->tax_amount = $request->tax_amount;
             $paymentTransaction->request_body = json_encode($requestArray);
-            $paymentTransaction->transaction_number = "updaed after successful response";
+            $paymentTransaction->transaction_number = "updated after successful response";
             $paymentTransaction->save();
 
             $paymentTransactionId = $paymentTransaction->id;
