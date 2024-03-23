@@ -36,7 +36,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Doctor Name</label>
                                         <div class="col-sm-9">
-                                            Doctor Name
+                                            {{$data['doctor_name']}}
                                             <span class="text-danger error-text name_error"></span>
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Request Amount</label>
                                         <div class="col-sm-9">
-                                            120545
+                                            {{$data['request_amount']}}
                                             <span class="text-danger error-text name_error"></span>
                                         </div>
                                     </div>
