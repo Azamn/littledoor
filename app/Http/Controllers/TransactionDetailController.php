@@ -173,6 +173,7 @@ class TransactionDetailController extends Controller
             if ($doctorPaymentRequest) {
 
                 $doctorPaymentRequest->transaction_number = $request->transaction_number;
+                $doctorPaymentRequest->status = 1;
                 $doctorPaymentRequest->update();
 
                 return response()->json(['status' => true, 'message' => 'Transaction Number Updated Successfully.']);
