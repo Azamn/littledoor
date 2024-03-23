@@ -103,7 +103,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
-
+                            location.replace('/admin/get-all/questions');                              
                         }
                     }
                 });
