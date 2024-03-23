@@ -38,7 +38,7 @@
                                         <label class="col-md-3 col-form-label">Option</label>
                                         <textarea type="text" name="option" id="Option"
                                                 class="form-control" placeholder="Enter Option">@if (!is_null($optionData)){{$optionData['name']}}@endif</textarea>
-                                            <span class="text-danger error-text features_error"></span>
+                                            <span class="text-danger error-text option_error"></span>
 
                                     </div>
                                 </div>

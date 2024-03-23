@@ -40,7 +40,7 @@
                                             @if (!is_null(@$portalServiceChargeData['tax']))
                                                 <div class="col-sm-9">
                                                     <textarea type="text" name="tax" id="privacy_policy" class="form-control" required>{{ $portalServiceChargeData['tax'] }}</textarea>
-                                                    <span class="text-danger error-text name_error"></span>
+                                                    <span class="text-danger error-text tax_error"></span>
                                                 </div>
                                             @endif
                                         </div>
@@ -50,7 +50,7 @@
                                             @if (!is_null(@$portalServiceChargeData['platform_fee']))
                                                 <div class="col-sm-9">
                                                     <textarea type="text" name="platform_fee" id="privacy_policy" class="form-control" required>{{ $portalServiceChargeData['platform_fee'] }}</textarea>
-                                                    <span class="text-danger error-text name_error"></span>
+                                                    <span class="text-danger error-text platform_fee_error"></span>
                                                 </div>
                                             @endif
                                         </div>

@@ -37,7 +37,7 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label">Question</label>
                                         <textarea type="text" name="question" id="Question" class="form-control" placeholder="Enter Question">@if (!is_null($questionData)){{$questionData['name']}}@endif</textarea>
-                                        <span class="text-danger error-text features_error"></span>
+                                        <span class="text-danger error-text question_error"></span>
 
                                     </div>
                                 </div>

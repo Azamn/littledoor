@@ -40,7 +40,7 @@
                                             @if (!is_null(@$privacyPolicyData['privacy_policy']))
                                                 <div class="col-sm-9">
                                                     <textarea type="text" name="privacy_policy" id="privacy_policy" class="form-control" required>{{ $privacyPolicyData['privacy_policy'] }}</textarea>
-                                                    <span class="text-danger error-text name_error"></span>
+                                                    <span class="text-danger error-text privacy_policy_error"></span>
                                                 </div>
                                             @endif
                                         </div>

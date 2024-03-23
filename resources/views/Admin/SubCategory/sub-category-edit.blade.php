@@ -73,7 +73,7 @@
                                                 <div class="col-md-9">
                                                     <textarea type="text" name="name" id="SubCategory${count}" class="form-control"
                                                         placeholder="Enter Sub Category">{{ $masterSubCategoriesData['name'] }}</textarea>
-                                                    <span class="text-danger error-text features_error"></span>
+                                                    <span class="text-danger error-text name_error"></span>
                                                 </div>
 
                                             </div>
