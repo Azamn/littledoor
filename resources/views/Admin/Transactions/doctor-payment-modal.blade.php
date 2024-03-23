@@ -56,7 +56,7 @@
                                             <div class="col-sm-9">
                                                 <textarea type="text" name="transaction_number" id="transaction_number" class="form-control"
                                                     placeholder="Enter Transaction Number"></textarea>
-                                                <span class="text-danger error-text name_error"></span>
+                                                <span class="text-danger error-text transaction_number_error"></span>
                                             </div>
                                         </div>
                                     </div>
