@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminManagementController;
 use App\Models\MasterCategory;
 use App\Models\MasterQuestion;
 use App\Models\MasterSubCategory;
@@ -88,9 +89,11 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/edit/sub-category-question-option-mapping/{categoryQuestionMappingId}', [SubCategoryQuestionOptionMappingController::class, 'getSingleMapping'])->name('edit.sub-ctageory-question-option-mapping');
         Route::post('/update/sub-category-question-option-mapping/{categoryQuestionMappingId}', [SubCategoryQuestionOptionMappingController::class, 'update'])->name('update.sub-ctageory-question-option-mapping');
 
-        Route::get('/dashboard', function () {
-            return view('Admin.dashboard');
-        })->name('dashboard');
+        /** Dashboard */
+        Route::get('/dashboard',[AdminManagementController::class,'dashboardWidget'])->name('dashboard');
+        // Route::get('/dashboard', function () {
+        //     return view('Admin.dashboard');
+        // })->name('dashboard');
 
 
         /** Doctor Route */
