@@ -120,7 +120,7 @@
                                 showConfirmButton: false,
                                 timer: 1500
                             });
-                            location.reload();
+                            location.replace('/admin/get/doctor/payment/request');
                         }
                     }
                 });
