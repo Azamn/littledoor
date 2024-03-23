@@ -26,6 +26,7 @@ use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
 use App\Models\OTPSmsLog;
+use App\Models\RazorPayTransactionLog;
 
 class AdminManagementController extends Controller
 {
@@ -93,7 +94,7 @@ class AdminManagementController extends Controller
                                 return response()->json(['status' => false, 'message' => 'OTP Expired']);
                             }
                         } else {
-                            
+
                             return response()->json([
                                 'status' => true,
                                 'message' => 'Successfully Logged In!',
@@ -482,4 +483,31 @@ class AdminManagementController extends Controller
             }
         }
     }
+
+    public function dashboardWidget(Request $request){
+
+        $doctorCounts = 0;
+        $patientCounts = 0;
+        $totalTransaction = 0;
+        $taxAmount = 0;
+
+        $doctorCounts = MasterDoctor::where('status',1)->count();
+        $patientCounts = MasterPatient::where('status',1)->count();
+        $transactionLog = RazorPayTransactionLog::where('status','Success')->get();
+        if($transactionLog){
+            $totalTransaction = $transactionLog->whereNotNull('amount')->sum('amount');
+            $taxAmount = $transactionLog->whereNotNull('tax_amount')->sum('tax_amount');
+        }
+
+        $data = [
+            'doctor_count' => $doctorCounts,
+            'patient_count' => $patientCounts,
+            'total_transaction' => $totalTransaction,
+            'tax_amount' => $taxAmount,
+        ];
+
+        return view('Admin.dashboard',compact('data'));
+
+    }
+
 }
