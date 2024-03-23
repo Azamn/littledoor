@@ -36,7 +36,7 @@
                                     <div class="col">
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Privacy Policy</label>
+                                            <label class="col-sm-3 col-form-label">TAX in %</label>
                                             @if (!is_null(@$portalServiceChargeData['tax']))
                                                 <div class="col-sm-9">
                                                     <textarea type="text" name="tax" id="privacy_policy" class="form-control" required>{{ $portalServiceChargeData['tax'] }}</textarea>
@@ -46,7 +46,7 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label class="col-sm-3 col-form-label">Privacy Policy</label>
+                                            <label class="col-sm-3 col-form-label">Platform Fees</label>
                                             @if (!is_null(@$portalServiceChargeData['platform_fee']))
                                                 <div class="col-sm-9">
                                                     <textarea type="text" name="platform_fee" id="privacy_policy" class="form-control" required>{{ $portalServiceChargeData['platform_fee'] }}</textarea>
