@@ -33,7 +33,7 @@ class AuthController extends Controller
             $data = [
                 'name' => $name,
             ];
-            return redirect()->to('/admin/dashboard')->with('data', $data);
+            return view('/admin/dashboard')->with('data', $data);
         }
 
         return response()->json(['status' => false, 'message' => 'The provided credentials do not match our records.']);
