@@ -90,7 +90,7 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::post('/update/sub-category-question-option-mapping/{categoryQuestionMappingId}', [SubCategoryQuestionOptionMappingController::class, 'update'])->name('update.sub-ctageory-question-option-mapping');
 
         /** Dashboard */
-        Route::get('/dashboard',[AdminManagementController::class,'dashboardWidget'])->name('dashboard');
+        Route::get('/dashboard', [AdminManagementController::class, 'dashboardWidget'])->name('dashboard');
         // Route::get('/dashboard', function () {
         //     return view('Admin.dashboard');
         // })->name('dashboard');
@@ -111,8 +111,8 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/change/emotion-status', [DailyJournalController::class, 'changeEmotionStatus'])->name('change.emotion-status');
 
         /** Promotion Route */
-        Route::post('create/promotion',[PromotionController::class,'createPromotion'])->name('create.promotion');
-        Route::get('/get-all/promotions',[PromotionController::class, 'getAllPromotionsThroughAdmin'])->name('get.all-promotions');
+        Route::post('create/promotion', [PromotionController::class, 'createPromotion'])->name('create.promotion');
+        Route::get('/get-all/promotions', [PromotionController::class, 'getAllPromotionsThroughAdmin'])->name('get.all-promotions');
         Route::delete('/delete/promotion', [PromotionController::class, 'deletePromotion'])->name('delete.promotion');
         Route::get('/change/promotion-status', [PromotionController::class, 'changePromotionStatus'])->name('change.promotion-status');
 
@@ -120,33 +120,31 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/privacy-policy', function () {
             return view('Admin.PrivacyPolicy.privacy-policy-create');
         });
-        Route::post('/create/privacy-policy',[PrivacyPolicyController::class,'create'])->name('create.privacy-policy');
-        Route::get('/get-all/privacy-policy',[PrivacyPolicyController::class,'getAllAdmin'])->name('get.privacy-policy');
+        Route::post('/create/privacy-policy', [PrivacyPolicyController::class, 'create'])->name('create.privacy-policy');
+        Route::get('/get-all/privacy-policy', [PrivacyPolicyController::class, 'getAllAdmin'])->name('get.privacy-policy');
         Route::get('/edit/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'edit'])->name('edit.privacy-policy');
         Route::post('/update/privacy-policy/{privacyPolicyId}', [PrivacyPolicyController::class, 'update'])->name('update.privacy-policy');
-        Route::delete('/delete/privacy-policy',[PrivacyPolicyController::class,'delete'])->name('delete.privacy-policy');
+        Route::delete('/delete/privacy-policy', [PrivacyPolicyController::class, 'delete'])->name('delete.privacy-policy');
         Route::get('/change/privacy-policy', [PrivacyPolicyController::class, 'changePrivacyPolicyStatus'])->name('change.privacy-policy-status');
-        
+
         /** portal service */
 
         Route::get('/portal-service-charges-create', function () {
             return view('Admin.PortalService.portal-service-create');
         });
 
-        Route::post('/create/portal/service/charges',[PortalServiceController::class,'createPortalService'])->name('create.portal-service');
-        Route::get('/get-all/portal/service/charges',[PortalServiceController::class,'getAllAdmin'])->name('get.portal-service');
+        Route::post('/create/portal/service/charges', [PortalServiceController::class, 'createPortalService'])->name('create.portal-service');
+        Route::get('/get-all/portal/service/charges', [PortalServiceController::class, 'getAllAdmin'])->name('get.portal-service');
         Route::get('/edit/portal/service/charges/{portalServiceChargeId}', [PortalServiceController::class, 'edit'])->name('edit.portal-service');
         Route::post('/update/portal/service/charges/{portalServiceChargeId}', [PortalServiceController::class, 'update'])->name('update.portal-service');
-        Route::delete('/delete/portal/service/charges',[PortalServiceController::class,'delete'])->name('delete.portal-service');
+        Route::delete('/delete/portal/service/charges', [PortalServiceController::class, 'delete'])->name('delete.portal-service');
 
         /** Transaction Details */
-        Route::get('/all-transactions/details',[TransactionDetailController::class,'getAllTransaction'])->name('get.all-transactions-details');
-        Route::get('/get/doctor/payment/request',[TransactionDetailController::class,'doctorRequestPayment'])->name('get.doctor-payment-request');
-        Route::get('/get/doctor/payment/done',[TransactionDetailController::class,'requestPaymentDone'])->name('get.doctor-payment-done');
-
-
+        Route::get('/all-transactions/details', [TransactionDetailController::class, 'getAllTransaction'])->name('get.all-transactions-details');
+        Route::get('/get/doctor/payment/request', [TransactionDetailController::class, 'doctorRequestPayment'])->name('get.doctor-payment-request');
+        Route::get('/get/doctor/payment/done', [TransactionDetailController::class, 'requestPaymentDone'])->name('get.doctor-payment-done');
+        Route::get('/admin/doctor-payment-modal/{requestId}', [TransactionDetailController::class, 'getDoctorAmountToPay'])->name('get.doctor.payment');
     });
-
 });
 
 
@@ -159,7 +157,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.passowrd');
 Route::get('/change-password', [AuthController::class, 'getChangePassword'])->name('get.change.passowrd');
 
-Route::get('/privacy/policy',[PrivacyPolicyController::class,'getPrivacyPolicy']);
+Route::get('/privacy/policy', [PrivacyPolicyController::class, 'getPrivacyPolicy']);
 
 
 Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');

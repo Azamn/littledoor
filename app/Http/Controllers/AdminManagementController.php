@@ -484,17 +484,18 @@ class AdminManagementController extends Controller
         }
     }
 
-    public function dashboardWidget(Request $request){
+    public function dashboardWidget(Request $request)
+    {
 
         $doctorCounts = 0;
         $patientCounts = 0;
         $totalTransaction = 0;
         $taxAmount = 0;
 
-        $doctorCounts = MasterDoctor::where('status',1)->count();
-        $patientCounts = MasterPatient::where('status',1)->count();
-        $transactionLog = RazorPayTransactionLog::where('status','Success')->get();
-        if($transactionLog){
+        $doctorCounts = MasterDoctor::where('status', 1)->count();
+        $patientCounts = MasterPatient::where('status', 1)->count();
+        $transactionLog = RazorPayTransactionLog::where('status', 'Success')->get();
+        if ($transactionLog) {
             $totalTransaction = $transactionLog->whereNotNull('amount')->sum('amount');
             $taxAmount = $transactionLog->whereNotNull('tax_amount')->sum('tax_amount');
         }
@@ -506,8 +507,6 @@ class AdminManagementController extends Controller
             'tax_amount' => $taxAmount,
         ];
 
-        return view('Admin.dashboard',compact('data'));
-
+        return view('Admin.dashboard', compact('data'));
     }
-
 }

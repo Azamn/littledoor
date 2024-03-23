@@ -93,7 +93,8 @@ class TransactionDetailController extends Controller
         }
     }
 
-    public function requestPaymentDone(Request $request){
+    public function requestPaymentDone(Request $request)
+    {
         $doctorPaymentRequest = DoctorPaymentRequest::with('doctor')->where('status', 1)->orderBy('id', 'desc')->get();
         if ($doctorPaymentRequest) {
 
@@ -125,6 +126,30 @@ class TransactionDetailController extends Controller
             } else {
                 return view('Admin.Transactions.doctor-payment-done');
             }
+        }
+    }
+
+    public function getDoctorAmountToPay(Request $request, $requestId)
+    {
+
+        $doctorPaymentRequest = DoctorPaymentRequest::with('doctor')->where('id', $requestId)->first();
+        if ($doctorPaymentRequest) {
+
+            if ($doctorPaymentRequest->doctor) {
+                if (!is_null($doctorPaymentRequest->doctor?->first_name) && !is_null($doctorPaymentRequest->doctor?->last_name)) {
+                    $doctorFullName = $doctorPaymentRequest->doctor?->first_name . ' ' . $doctorPaymentRequest->doctor?->last_name;
+                } else {
+                    $doctorFullName =  $doctorPaymentRequest->doctor?->first_name;
+                }
+            }
+
+            $data = [
+                'id' => $doctorPaymentRequest->id,
+                'doctor_name' => $doctorFullName ?? NULL,
+                'request_amount' => $doctorPaymentRequest->request_amount,
+            ];
+
+            return view('Admin.Transactions.doctor-payment-modal',compact('data'));
         }
     }
 }
