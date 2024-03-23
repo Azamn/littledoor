@@ -30,7 +30,10 @@ class AuthController extends Controller
 
             $user = User::where('email', $request->email)->first();
             $name = $user->name;
-            return redirect()->to('/admin/dashboard')->with('name', $name);
+            $data = [
+                'name' => $name,
+            ];
+            return redirect()->to('/admin/dashboard')->with('data', $data);
         }
 
         return response()->json(['status' => false, 'message' => 'The provided credentials do not match our records.']);
