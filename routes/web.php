@@ -144,6 +144,7 @@ Route::middleware(AdminAccess::class)->group(function () {
         Route::get('/get/doctor/payment/request', [TransactionDetailController::class, 'doctorRequestPayment'])->name('get.doctor-payment-request');
         Route::get('/get/doctor/payment/done', [TransactionDetailController::class, 'requestPaymentDone'])->name('get.doctor-payment-done');
         Route::get('/doctor-payment-modal/{requestId}', [TransactionDetailController::class, 'getDoctorAmountToPay'])->name('get.doctor.payment');
+        Route::post('/doctor-payment-send/{paymentRequestId}',[TransactionDetailController::class,'payDoctorAmout'])->name('send.doctor.payment');
     });
 });
 

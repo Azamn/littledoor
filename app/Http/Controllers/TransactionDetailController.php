@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\DoctorPaymentRequest;
 use App\Models\RazorPayTransactionLog;
+use Illuminate\Support\Facades\Validator;
 
 class TransactionDetailController extends Controller
 {
@@ -149,13 +150,35 @@ class TransactionDetailController extends Controller
                 'request_amount' => $doctorPaymentRequest->request_amount,
             ];
 
-            return view('Admin.Transactions.doctor-payment-modal',compact('data'));
-        }else{
+            return view('Admin.Transactions.doctor-payment-modal', compact('data'));
+        } else {
             return view('Admin.Transactions.doctor-payment-modal');
         }
     }
 
-    public function payDoctorAmout(Request $request){
+    public function payDoctorAmout(Request $request, $paymentRequestId)
+    {
 
+        $rules = [
+            'transaction_number' => 'required|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $doctorPaymentRequest = DoctorPaymentRequest::with('doctor')->where('id', $paymentRequestId)->first();
+            if ($doctorPaymentRequest) {
+
+                $doctorPaymentRequest->transaction_number = $request->transaction_number;
+                $doctorPaymentRequest->update();
+
+                return response()->json(['status' => true, 'message' => 'Transaction Number Updated Successfully.']);
+            } else {
+                return response()->json(['status' => true, 'message' => 'Payment Request Not Found.']);
+            }
+        }
     }
 }
