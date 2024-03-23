@@ -29,9 +29,19 @@
                                         <th scope="col">Doctor Name</th>
                                         <th scope="col">Request Amount</th>
                                         <th scope="col">Request Date & Time</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody> 
+                                    <tr>
+                                                <th scope="row">23</th>
+                                                <td>asd</td>
+                                                <td>34</td>
+                                                <td>sfg</td>
+                                                <td>
+                                                    <a class="btn btn-primary m-2" href="/admin/doctor-payment-modal" data-id="" >Pay</a>
+                                                </td>
+                                            </tr>
                                     @if (!is_null(@$doctorPaymentRequestData))
                                         @foreach ($doctorPaymentRequestData as $key => $paymentRequest)
                                             <tr>
@@ -39,6 +49,9 @@
                                                 <td>{{ $paymentRequest['doctor_name'] }}</td>
                                                 <td>{{ $paymentRequest['request_amount'] }}</td>
                                                 <td>{{ $paymentRequest['created_at'] }}</td>
+                                                <td>
+                                                    <a class="btn btn-primary m-2" href="{{ '/admin/get'.$paymentRequest['id'] }}" data-id="" >Pay</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else

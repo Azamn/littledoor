@@ -32,8 +32,8 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Tax</th>
                                         <th scope="col">Platform Fees</th>
+                                        <th scope="col">Tax(in %)</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -42,8 +42,8 @@
                                         @foreach ($portalServiceChargeData as $key => $portalService)
                                             <tr>
                                                 <th scope="row">{{ $key + 1 }}</th>
-                                                <td>{{ $portalService['tax'] }}</td>
                                                 <td>{{ $portalService['platform_fee'] }}</td>
+                                                <td>{{ $portalService['tax'] }}</td>
                                                
                                                 <td>
                                                     <a href="{{'/admin/edit/portal/service/charges/'.$portalService['id']}}">
