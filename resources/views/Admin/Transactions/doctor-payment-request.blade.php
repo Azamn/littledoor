@@ -41,7 +41,7 @@
                                                 <td>{{ $paymentRequest['request_amount'] }}</td>
                                                 <td>{{ $paymentRequest['created_at'] }}</td>
                                                 <td>
-                                                    <a class="btn btn-primary m-2" href={{"Admin/doctor-payment-modal/".$paymentRequest['id']}}  data-id="" >Pay</a>
+                                                    <a class="btn btn-primary m-2" href={{"admin/doctor-payment-modal/".$paymentRequest['id']}}  data-id="" >Pay</a>
                                                 </td>   
                                             </tr>
                                         @endforeach
