@@ -39,7 +39,7 @@
                                             @if (!is_null(@$categoryData['name']))
                                                 <div class="col-sm-9">
                                                     <textarea type="text" name="name" id="description" class="form-control" placeholder="Category name" required>{{ $categoryData['name'] }}</textarea>
-                                                    <span class="text-danger error-text name_error"></span>
+                                                    <span class="text-danger error-text transaction_number_error"></span>
                                                 </div>
                                             @endif
                                         </div>
