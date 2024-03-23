@@ -32,7 +32,7 @@
                              <li class="profile-nav onhover-dropdown text-light pe-0 py-0">
                                 <div class="media profile-media">
                                     <i data-feather="user"></i>
-                                  <div class="media-body"><span>Emay Walter</span>
+                                  <div class="media-body"><span id="user_name">Emay Walter</span>
                                   </div>
                                 </div>
                                 
@@ -55,3 +55,16 @@
             </div>
         </div>
         <!-- Page Header Ends                              -->
+<script>
+       var name = localStorage.getItem('name');
+       if(name != "")
+       {
+        document.getElementById("user_name").innerHTML = name;
+       }
+       else
+       {
+        document.getElementById("user_name").innerHTML = "Admin";
+
+       }
+
+</script>

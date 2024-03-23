@@ -106,4 +106,9 @@
     </div>
     <!-- Container-fluid Ends-->
 </div>
+<script>
+        localStorage.setItem('name', {$name});
+
+
+</script>
 @endsection
