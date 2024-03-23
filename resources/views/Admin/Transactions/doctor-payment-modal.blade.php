@@ -11,7 +11,7 @@
                 <div class="col-6">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin/dashboard"><i data-feather="home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="">Category</a></li>
+                        <li class="breadcrumb-item"><a href="">Transaction</a></li>
                         {{-- <li class="breadcrumb-item active">Create</li> --}}
                     </ol>
                 </div>
