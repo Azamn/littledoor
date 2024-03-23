@@ -57,8 +57,10 @@
         <!-- Page Header Ends                              -->
 <script>
        var name = localStorage.getItem('name');
-       if(name != "")
+       
+       if(name)
        {
+
         document.getElementById("user_name").innerHTML = name;
        }
        else

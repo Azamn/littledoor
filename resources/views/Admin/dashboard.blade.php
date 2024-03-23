@@ -6,7 +6,9 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-6 ">
+                   
                     <h3>Dashboard</h3>
+                    <span class="text-white" id='userName'> {{session('name')}}</span>
                 </div>
                 <div class="col-6">
                     <ol class="breadcrumb text-white">
@@ -107,8 +109,12 @@
     <!-- Container-fluid Ends-->
 </div>
 <script>
-        localStorage.setItem('name', {$name});
 
+        var name = document.getElementById('userName').innerText;
+        if(!localStorage.getItem('name'))
+        {
+            localStorage.setItem('name', name);
+        }
 
 </script>
 @endsection
