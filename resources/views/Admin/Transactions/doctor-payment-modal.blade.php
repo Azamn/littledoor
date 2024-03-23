@@ -41,13 +41,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">Request Date & Time</label>
-                                        <div class="col-sm-9">
-                                            Date and Time
-                                            <span class="text-danger error-text name_error"></span>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label">Request Amount</label>
