@@ -28,9 +28,9 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-white">
-                                        <p class="f-w-900 font-roboto text-white">Total Request</p>
+                                        <p class="f-w-900 font-roboto text-white">Doctor Count</p>
                                         <div class="progress-box">
-                                            <h4 class="f-w-900 mb-0 f-26"><span class="counter">4</span></h4>
+                                            <h4 class="f-w-900 mb-0 f-26"><span class="counter">{{$data['doctor_count']}}</span></h4>
                                             
                                         </div>
                                     </div>
@@ -44,8 +44,8 @@
                             <div class="card-body text-white">
                                 <div class="ecommerce-widgets media">
                                     <div class="media-body">
-                                        <p class="f-w-900 font-roboto text-white" >Request Pending</p>
-                                        <h4 class="f-w-900 mb-0 f-26"><span class="counter">43</span></h4>
+                                        <p class="f-w-900 font-roboto text-white">Patient Count</p>
+                                        <h4 class="f-w-900 mb-0 f-26"><span class="counter">{{$data['patient_count']}}</span></h4>
                                     </div>
                                    
                                 </div>
@@ -59,8 +59,8 @@
 
                                 <div class="media">
                                     <div class="media-body">
-                                        <p><span class="f-w-900 text-white font-roboto">Request Completed</span></p>
-                                        <h4 class="f-w-900 mb-0 text-white f-26"><span class="counter">443</span></h4>
+                                        <p><span class="f-w-900 text-white font-roboto">Total Transaction</span></p>
+                                        <h4 class="f-w-900 mb-0 text-white f-26"><span class="counter">{{$data['total_transaction']}}</span></h4>
                                     </div>
                                 </div>
                             </div>
@@ -82,8 +82,8 @@
 
                                 <div class="media">
                                     <div class="media-body">
-                                        <p><span class="f-w-900 text-white font-roboto">Request Completed</span></p>
-                                        <h4 class="f-w-900 mb-0 text-white f-26"><span class="counter">443</span></h4>
+                                        <p><span class="f-w-900 text-white font-roboto">Tax Amount</span></p>
+                                        <h4 class="f-w-900 mb-0 text-white f-26"><span class="counter">{{$data['tax_amount']}}</span></h4>
                                     </div>
                                 </div>
                             </div>
