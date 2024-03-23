@@ -150,10 +150,12 @@ class TransactionDetailController extends Controller
             ];
 
             return view('Admin.Transactions.doctor-payment-modal',compact('data'));
+        }else{
+            return view('Admin.Transactions.doctor-payment-modal');
         }
     }
 
     public function payDoctorAmout(Request $request){
-        
+
     }
 }
