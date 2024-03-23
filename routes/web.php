@@ -162,9 +162,9 @@ Route::get('/privacy/policy', [PrivacyPolicyController::class, 'getPrivacyPolicy
 
 Route::post('/contact-us', [ContactUsController::class, 'createContactUs'])->name('store.contact-us');
 
-Route::get('/admin/doctor-payment-modal', function () {
-    return view('Admin.Transactions.doctor-payment-modal');
-});
+// Route::get('/admin/doctor-payment-modal', function () {
+//     return view('Admin.Transactions.doctor-payment-modal');
+// });
 
 
 
