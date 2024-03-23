@@ -30,7 +30,7 @@
                             <div class="card-body">
                                 <div class="media">
                                     <div class="media-body text-white">
-                                        <p class="f-w-900 font-roboto text-white">Doctor Count</p>
+                                        <p class="f-w-900 font-roboto text-white">Total Doctor</p>
                                         <div class="progress-box">
                                             <h4 class="f-w-900 mb-0 f-26"><span class="counter">{{$data['doctor_count']}}</span></h4>
                                             
@@ -46,7 +46,7 @@
                             <div class="card-body text-white">
                                 <div class="ecommerce-widgets media">
                                     <div class="media-body">
-                                        <p class="f-w-900 font-roboto text-white">Patient Count</p>
+                                        <p class="f-w-900 font-roboto text-white">Total Patient</p>
                                         <h4 class="f-w-900 mb-0 f-26"><span class="counter">{{$data['patient_count']}}</span></h4>
                                     </div>
                                    
