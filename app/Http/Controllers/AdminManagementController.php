@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\UserOtp;
+use App\Models\FcmToken;
+use App\Models\OTPSmsLog;
 use App\Models\MasterSkill;
 use Illuminate\Support\Str;
 use App\Models\MasterDoctor;
@@ -14,10 +16,12 @@ use App\Models\MasterCategory;
 use App\Models\MasterLanguage;
 use App\Models\MasterQuestion;
 use Illuminate\Support\Carbon;
+use App\Services\FCM\FCMService;
 use App\Models\MasterSubCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\PortalSericeCharges;
 use Illuminate\Support\Facades\Http;
+use App\Models\RazorPayTransactionLog;
 use App\Http\Resources\LanguagesResource;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubCategoryQuestionMapping;
@@ -25,9 +29,6 @@ use App\Http\Resources\MasterSkillsResource;
 use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
-use App\Models\FcmToken;
-use App\Models\OTPSmsLog;
-use App\Models\RazorPayTransactionLog;
 
 class AdminManagementController extends Controller
 {
@@ -554,6 +555,52 @@ class AdminManagementController extends Controller
                 }
 
                 return response()->json(['status' => true, 'message' => 'FCM successfully stored.']);
+            }
+        }
+    }
+
+    public function sendPushNotification(Request $request)
+    {
+
+        $rules = [
+            'user_id' => 'required|integer',
+            'message' => 'required|string',
+            'title' => 'required|string',
+            'type' => 'required|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $channelName = NULL;
+            $eventname = NULL;
+
+            if ($request->has('type')) {
+                if ($request->type == 3) {
+                    $channelName = 'chat_notification';
+                    $eventname = 'Chat Alert';
+                } elseif ($request->type == 5) {
+                    $channelName = 'video_call_notification';
+                    $eventname = 'Video Call Alert';
+                }
+            }
+
+            $user = User::with('patient', 'doctor')->where('id', $request->user_id)->first();
+            if ($user) {
+
+                $title = $request->title;
+                $messageBody = $request->message;
+
+                $tokenData = FcmToken::where('user_id', $user->id)->select('fcm_token', 'user_id', 'platform_id')->get();
+                if ($tokenData) {
+                    $fcmService = new FCMService();
+                    $fcmService->sendNotifications($tokenData, $title, $messageBody, $eventname, $channelName);
+                }
+
+                return response()->json(['status' => true, 'message' => 'Push Notification Sent']);
             }
         }
     }

@@ -119,6 +119,7 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
     
     /**FCM Token */
     Route::post('/store/fcm-token',[AdminManagementController::class,'storeFcmToken']);
+    Route::post('/sent/communication/push-notification',[AdminManagementController::class,'sendPushNotification']);
 
 });
 

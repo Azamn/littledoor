@@ -63,15 +63,38 @@ class AppointmentController extends Controller
                         }
                     }
 
+                    /** For Patient Notification*/
+
                     $title = "Doctor's Appointment";
+                    $channelName = "general_notification";
                     $patientBody = 'The Appointment has been booked with Doctor ' . $doctorName . ' on the date of ' . Carbon::parse($request->appointment_date)->format('d-m-Y') . ' And your time slot is ' . $slotTime;
 
                     $patientUserId = $user->id;
                     $tokenData = FcmToken::where('user_id', $patientUserId)->select('fcm_token', 'user_id', 'platform_id')->get();
 
-                    $fcmService = new FCMService();
-                    $fcmService->sendNotifications($tokenData, $title, $patientBody, $eventNmae);
+                    if ($tokenData) {
+                        $fcmService = new FCMService();
+                        $fcmService->sendNotifications($tokenData, $title, $patientBody, $eventNmae, $channelName);
+                    }
 
+
+                    /** End Patient Notification*/
+
+                    /** For Doctor Notification */
+                    $title = "Appointment Scheduled";
+                    $channelName = "general_notification";
+                    $doctorBody = 'The Appointment has been scheduled with ' . $patient?->first_name . ' on the date of ' . Carbon::parse($request->appointment_date)->format('d-m-Y') . ' And time slot is ' . $slotTime;
+
+                    $doctorUserId = $doctor->user_id;
+                    $tokenData = FcmToken::where('user_id', $doctorUserId)->select('fcm_token', 'user_id', 'platform_id')->get();
+
+                    if ($tokenData) {
+                        $fcmService = new FCMService();
+                        $fcmService->sendNotifications($tokenData, $title, $doctorBody, $eventNmae, $channelName);
+                    }
+
+
+                    /** End For Doctor Notification */
 
                     return response()->json(['status' => true, 'message' => 'Appointment Book Successfully.']);
                 }

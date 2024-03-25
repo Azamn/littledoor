@@ -20,7 +20,7 @@ class FCMService
         $this->fcmEndpoint = 'https://fcm.googleapis.com/fcm/send';
     }
 
-    public function sendNotifications($tokensData, $title, $body, $eventName)
+    public function sendNotifications($tokensData, $title, $body, $eventName, $channelName)
     {
         $headers = [
             'Authorization' => 'key=' . $this->serverKey,
@@ -39,6 +39,7 @@ class FCMService
                     'data' => [
                         'title' => $title,
                         'body' => $body,
+                        'channel_id' => $channelName,
                     ],
 
                 ];
@@ -50,6 +51,7 @@ class FCMService
                     'notification' => [
                         'title' => $title,
                         'body' => $body,
+                        'channel_id' => $channelName,
                     ],
 
                 ];
