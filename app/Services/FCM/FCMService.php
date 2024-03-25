@@ -35,19 +35,23 @@ class FCMService
             if ($platformId == FcmToken::WEB) {
 
                 $notificationData = [
-                    'to' => $tokenData->fcm_token,
-                    'data' => [
-                        'title' => $title,
-                        'body' => $body,
+                    'message' => [
+                        'token' => $tokenData->fcm_token,
+                        'data' => [
+                            'title' => $title,
+                            'body' => $body,
+                        ],
                     ],
                 ];
             } else {
 
                 $notificationData = [
-                    'to' => $tokenData->fcm_token,
-                    'notification' => [
-                        'title' => $title,
-                        'body' => $body,
+                    'message' => [
+                        'toKen' => $tokenData->fcm_token,
+                        'notification' => [
+                            'title' => $title,
+                            'body' => $body,
+                        ],
                     ],
                 ];
             }
