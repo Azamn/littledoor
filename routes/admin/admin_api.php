@@ -116,6 +116,9 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /** Privacy Policy */
     Route::get('/get/privacy/policy',[PrivacyPolicyController::class,'getAll']);
+    
+    /**FCM Token */
+    Route::post('/store/fcm-token',[AdminManagementController::class,'storeFcmToken']);
 
 });
 
