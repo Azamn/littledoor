@@ -25,6 +25,7 @@ use App\Http\Resources\MasterSkillsResource;
 use App\Http\Resources\MasterCategoryResource;
 use App\Http\Resources\MasterSubCategoryResource;
 use App\Http\Resources\QuestionWithOptionResource;
+use App\Models\FcmToken;
 use App\Models\OTPSmsLog;
 use App\Models\RazorPayTransactionLog;
 
@@ -508,5 +509,52 @@ class AdminManagementController extends Controller
         ];
 
         return view('Admin.dashboard', compact('data'));
+    }
+
+    public function storeFcmToken(Request $request)
+    {
+        $rules = [
+            'fcm_token' => 'required|string',
+            'platform_id' => 'required|numeric',  //1 => 'web', 2 => 'android', 3 => 'ios'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = $request->user();
+
+            if ($user) {
+
+
+                $platformId = $request->platform_id;
+                $fcmToken = $request->fcm_token;
+
+
+                if ($platformId == FcmToken::IOS || $platformId == FcmToken::ANDROID) {
+                    $token = FcmToken::where('user_id', $user->id)->whereIn('platform_id', [FcmToken::IOS, FcmToken::ANDROID])->first();
+                }
+
+                if ($platformId == FcmToken::WEB) {
+                    $token = FcmToken::where('user_id', $user->id)->where('platform_id', FcmToken::WEB)->first();
+                }
+
+                if (@$token) {
+                    $token->fcm_token = $fcmToken;
+                    $token->platform_id = $platformId;
+                    $token->update();
+                } else {
+                    $token = new FcmToken();
+                    $token->user_id = $user->id;
+                    $token->fcm_token = $fcmToken;
+                    $token->platform_id = $platformId;
+                    $token->save();
+                }
+
+                return response()->json(['status' => true, 'message' => 'FCM successfully stored.']);
+            }
+        }
     }
 }

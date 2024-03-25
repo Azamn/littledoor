@@ -8,7 +8,10 @@ use Illuminate\Support\Carbon;
 use App\Models\PatientAppointment;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\AppointmentDetailsResource;
+use App\Models\FcmToken;
+use App\Models\MasterDoctor;
 use App\Models\UserNotification;
+use App\Services\FCM\FCMService;
 
 class AppointmentController extends Controller
 {
@@ -44,19 +47,31 @@ class AppointmentController extends Controller
                     $appointment->save();
 
 
-                    $notificationType = 'Appointment Book';
+                    $eventNmae = 'Appointment Book';
                     $slotTime = NULL;
-                    $slot = MasterTimeSlot::where('id',$request->slot_id)->first();
-                    if($slot){
+                    $slot = MasterTimeSlot::where('id', $request->slot_id)->first();
+                    if ($slot) {
                         $slotTime = $slot->slot_time;
                     }
-                    $message = 'The doctor`s Appointment has been booked on the date of '. Carbon::parse($request->appointment_date)->format('d-m-Y') . 'And your time slot is '. $slotTime;
 
-                    $userNotification = new UserNotification();
-                    $userNotification->user_id = $user->id;
-                    $userNotification->notification_type = $notificationType;
-                    $userNotification->message = $message;
-                    $userNotification->save();
+                    $doctor = MasterDoctor::where('id', $request->doctor_id)->first();
+                    if ($doctor) {
+                        if (!is_null($doctor?->first_name) && !is_null($doctor?->last_name)) {
+                            $doctorName = $doctor?->first_name . ' ' . $doctor?->last_name;
+                        } else {
+                            $doctorName = $doctor?->first_name;
+                        }
+                    }
+
+                    $title = "Doctor's Appointment";
+                    $patientBody = 'The Appointment has been booked with ' . $doctorName . ' on the date of ' . Carbon::parse($request->appointment_date)->format('d-m-Y') . 'And your time slot is ' . $slotTime;
+
+                    $patientUserId = $user->id;
+                    $tokenData = FcmToken::where('user_id', $patientUserId)->select('fcm_token', 'user_id', 'platform_id')->get();
+
+                    $fcmService = new FCMService();
+                    $fcmService->sendNotifications($tokenData, $title, $patientBody, $eventNmae);
+
 
                     return response()->json(['status' => true, 'message' => 'Appointment Book Successfully.']);
                 }
