@@ -47,7 +47,7 @@ class FCMService
 
                 $notificationData = [
                     'message' => [
-                        'toKen' => $tokenData->fcm_token,
+                        'token' => $tokenData->fcm_token,
                         'notification' => [
                             'title' => $title,
                             'body' => $body,
