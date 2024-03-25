@@ -269,7 +269,7 @@ class PatientController extends Controller
 
                         $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
                             ->where('status', 1)
-                            ->where('total_no_of_years_experience', $request->no_of_experience)
+                            ->where('total_no_of_years_experience','<=', $request->no_of_experience)
                             ->get();
                     } elseif ($request->has('category_name') && $request->has('search_doctor')) {
 
@@ -313,7 +313,7 @@ class PatientController extends Controller
                                 ->whereHas('doctorWorkMapping', function ($query) use ($category) {
                                     return $query->where('category_id', $category->id);
                                 })
-                                ->where('total_no_of_years_experience', $request->no_of_experience)
+                                ->where('total_no_of_years_experience', '<=' ,$request->no_of_experience)
                                 ->where('status', 1)->get();
                         }
                     } elseif ($request->has('category_name') && $request->has('gender') && $request->has('languages')) {
@@ -369,7 +369,7 @@ class PatientController extends Controller
                                 ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
                                     return $query->where('category_id', $subCategory->master_category_id);
                                 })
-                                ->where('total_no_of_years_experience', $request->no_of_experience)
+                                ->where('total_no_of_years_experience', '<=' ,$request->no_of_experience)
                                 ->where('status', 1)->get();
                         }
                     } elseif ($request->has('city_name') && $request->has('sub_category') && $request->has('gender')) {
@@ -424,7 +424,7 @@ class PatientController extends Controller
                                 ->wherehas('city', function ($query) use ($request) {
                                     return $query->where('city_name', 'like', '%' . $request->city_name . '%');
                                 })
-                                ->where('total_no_of_years_experience', $request->no_of_experience)
+                                ->where('total_no_of_years_experience', '<=' ,$request->no_of_experience)
                                 ->where('status', 1)->get();
                         }
                     } elseif ($request->has('city_name') && ($request->has('sub_category') || $request->has('category_name'))) {
