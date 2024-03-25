@@ -64,7 +64,7 @@ class AppointmentController extends Controller
                     }
 
                     $title = "Doctor's Appointment";
-                    $patientBody = 'The Appointment has been booked with ' . $doctorName . ' on the date of ' . Carbon::parse($request->appointment_date)->format('d-m-Y') . 'And your time slot is ' . $slotTime;
+                    $patientBody = 'The Appointment has been booked with Doctor ' . $doctorName . ' on the date of ' . Carbon::parse($request->appointment_date)->format('d-m-Y') . ' And your time slot is ' . $slotTime;
 
                     $patientUserId = $user->id;
                     $tokenData = FcmToken::where('user_id', $patientUserId)->select('fcm_token', 'user_id', 'platform_id')->get();
