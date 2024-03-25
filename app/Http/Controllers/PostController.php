@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FcmToken;
 use App\Models\PostLike;
 use App\Models\UserPost;
 use App\Models\PostComment;
 use Illuminate\Http\Request;
 use App\Models\UserNotification;
+use App\Services\FCM\FCMService;
 use App\Http\Resources\UserPostResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PostCommentsResource;
@@ -87,17 +89,22 @@ class PostController extends Controller
                     $postLike->save();
                 }
 
-                /** Notification */
-                $userPost = UserPost::where('id',$request->post_id)->first();
+                /** Push Notification */
 
-                $notificationType = 'Post Like';
-                $message = $user->name .' has like your post.';
+                $userPost = UserPost::where('id', $request->post_id)->first();
 
-                $userNotification = new UserNotification();
-                $userNotification->user_id = $userPost?->user_id ?? $user->id;
-                $userNotification->notification_type = $notificationType;
-                $userNotification->message = $message;
-                $userNotification->save();
+                $title = "Like Post";
+                $channelName = "social_notification";
+                $eventNmae = 'Post Like';
+                $postBody = $user->name . ' has like on your post ' . $userPost->post;
+
+                $postUserId = $userPost?->user_id;
+                $tokenData = FcmToken::where('user_id', $postUserId)->select('fcm_token', 'user_id', 'platform_id')->get();
+
+                if ($tokenData) {
+                    $fcmService = new FCMService();
+                    $fcmService->sendNotifications($tokenData, $title, $postBody, $eventNmae, $channelName);
+                }
 
                 /** Notification logic done */
 
@@ -129,19 +136,24 @@ class PostController extends Controller
                 $postComment->comments = $request->comments;
                 $postComment->save();
 
-                 /** Notification */
-                 $userPost = UserPost::where('id',$request->post_id)->first();
+                /** push Notification */
 
-                 $notificationType = 'Post Comment';
-                 $message = $user->name .' has commented on your post.';
+                $userPost = UserPost::where('id', $request->post_id)->first();
 
-                 $userNotification = new UserNotification();
-                 $userNotification->user_id = $userPost?->user_id ?? $user->id;
-                 $userNotification->notification_type = $notificationType;
-                 $userNotification->message = $message;
-                 $userNotification->save();
+                $title = "Comment On Post";
+                $channelName = "social_notification";
+                $eventNmae = 'Post Comment';
+                $postBody = $user->name . ' has commented on your post ' . $userPost->post;
 
-                 /** Notification logic done */
+                $postUserId = $userPost?->user_id;
+                $tokenData = FcmToken::where('user_id', $postUserId)->select('fcm_token', 'user_id', 'platform_id')->get();
+
+                if ($tokenData) {
+                    $fcmService = new FCMService();
+                    $fcmService->sendNotifications($tokenData, $title, $postBody, $eventNmae, $channelName);
+                }
+
+                /** Notification logic done */
 
                 return response()->json(['status' => true, 'message' => 'Your comment added successfully.']);
             }
@@ -161,7 +173,7 @@ class PostController extends Controller
                 $perPage = $request->per_page;
             }
 
-            $allUserPost = UserPost::with('user', 'likes','comments')->orderBy('created_at', 'desc')
+            $allUserPost = UserPost::with('user', 'likes', 'comments')->orderBy('created_at', 'desc')
                 ->paginate($perPage);
 
             if ($allUserPost) {
@@ -188,7 +200,7 @@ class PostController extends Controller
                 $perPage = $request->per_page;
             }
 
-            $allUserPost = UserPost::with('user', 'likes','comments')->orderBy('created_at', 'desc')->where('user_id', $user->id)
+            $allUserPost = UserPost::with('user', 'likes', 'comments')->orderBy('created_at', 'desc')->where('user_id', $user->id)
                 ->paginate($perPage);
 
             if ($allUserPost) {
@@ -308,7 +320,7 @@ class PostController extends Controller
 
 
             $allUserPostLikes = UserPost::with(['likes' => function ($query) use ($user) {
-                return $query->where('user_id', $user->id)->where('post_like',1);
+                return $query->where('user_id', $user->id)->where('post_like', 1);
             }])->orderBy('created_at', 'desc')->get();
 
             if ($allUserPostLikes) {
