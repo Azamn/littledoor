@@ -220,159 +220,7 @@ class PatientController extends Controller
                 if ($patient) {
                     $masterDoctor = collect();
 
-                    if ($request->has('search_doctor')) {
-                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                            ->where('status', 1)
-                            ->where('first_name', 'like', '%' . $request->search_doctor . '%')
-                            ->get();
-                    } elseif ($request->has('category_name')) {
-
-                        $category = MasterCategory::where('name', $request->category_name)->first();
-                        if ($category) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
-                                    return $query->where('category_id', $category->id);
-                                })
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('city_name')) {
-                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                            ->wherehas('city', function ($query) use ($request) {
-                                return $query->where('city_name', 'like', '%' . $request->city_name . '%');
-                            })
-                            ->where('status', 1)->get();
-                    } elseif ($request->has('sub_category')) {
-
-                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
-                        if ($subCategory) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
-                                    return $query->where('category_id', $subCategory->master_category_id);
-                                })
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('gender')) {
-
-                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                            ->where('status', 1)
-                            ->where('gender', $request->gender)
-                            ->get();
-                    } elseif ($request->has('languages')) {
-
-                        $languages = implode(',', $request->languages);
-
-                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                            ->where('status', 1)
-                            ->where('languages_known', 'like', '%' . $languages . '%')
-                            ->get();
-                    } elseif ($request->has('no_of_experience')) {
-
-                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                            ->where('status', 1)
-                            ->where('total_no_of_years_experience','<=', $request->no_of_experience)
-                            ->get();
-                    } elseif ($request->has('category_name') && $request->has('search_doctor')) {
-
-                        $category = MasterCategory::where('name', $request->category_name)->first();
-                        if ($category) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
-                                    return $query->where('category_id', $category->id);
-                                })
-                                ->where('first_name', 'like', '%' . $request->search_doctor . '%')
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('category_name') && $request->has('gender')) {
-
-                        $category = MasterCategory::where('name', $request->category_name)->first();
-                        if ($category) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
-                                    return $query->where('category_id', $category->id);
-                                })
-                                ->where('gender', $request->gender)
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('category_name') && $request->has('languages')) {
-
-                        $languages = implode(',', $request->languages);
-
-                        $category = MasterCategory::where('name', $request->category_name)->first();
-                        if ($category) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
-                                    return $query->where('category_id', $category->id);
-                                })
-                                ->where('languages_known', 'like', '%' . $languages . '%')
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('category_name') && $request->has('no_of_experience')) {
-                        $category = MasterCategory::where('name', $request->category_name)->first();
-                        if ($category) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
-                                    return $query->where('category_id', $category->id);
-                                })
-                                ->where('total_no_of_years_experience', '<=' ,$request->no_of_experience)
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('category_name') && $request->has('gender') && $request->has('languages')) {
-                        $category = MasterCategory::where('name', $request->category_name)->first();
-                        if ($category) {
-                            $languages = implode(',', $request->languages);
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
-                                    return $query->where('category_id', $category->id);
-                                })
-                                ->where('gender', $request->gender)
-                                ->where('languages_known', 'like', '%' . $languages . '%')
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('sub_category') && $request->has('gender')) {
-                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
-                        if ($subCategory) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
-                                    return $query->where('category_id', $subCategory->master_category_id);
-                                })
-                                ->where('gender', $request->gender)
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('sub_category') && $request->has('search_doctor')) {
-                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
-                        if ($subCategory) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
-                                    return $query->where('category_id', $subCategory->master_category_id);
-                                })
-                                ->where('first_name', 'like', '%' . $request->search_doctor . '%')
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('sub_category') && $request->has('languages')) {
-
-                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
-                        $languages = implode(',', $request->languages);
-
-                        if ($subCategory) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
-                                    return $query->where('category_id', $subCategory->master_category_id);
-                                })
-                                ->where('languages_known', 'like', '%' . $languages . '%')
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('sub_category') && $request->has('no_of_experience')) {
-                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
-
-                        if ($subCategory) {
-                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
-                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
-                                    return $query->where('category_id', $subCategory->master_category_id);
-                                })
-                                ->where('total_no_of_years_experience', '<=' ,$request->no_of_experience)
-                                ->where('status', 1)->get();
-                        }
-                    } elseif ($request->has('city_name') && $request->has('sub_category') && $request->has('gender')) {
+                    if ($request->has('city_name') && $request->has('sub_category') && $request->has('gender')) {
                         $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
                         if ($subCategory) {
                             $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
@@ -424,7 +272,20 @@ class PatientController extends Controller
                                 ->wherehas('city', function ($query) use ($request) {
                                     return $query->where('city_name', 'like', '%' . $request->city_name . '%');
                                 })
-                                ->where('total_no_of_years_experience', '<=' ,$request->no_of_experience)
+                                ->where('total_no_of_years_experience', '<=', $request->no_of_experience)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('city_name') && $request->has('sub_category') && $request->has('age')) {
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->wherehas('city', function ($query) use ($request) {
+                                    return $query->where('city_name', 'like', '%' . $request->city_name . '%');
+                                })
+                                ->where('age', '<=', $request->age)
                                 ->where('status', 1)->get();
                         }
                     } elseif ($request->has('city_name') && ($request->has('sub_category') || $request->has('category_name'))) {
@@ -445,6 +306,184 @@ class PatientController extends Controller
                                 })
                                 ->where('status', 1)->get();
                         }
+                    } elseif ($request->has('sub_category') && $request->has('gender')) {
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->where('gender', $request->gender)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('sub_category') && $request->has('search_doctor')) {
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->where('first_name', 'like', '%' . $request->search_doctor . '%')
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('sub_category') && $request->has('languages')) {
+
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        $languages = implode(',', $request->languages);
+
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->where('languages_known', 'like', '%' . $languages . '%')
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('sub_category') && $request->has('no_of_experience')) {
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->where('total_no_of_years_experience', '<=', $request->no_of_experience)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('sub_category') && $request->has('age')) {
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->where('age', '<=', $request->age)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('category_name') && $request->has('search_doctor')) {
+
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('first_name', 'like', '%' . $request->search_doctor . '%')
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('category_name') && $request->has('gender')) {
+
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('gender', $request->gender)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('category_name') && $request->has('languages')) {
+
+                        $languages = implode(',', $request->languages);
+
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('languages_known', 'like', '%' . $languages . '%')
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('category_name') && $request->has('no_of_experience')) {
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('total_no_of_years_experience', '<=', $request->no_of_experience)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('category_name') && $request->has('age')) {
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('age', '<=', $request->age)
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('category_name') && $request->has('gender') && $request->has('languages')) {
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $languages = implode(',', $request->languages);
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('gender', $request->gender)
+                                ->where('languages_known', 'like', '%' . $languages . '%')
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('search_doctor')) {
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->where('status', 1)
+                            ->where('first_name', 'like', '%' . $request->search_doctor . '%')
+                            ->get();
+                    } elseif ($request->has('category_name')) {
+
+                        $category = MasterCategory::where('name', $request->category_name)->first();
+                        if ($category) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($category) {
+                                    return $query->where('category_id', $category->id);
+                                })
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('city_name')) {
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->wherehas('city', function ($query) use ($request) {
+                                return $query->where('city_name', 'like', '%' . $request->city_name . '%');
+                            })
+                            ->where('status', 1)->get();
+                    } elseif ($request->has('sub_category')) {
+
+                        $subCategory = MasterSubCategory::whereLike('name', $request->sub_category)->first();
+                        if ($subCategory) {
+                            $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                                ->whereHas('doctorWorkMapping', function ($query) use ($subCategory) {
+                                    return $query->where('category_id', $subCategory->master_category_id);
+                                })
+                                ->where('status', 1)->get();
+                        }
+                    } elseif ($request->has('gender')) {
+
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->where('status', 1)
+                            ->where('gender', $request->gender)
+                            ->get();
+                    } elseif ($request->has('languages')) {
+
+                        $languages = implode(',', $request->languages);
+
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->where('status', 1)
+                            ->where('languages_known', 'like', '%' . $languages . '%')
+                            ->get();
+                    } elseif ($request->has('no_of_experience')) {
+
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->where('status', 1)
+                            ->where('total_no_of_years_experience', '<=', $request->no_of_experience)
+                            ->get();
+                    } elseif ($request->has('age')) {
+                        $masterDoctor = MasterDoctor::with('doctorWorkMapping', 'user', 'city', 'doctorSkillsMapping.skill', 'doctorAppreciationMapping.media', 'timeSlot', 'doctorSession')
+                            ->where('status', 1)
+                            ->where('age', '<=', $request->age)
+                            ->get();
                     } else {
                         $categoryId = $patient->category_id;
 

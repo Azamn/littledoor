@@ -83,10 +83,20 @@ class DoctorController extends Controller
                         $user->email = $request->email;
                         $user->save();
 
+                        $dob = NULL;
+                        $age = NULL;
+
+                        if ($request->has('dob')) {
+                            $todayDate = Carbon::parse(today());
+                            $dob = Carbon::parse($request->dob);
+                            $age = $dob->diffInYears($todayDate);
+                        }
+
                         $doctor = new MasterDoctor();
                         $doctor->user_id = $user->id;
                         $doctor->first_name = $request->name;
-                        $doctor->dob = $request->dob;
+                        $doctor->dob = $dob;
+                        $doctor->age = $age;
                         $doctor->gender = $request->gender;
                         $doctor->contact_1 = $request->mobile_no;
                         $doctor->city_id = $request->city_id;
@@ -1114,14 +1124,14 @@ class DoctorController extends Controller
 
             if ($doctor || $patient) {
                 if ($doctor) {
-                    $transcationData = RazorPayTransactionLog::with('patient','doctor')->where('doctor_id', $doctor->id)->orderBy('id', 'desc')->get();
+                    $transcationData = RazorPayTransactionLog::with('patient', 'doctor')->where('doctor_id', $doctor->id)->orderBy('id', 'desc')->get();
                     if ($transcationData) {
                         return response()->json(['status' => true, 'data' => DoctorTransactionDataResource::collection($transcationData)]);
                     }
                 }
 
                 if ($patient) {
-                    $transcationData = RazorPayTransactionLog::with('patient','doctor')->where('patient_id', $patient->id)->orderBy('id', 'desc')->get();
+                    $transcationData = RazorPayTransactionLog::with('patient', 'doctor')->where('patient_id', $patient->id)->orderBy('id', 'desc')->get();
                     if ($transcationData) {
                         return response()->json(['status' => true, 'data' => DoctorTransactionDataResource::collection($transcationData)]);
                     }
