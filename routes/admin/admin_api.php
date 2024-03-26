@@ -97,32 +97,34 @@ Route::group(['middleware' => 'auth:api', SecureRequestMiddleware::class, XSSPro
 
     /**Notification */
     Route::get('/get/user-notification', [UserNotificationController::class, 'getUserNotification']);
-    Route::post('/read/notification',[UserNotificationController::class,'updateIsRead']);
+    Route::post('/read/notification', [UserNotificationController::class, 'updateIsRead']);
 
     /** Route :: Payment Route  */
     Route::post('create-payment/order', [RazorPayController::class, 'createPaymentOrder']);
     Route::post('verify-order/payment', [RazorPayController::class, 'verifyOrderPayment']);
 
     //Logout
-    Route::post('/logout',[AdminManagementController::class,'logout'])->name('user.logout');
+    Route::post('/logout', [AdminManagementController::class, 'logout'])->name('user.logout');
 
     /** Payment Request  */
-    Route::get('/all/user/transaction',[DoctorController::class,'getUserTransaction']);
-    Route::post('/request/amout-payment',[DoctorController::class,'paymentrequest']);
-    Route::get('/get/revenue',[DoctorController::class,'getDoctorRevenue']);
+    Route::get('/all/user/transaction', [DoctorController::class, 'getUserTransaction']);
+    Route::post('/request/amout-payment', [DoctorController::class, 'paymentrequest']);
+    Route::get('/get/revenue', [DoctorController::class, 'getDoctorRevenue']);
 
     /** portal service */
-    Route::post('/create/portal/service-charges',[AdminManagementController::class,'createPortalService']);
+    Route::post('/create/portal/service-charges', [AdminManagementController::class, 'createPortalService']);
 
     /** Privacy Policy */
-    Route::get('/get/privacy/policy',[PrivacyPolicyController::class,'getAll']);
-    
-    /**FCM Token */
-    Route::post('/store/fcm-token',[AdminManagementController::class,'storeFcmToken']);
-    Route::post('/sent/communication/push-notification',[AdminManagementController::class,'sendPushNotification']);
+    Route::get('/get/privacy/policy', [PrivacyPolicyController::class, 'getAll']);
 
+    /**FCM Token */
+    Route::post('/store/fcm-token', [AdminManagementController::class, 'storeFcmToken']);
+    Route::post('/sent/communication/push-notification', [AdminManagementController::class, 'sendPushNotification']);
+
+    /** User Hard Delete from the system */
+    Route::post('/user/hard-delete', [AdminManagementController::class, 'destroyUser']);
 });
 
 Route::get('/get/cities', [MasterCityController::class, 'getCity']);
 Route::get('/get/unique/category', [PatientController::class, 'testCategory']);
-Route::get('/test-sms-otp',[AdminManagementController::class,'testSms']);
+Route::get('/test-sms-otp', [AdminManagementController::class, 'testSms']);

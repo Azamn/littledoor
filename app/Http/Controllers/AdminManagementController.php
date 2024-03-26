@@ -604,4 +604,38 @@ class AdminManagementController extends Controller
             }
         }
     }
+
+    public function destroyUser(Request $request)
+    {
+        $rules = [
+            'user_id' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()]);
+        } else {
+
+            $user = User::where('id', $request->user_id)->first();
+            if ($user) {
+                $pateint = MasterPatient::where('user_id', $user->id)->first();
+                $doctor = MasterDoctor::where('user_id', $user->id)->first();
+
+                if ($pateint) {
+                    $pateint->forceDelete();
+                    $user->forceDelete();
+                }
+
+                if ($doctor) {
+                    $doctor->forceDelete();
+                    $user->forceDelete();
+                }
+
+                return response()->json(['status' => true, 'message' => 'User Deleted Successfully']);
+            } else {
+                return response()->json(['status' => false, 'message' => 'User Not Found']);
+            }
+        }
+    }
 }
