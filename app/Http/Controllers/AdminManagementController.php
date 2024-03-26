@@ -618,6 +618,7 @@ class AdminManagementController extends Controller
         } else {
 
             $user = User::where('id', $request->user_id)->first();
+
             if ($user) {
                 $pateint = MasterPatient::where('user_id', $user->id)->first();
                 $doctor = MasterDoctor::where('user_id', $user->id)->first();
@@ -629,6 +630,10 @@ class AdminManagementController extends Controller
 
                 if ($doctor) {
                     $doctor->forceDelete();
+                    $user->forceDelete();
+                }
+
+                if($user->master_user_type_id == 0){
                     $user->forceDelete();
                 }
 
